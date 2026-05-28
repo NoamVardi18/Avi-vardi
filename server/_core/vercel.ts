@@ -5,8 +5,6 @@ import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
-import { serveStatic } from "./vite";
-
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
@@ -22,7 +20,5 @@ app.use(
     createContext,
   })
 );
-
-serveStatic(app);
 
 export default app;
