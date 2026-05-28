@@ -55,7 +55,7 @@
 - [x] Add hover/float animation effects for user experience
 - [x] Fix booking modal logo (Crown icon still showing instead of bus logo)
 - [x] Fix Supabase DB integration - ensure bookings are saved to avi-vardi-bus project
-- [ ] Prepare for Vercel deployment (next session) - DEFERRED
+- [x] Prepare for Vercel deployment - DONE (vercel.json + VERCEL_DEPLOY.md created)
 
 ## Phase 5 - Layout Fix & Accessibility
 - [x] Move contact form widget to left side of Hero section (currently on right)

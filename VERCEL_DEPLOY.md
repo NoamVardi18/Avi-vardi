@@ -20,7 +20,7 @@
 4. **Framework Preset** — בחרו **Other**
 5. **Root Directory** — השאירו ריק (הפרויקט בשורש)
 6. **Build Command** — `pnpm build`
-7. **Output Directory** — `dist`
+7. **Output Directory** — `dist` (הקובץ `dist/index.js` הוא שרת ה-Express שמגיש גם את ה-API וגם את הפרונטאנד מ-`dist/public`)
 8. **Install Command** — `pnpm install`
 
 ### שלב 2 — הגדרת משתני סביבה
