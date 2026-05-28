@@ -25,4 +25,23 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Booking leads table - stores customer contact requests from the website.
+ * No authentication required to submit.
+ */
+export const bookings = mysqlTable("bookings", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Customer full name */
+  name: varchar("name", { length: 255 }).notNull(),
+  /** Customer phone number */
+  phone: varchar("phone", { length: 30 }).notNull(),
+  /** Optional trip date */
+  tripDate: varchar("tripDate", { length: 50 }),
+  /** Optional notes / trip details */
+  notes: text("notes"),
+  /** Timestamp of submission */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = typeof bookings.$inferInsert;
