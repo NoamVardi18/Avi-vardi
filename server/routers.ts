@@ -6,6 +6,7 @@ import { notifyOwner } from "./_core/notification";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { createBooking, getAllBookings } from "./db";
+import { saveLeadToSupabase } from "./supabase";
 
 // Avi Vardi's WhatsApp number (without + prefix, international format)
 const OWNER_WHATSAPP = "972524804842";
@@ -38,7 +39,20 @@ export const appRouter = router({
         })
       )
       .mutation(async ({ input }) => {
-        // Save to database - throws if DB unavailable
+        // Save to Supabase avi-vardi-bus project (primary)
+        try {
+          await saveLeadToSupabase({
+            name: input.name,
+            phone: input.phone,
+            date: input.tripDate ?? null,
+            notes: input.notes ?? null,
+          });
+        } catch (err) {
+          console.error("[Bookings] Failed to save to Supabase:", err);
+          // Don't throw - still notify owner via WhatsApp
+        }
+
+        // Also save to local DB if available
         try {
           await createBooking({
             name: input.name,
@@ -47,11 +61,7 @@ export const appRouter = router({
             notes: input.notes ?? null,
           });
         } catch (err) {
-          console.error("[Bookings] Failed to save booking:", err);
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "שגיאה בשמירת הפרטים. נסה שוב.",
-          });
+          console.warn("[Bookings] Local DB save failed (non-critical):", err);
         }
 
         // Build notification content

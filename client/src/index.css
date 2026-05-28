@@ -97,3 +97,47 @@
 .blue-gradient {
   background: linear-gradient(135deg, oklch(0.35 0.15 250) 0%, oklch(0.2 0.1 250) 100%);
 }
+
+/* Hover lift effect for cards and interactive elements */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating button pulse animation */
+@keyframes float-pulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float-pulse {
+    animation: float-pulse 3s ease-in-out infinite;
+  }
+}
+
+/* Smooth scale on active for all interactive elements */
+button:active, a:active {
+  transition: transform 0.1s ease-out;
+}
+
+/* ============================================================
+   WCAG 2.1 AA - Global keyboard focus-visible policy
+   Ensures all interactive elements have a visible focus ring
+   when navigated via keyboard (Tab key), without affecting
+   mouse/touch users (focus-visible pseudo-class).
+   ============================================================ */
+:focus-visible {
+  outline: 3px solid oklch(0.75 0.18 80); /* amber-400 equivalent */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default outline only when focus-visible is supported
+   (browsers that don't support it still get the default outline) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
