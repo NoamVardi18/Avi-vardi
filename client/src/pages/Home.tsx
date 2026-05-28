@@ -297,7 +297,7 @@ export default function Home() {
             </div>
 
             {/* Phone number under call button */}
-            <p className="text-slate-400 text-xs mt-2">או חייגו ישירות: <span className="text-amber-400 font-bold">{OWNER_PHONE_DISPLAY}</span></p>
+            <p className="text-slate-400 text-xs mt-2"> <span className="text-amber-400 font-bold">{OWNER_PHONE_DISPLAY}</span></p>
 
           {/* Quick contact widget */}
           <div className="lg:col-span-5">
@@ -398,7 +398,7 @@ export default function Home() {
                 <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">הכירו את אבי</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-blue-900 mb-6">
-                נהג פרטי עם לב רחב ויחס אישי
+                נהג פרטי מקצוען ובעל יחס אישי
               </h2>
               <div className="space-y-6 text-slate-600 leading-relaxed text-base">
                 {ABOUT_TEXT.split("\n\n").map((paragraph, index) => (
