@@ -56,3 +56,15 @@
 - [x] Fix booking modal logo (Crown icon still showing instead of bus logo)
 - [x] Fix Supabase DB integration - ensure bookings are saved to avi-vardi-bus project
 - [ ] Prepare for Vercel deployment (next session)
+
+## Phase 5 - Layout Fix & Accessibility
+- [ ] Move contact form widget to left side of Hero section (currently on right)
+- [ ] Remove floating phone number text from hero left side
+- [ ] Add skip-to-content link for keyboard users
+- [ ] Add ARIA labels to all interactive elements (buttons, links, forms)
+- [ ] Add role and aria attributes to navigation, main, sections
+- [ ] Ensure all images have meaningful alt text
+- [ ] Add lang="he" and dir="rtl" to HTML element
+- [ ] Ensure color contrast meets WCAG AA (4.5:1 for text)
+- [ ] Add focus-visible styles for keyboard navigation
+- [ ] Add accessibility statement / הצהרת נגישות section or link

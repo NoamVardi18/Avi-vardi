@@ -95,26 +95,41 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans" dir="rtl">
 
+      {/* Skip to main content - accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:right-4 focus:z-[200] focus:bg-amber-500 focus:text-slate-950 focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
+      >
+        דלג לתוכן הראשי
+      </a>
+
       {/* Booking Modal */}
       {showBookingModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setShowBookingModal(false)}
+            aria-hidden="true"
           />
-          <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200">
+          <div
+            className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="booking-modal-title"
+          >
             <button
               onClick={() => setShowBookingModal(false)}
-              className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 transition-colors"
+              className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            aria-label="סגור חלון הזמנה"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
             <div className="flex items-center gap-3 mb-6">
               <div className="rounded-xl overflow-hidden border border-amber-500/30 w-10 h-10">
                 <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
               </div>
               <div>
-                <h2 className="text-lg font-black text-blue-900">הזמנת נסיעה</h2>
+                <h2 id="booking-modal-title" className="text-lg font-black text-blue-900">הזמנת נסיעה</h2>
                 <p className="text-xs text-slate-500">אבי יחזור אליך בהקדם</p>
               </div>
             </div>
@@ -186,7 +201,7 @@ export default function Home() {
       )}
 
       {/* Header / Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
+      <header role="banner" className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="rounded-xl shadow-md overflow-hidden border border-amber-500/30 w-12 h-12">
@@ -198,10 +213,10 @@ export default function Home() {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            <a href="#about" className="hover:text-blue-900 transition-colors">עלינו</a>
-            <a href="#services" className="hover:text-blue-900 transition-colors">שירותים</a>
-            <a href="#reviews" className="hover:text-blue-900 transition-colors">ביקורות</a>
+          <nav aria-label="ניווט ראשי" className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+            <a href="#about" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">עלינו</a>
+            <a href="#services" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">שירותים</a>
+            <a href="#reviews" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">ביקורות</a>
             <a
               href={`https://wa.me/${OWNER_WHATSAPP}`}
               target="_blank"
@@ -235,8 +250,9 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-slate-950 py-24 md:py-32">
+      {/* Hero Section - main content */}
+      <main id="main-content">
+      <section aria-label="ראשי - שירות הסעות אבי ורדי" className="relative overflow-hidden bg-slate-950 py-24 md:py-32">
         <div className="absolute inset-0 z-0 opacity-40">
           <img
             src={BUS_HERO_IMG}
@@ -247,60 +263,9 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 text-right">
-            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full mb-6">
-              <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
-              <span className="text-xs font-bold text-amber-400">הסעות פרטיות באזור ירושלים ומרכז הארץ</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-none mb-6">
-              הנסיעה שלכם, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">האחריות האישית שלי.</span>
-            </h1>
-            <p className="text-lg text-slate-300 max-w-xl mb-8 leading-relaxed">
-              שירות הסעות פרטי ואקסקלוסיבי באוטובוס מפואר עם 56 מקומות. נהג מקצועי, אדיב ודייקן המעניק יחס אישי וחם לכל נסיעה – חתונות, טיולים, נתב"ג ואירועים מיוחדים.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-start">
-              <a
-                href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח לקבל פרטים לגבי הסעה.')}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-base px-8 py-4 rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-[0.97] hover:-translate-y-0.5"
-                aria-label="הזמינו נסיעה דרך וואצאפ"
-              >
-                <MessageCircle className="h-5 w-5" />
-                <span>הזמינו נסיעה עכשיו</span>
-              </a>
-              <a
-                href={`tel:${OWNER_PHONE}`}
-                className="inline-flex justify-center items-center gap-2 bg-slate-800/80 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl border border-slate-700 transition-all hover:-translate-y-0.5"
-              >
-                <Phone className="h-5 w-5 text-amber-400" />
-                <span>חייגו ישירות</span>
-              </a>
-            </div>
 
-            {/* Quick trust badges */}
-            <div className="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-slate-800 max-w-lg">
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-white">100%</span>
-                <span className="text-xs text-slate-400 font-medium">עמידה בזמנים</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-white">56</span>
-                <span className="text-xs text-slate-400 font-medium">מקומות ישיבה</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-white">5.0</span>
-                <span className="text-xs text-slate-400 font-medium">דירוג לקוחות</span>
-              </div>
-            </div>
-            </div>
-
-            {/* Phone number under call button */}
-            <p className="text-slate-400 text-xs mt-2"> <span className="text-amber-400 font-bold">{OWNER_PHONE_DISPLAY}</span></p>
-
-          {/* Quick contact widget */}
-          <div className="lg:col-span-5">
+          {/* Quick contact widget - LEFT side */}
+          <div className="lg:col-span-5 order-2 lg:order-1">
             <Card className="border-slate-800 bg-slate-900/90 text-white shadow-2xl backdrop-blur-md">
               <CardHeader className="border-b border-slate-800 pb-6">
                 <CardTitle className="text-xl font-bold flex items-center gap-2">
@@ -355,11 +320,63 @@ export default function Home() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Hero text - RIGHT side */}
+          <div className="lg:col-span-7 text-right order-1 lg:order-2">
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full mb-6">
+              <Star className="h-4 w-4 text-amber-400 fill-amber-400" aria-hidden="true" />
+              <span className="text-xs font-bold text-amber-400">הסעות פרטיות באזור ירושלים ומרכז הארץ</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-none mb-6">
+              הנסיעה שלכם, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">האחריות האישית שלי.</span>
+            </h1>
+            <p className="text-lg text-slate-300 max-w-xl mb-8 leading-relaxed">
+              שירות הסעות פרטי ואקסקלוסיבי באוטובוס מפואר עם 56 מקומות. נהג מקצועי, אדיב ודייקן המעניק יחס אישי וחם לכל נסיעה – חתונות, טיולים, נתב"ג ואירועים מיוחדים.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-start">
+              <a
+                href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח לקבל פרטים לגבי הסעה.')}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-base px-8 py-4 rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-[0.97] hover:-translate-y-0.5"
+                aria-label="הזמינו נסיעה דרך וואצאפ"
+              >
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                <span>הזמינו נסיעה עכשיו</span>
+              </a>
+              <a
+                href={`tel:${OWNER_PHONE}`}
+                aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`}
+                className="inline-flex justify-center items-center gap-2 bg-slate-800/80 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl border border-slate-700 transition-all hover:-translate-y-0.5"
+              >
+                <Phone className="h-5 w-5 text-amber-400" aria-hidden="true" />
+                <span>חייגו ישירות</span>
+              </a>
+            </div>
+
+            {/* Quick trust badges */}
+            <div className="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-slate-800 max-w-lg" role="list" aria-label="נתוני אמון">
+              <div className="flex flex-col" role="listitem">
+                <span className="text-2xl font-black text-white" aria-label="100 אחוז">100%</span>
+                <span className="text-xs text-slate-400 font-medium">עמידה בזמנים</span>
+              </div>
+              <div className="flex flex-col" role="listitem">
+                <span className="text-2xl font-black text-white" aria-label="56 מקומות">56</span>
+                <span className="text-xs text-slate-400 font-medium">מקומות ישיבה</span>
+              </div>
+              <div className="flex flex-col" role="listitem">
+                <span className="text-2xl font-black text-white" aria-label="דירוג 5 מתוך 5">5.0</span>
+                <span className="text-xs text-slate-400 font-medium">דירוג לקוחות</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* About Me Section */}
-      <section id="about" className="py-20 bg-white">
+      <section id="about" aria-labelledby="about-heading" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 relative flex flex-col gap-5">
@@ -375,7 +392,7 @@ export default function Home() {
                 </div>
                 {/* Overlay Badge */}
                 <div className="absolute bottom-6 right-6 bg-blue-900 text-white px-6 py-3.5 rounded-xl shadow-lg border border-amber-500/30 flex items-center gap-3">
-                  <ShieldCheck className="h-8 w-8 text-amber-400" />
+                  <ShieldCheck className="h-8 w-8 text-amber-400" aria-hidden="true" />
                   <div>
                     <span className="block text-sm font-bold text-amber-400">אמינות ובטיחות</span>
                     <span className="block text-xs text-slate-300">ברישיון משרד התחבורה</span>
@@ -397,7 +414,7 @@ export default function Home() {
                 <span className="h-px w-8 bg-amber-500"></span>
                 <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">הכירו את אבי</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-blue-900 mb-6">
+              <h2 id="about-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mb-6">
                 נהג פרטי מקצוען ובעל יחס אישי
               </h2>
               <div className="space-y-6 text-slate-600 leading-relaxed text-base">
@@ -433,11 +450,11 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-slate-50 border-y border-slate-200">
+      <section id="services" aria-labelledby="services-heading" className="py-20 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">השירותים שלנו</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
+            <h2 id="services-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
               פתרונות נסיעה לכל מטרה
             </h2>
             <p className="text-slate-600">
@@ -460,10 +477,11 @@ export default function Home() {
                 <CardContent className="pt-0 pb-6">
                   <button
                     onClick={() => setShowBookingModal(true)}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:text-blue-900 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+                    aria-label={`הזמנה - ${service.title}`}
                   >
                     <span>לפרטים והזמנה</span>
-                    <ChevronLeft className="h-3.5 w-3.5" />
+                    <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
                   </button>
                 </CardContent>
               </Card>
@@ -482,15 +500,15 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg text-xs font-bold">
-                  <Check className="h-4 w-4 text-amber-400" />
-                  <span>56 מושבים מתכווננים</span>
+                  <Check className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                  <span>56 מושבים מתכוונים</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg text-xs font-bold">
-                  <Check className="h-4 w-4 text-amber-400" />
+                  <Check className="h-4 w-4 text-amber-400" aria-hidden="true" />
                   <span>מיזוג אוויר מפוצל</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg text-xs font-bold">
-                  <Check className="h-4 w-4 text-amber-400" />
+                  <Check className="h-4 w-4 text-amber-400" aria-hidden="true" />
                   <span>מערכת מולטימדיה</span>
                 </div>
               </div>
@@ -507,14 +525,14 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section id="reviews" className="py-20 bg-white border-t border-slate-200">
+      <section id="reviews" aria-labelledby="reviews-heading" className="py-20 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-3.5 py-1.5 rounded-full mb-3">
-              <Facebook className="h-4 w-4 text-blue-600 fill-blue-600" />
+              <Facebook className="h-4 w-4 text-blue-600 fill-blue-600" aria-hidden="true" />
               <span className="text-xs font-bold text-blue-700">ביקורות מלקוחות מרוצים</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-blue-900 mb-4">
+            <h2 id="reviews-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mb-4">
               מה הלקוחות שלנו מספרים?
             </h2>
             <p className="text-slate-600">
@@ -536,9 +554,9 @@ export default function Home() {
                         <span className="block text-[10px] text-slate-400 mt-0.5">{review.date}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-0.5">
+                    <div className="flex items-center gap-0.5" aria-label={`דירוג ${review.rating} מתוך 5 כוכבים`} role="img">
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
+                        <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" aria-hidden="true" />
                       ))}
                     </div>
                   </div>
@@ -553,8 +571,10 @@ export default function Home() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer & Contact Section */}
-      <footer id="contact" className="bg-slate-900 text-white pt-20 pb-10 border-t border-slate-800">
+      <footer id="contact" role="contentinfo" className="bg-slate-900 text-white pt-20 pb-10 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 text-right">
 
           <div className="lg:col-span-5">
@@ -568,24 +588,26 @@ export default function Home() {
               שירותי הסעות פרטיים בבטיחות ובאמינות מוחלטת. נסיעות לאירועים, טיולים, קבוצות ונתב"ג. מבוסס במבשרת ציון, משרת את אזור ירושלים ובית שמש לכל הארץ.
             </p>
             <div className="space-y-3 text-sm">
-              <a href={`tel:${OWNER_PHONE}`} className="flex items-center gap-3 text-slate-300 hover:text-amber-400 transition-colors justify-start">
-                <Phone className="h-4 w-4 text-amber-500" />
+              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="flex items-center gap-3 text-slate-300 hover:text-amber-400 transition-colors justify-start">
+                <Phone className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>{OWNER_PHONE_DISPLAY} (אבי)</span>
               </a>
               <div className="flex items-center gap-3 text-slate-300 justify-start">
-                <MapPin className="h-4 w-4 text-amber-500" />
+                <MapPin className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>{OWNER_LOCATION}</span>
               </div>
             </div>
           </div>
 
           <div className="lg:col-span-3">
-            <h4 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-6">ניווט מהיר</h4>
-            <ul className="space-y-3 text-sm text-slate-400">
-              <li><a href="#about" className="hover:text-white transition-colors">עלינו</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">שירותים</a></li>
-              <li><a href="#reviews" className="hover:text-white transition-colors">ביקורות</a></li>
-            </ul>
+            <nav aria-label="ניווט מהיר">
+              <h4 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-6">ניווט מהיר</h4>
+              <ul className="space-y-3 text-sm text-slate-400">
+                <li><a href="#about" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">עלינו</a></li>
+                <li><a href="#services" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">שירותים</a></li>
+                <li><a href="#reviews" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">ביקורות</a></li>
+              </ul>
+            </nav>
           </div>
 
           <div className="lg:col-span-4">
@@ -594,11 +616,11 @@ export default function Home() {
               זמינות מלאה לתיאום נסיעות מראש 24/6 (לא פעיל בשבת). מומלץ לשריין תאריכים מראש, במיוחד בעונת האירועים והקיץ.
             </p>
             <div className="flex gap-4 justify-start">
-              <a href={`tel:${OWNER_PHONE}`} className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors">
+              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400">
                 חייגו עכשיו
               </a>
-              <a href={`https://wa.me/${OWNER_WHATSAPP}`} target="_blank" rel="noreferrer" className="bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors flex items-center gap-2">
-                <MessageCircle className="h-4 w-4" />
+              <a href={`https://wa.me/${OWNER_WHATSAPP}`} target="_blank" rel="noreferrer" aria-label="שלחו וואצאפ לאבי ורדי" className="bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 <span>ווטסאפ</span>
               </a>
             </div>
@@ -608,6 +630,24 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
           <p>© {new Date().getFullYear()} אבי ורדי הסעות. כל הזכויות שמורות.</p>
+          <p className="mt-2">
+            <a
+              href="#accessibility"
+              className="underline hover:text-slate-300 transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded"
+            >
+              הצהרת נגישות
+            </a>
+          </p>
+        </div>
+
+        {/* Accessibility Statement */}
+        <div id="accessibility" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-right">
+          <h2 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-4">הצהרת נגישות</h2>
+          <div className="text-slate-400 text-xs leading-relaxed space-y-2 max-w-2xl">
+            <p>אתר זה שואף לעמוד בדרישות תקן הנגישות הישראלי (WCAG 2.1 רמה AA) ולהנגיש את התכנים לכלל המשתמשים, לרבות אלו שעושים שימוש בטכנולוגיות עזר לנגישות.</p>
+            <p>האתר מתוחזק בשפה העברית (כיוון ימין לשמאל), ניתן לנווט באמצעות מקלדת, כל התמונות כוללות תיאור חלופי (alt), וכל הטפסים מסומנים כראוי.</p>
+            <p>אם נתקלתם בבעיית נגישות, נא צרו קשר בטלפון <a href={`tel:${OWNER_PHONE}`} className="text-amber-400 underline">{OWNER_PHONE_DISPLAY}</a> או בוואצאפ ונשתדל לסייע בהקדם האפשרי.</p>
+          </div>
         </div>
       </footer>
 
