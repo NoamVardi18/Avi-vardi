@@ -55,7 +55,7 @@
 - [x] Add hover/float animation effects for user experience
 - [x] Fix booking modal logo (Crown icon still showing instead of bus logo)
 - [x] Fix Supabase DB integration - ensure bookings are saved to avi-vardi-bus project
-- [ ] Prepare for Vercel deployment (next session)
+- [ ] Prepare for Vercel deployment (next session) - DEFERRED
 
 ## Phase 5 - Layout Fix & Accessibility
 - [x] Move contact form widget to left side of Hero section (currently on right)
@@ -68,3 +68,9 @@
 - [x] Ensure color contrast meets WCAG AA (4.5:1 for text)
 - [x] Add focus-visible styles for keyboard navigation
 - [x] Add accessibility statement / הצהרת נגישות section or link
+
+## Phase 6 - Screen Reader, Google Sheets & Vercel
+- [x] Rename project from andy-bus to אבי ורדי הסעות in package.json
+- [x] Create Google Apps Script with daily 8:00 AM trigger to sync Supabase → Google Sheets
+- [x] Replace emoji on "הזמינו נסיעה עכשיו" button with WhatsApp SVG icon
+- [x] Prepare site for Vercel deployment (vercel.json, VERCEL_DEPLOY.md)
