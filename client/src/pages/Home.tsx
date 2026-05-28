@@ -27,8 +27,9 @@ import { trpc } from "@/lib/trpc";
 
 // Bus images uploaded to storage
 const BUS_HERO_IMG = "/manus-storage/bus-front-nature_6d1794ae.jpeg";
-const BUS_SIDE_IMG = "/manus-storage/bus-side-nature_421ea937.jpeg";
+const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
 const BUS_INTERIOR_IMG = "/manus-storage/bus-interior_17f8298e.jpeg";
+const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
 
 export default function Home() {
   // Booking modal state
@@ -186,8 +187,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-blue-900 text-amber-400 p-2.5 rounded-xl shadow-md border border-amber-500/30">
-              <Crown className="h-6 w-6" />
+            <div className="rounded-xl shadow-md overflow-hidden border border-amber-500/30 w-12 h-12">
+              <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="text-2xl font-black tracking-tight text-blue-900">אבי ורדי הסעות</span>
@@ -524,8 +525,8 @@ export default function Home() {
 
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-blue-900 text-amber-400 p-2.5 rounded-xl border border-amber-500/30">
-                <Crown className="h-6 w-6" />
+              <div className="rounded-xl overflow-hidden border border-amber-500/30 w-12 h-12">
+                <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
               </div>
               <span className="text-2xl font-black text-white">אבי ורדי הסעות</span>
             </div>
