@@ -48,8 +48,11 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
+  // In Vercel, api/index.js runs from /vercel/path0/api/
+  // dist/public is at /vercel/path0/dist/public
+  // So we resolve relative to the api dir: ../dist/public
   const distPath = process.env.STATIC_DIR
-    ? path.resolve(process.env.STATIC_DIR)
+    ? path.resolve(import.meta.dirname, "..", process.env.STATIC_DIR)
     : process.env.NODE_ENV === "development"
       ? path.resolve(import.meta.dirname, "../..", "dist", "public")
       : path.resolve(import.meta.dirname, "public");
