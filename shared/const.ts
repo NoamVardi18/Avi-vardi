@@ -15,9 +15,9 @@ export interface Service {
 }
 
 export const OWNER_NAME = "אבי ורדי";
-export const OWNER_PHONE = "+972528369212";
-export const OWNER_PHONE_DISPLAY = "052-8369212";
-export const OWNER_WHATSAPP = "972528369212";
+export const OWNER_PHONE = "+972524804842";
+export const OWNER_PHONE_DISPLAY = "052-4804842";
+export const OWNER_WHATSAPP = "972524804842";
 export const OWNER_LOCATION = "מבשרת ציון, סמוך לירושלים";
 
 export const REVIEWS: Review[] = [

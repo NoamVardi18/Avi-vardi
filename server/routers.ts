@@ -8,7 +8,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { createBooking, getAllBookings } from "./db";
 
 // Avi Vardi's WhatsApp number (without + prefix, international format)
-const OWNER_WHATSAPP = "972528369212";
+const OWNER_WHATSAPP = "972524804842";
 
 export const appRouter = router({
   system: systemRouter,
