@@ -135,3 +135,6 @@ export const MARKETING_TIPS = [
 // Compatibility exports for static template auth placeholders
 export const COOKIE_NAME = "andy_bus_auth";
 export const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+export const AXIOS_TIMEOUT_MS = 30_000;
+export const UNAUTHED_ERR_MSG = 'Please login (10001)';
+export const NOT_ADMIN_ERR_MSG = 'You do not have required permission (10002)';

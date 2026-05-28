@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { 
   Phone, 
   MapPin, 
@@ -11,12 +12,10 @@ import {
   MessageCircle, 
   Calculator, 
   Facebook, 
-  HelpCircle,
   Clock,
   ShieldCheck,
   Award,
-  ChevronLeft,
-  ChevronRight
+  ChevronLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,6 +26,10 @@ import { REVIEWS, PRICING_ESTIMATES, SERVICES, ABOUT_TEXT, MARKETING_TIPS } from
 import { toast } from "sonner";
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
+
   // Pricing calculator state
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
