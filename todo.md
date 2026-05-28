@@ -44,3 +44,15 @@
 - [x] Replace Crown icon in header/footer with AI-enhanced bus logo image
 - [x] Add favicon.ico to client/public and link in index.html
 - [x] Push all code to GitHub (NoamVardi18/Avi-vardi)
+
+## Phase 4 - UI Improvements & Fixes
+- [x] Upload new bus photo (orange Mercedes Irizar front-angle) to webdev storage
+- [x] Add new bus photo in "About" section below the small right-side image
+- [x] Change "הזמנת נסיעה עכשיו" button (hero section right side) to direct WhatsApp link (opens new tab)
+- [x] Add WhatsApp option to top navigation bar
+- [x] Add phone number 052-480-4842 below "חייגו ישירות" in header
+- [x] Add floating WhatsApp + call buttons on left side with accessibility attributes
+- [x] Add hover/float animation effects for user experience
+- [x] Fix booking modal logo (Crown icon still showing instead of bus logo)
+- [x] Fix Supabase DB integration - ensure bookings are saved to avi-vardi-bus project
+- [ ] Prepare for Vercel deployment (next session)

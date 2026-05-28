@@ -16,7 +16,7 @@ export interface Service {
 
 export const OWNER_NAME = "אבי ורדי";
 export const OWNER_PHONE = "+972524804842";
-export const OWNER_PHONE_DISPLAY = "052-4804842";
+export const OWNER_PHONE_DISPLAY = "052-480-4842";
 export const OWNER_WHATSAPP = "972524804842";
 export const OWNER_LOCATION = "מבשרת ציון, סמוך לירושלים";
 
