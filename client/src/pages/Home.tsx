@@ -83,12 +83,12 @@ export default function Home() {
 
   const renderIcon = (iconName: string) => {
     switch (iconName) {
-      case "Gift": return <Gift className="h-8 w-8 text-amber-500" />;
-      case "Compass": return <Compass className="h-8 w-8 text-amber-500" />;
-      case "Plane": return <Plane className="h-8 w-8 text-amber-500" />;
-      case "Crown": return <Crown className="h-8 w-8 text-amber-500" />;
-      case "Users": return <Users className="h-8 w-8 text-amber-500" />;
-      default: return <Compass className="h-8 w-8 text-amber-500" />;
+      case "Gift": return <Gift className="h-8 w-8 text-amber-500" aria-hidden="true" />;
+      case "Compass": return <Compass className="h-8 w-8 text-amber-500" aria-hidden="true" />;
+      case "Plane": return <Plane className="h-8 w-8 text-amber-500" aria-hidden="true" />;
+      case "Crown": return <Crown className="h-8 w-8 text-amber-500" aria-hidden="true" />;
+      case "Users": return <Users className="h-8 w-8 text-amber-500" aria-hidden="true" />;
+      default: return <Compass className="h-8 w-8 text-amber-500" aria-hidden="true" />;
     }
   };
 
@@ -230,9 +230,9 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href={`tel:${OWNER_PHONE}`} className="hidden sm:flex flex-col items-center gap-0.5 text-sm font-bold text-blue-900 bg-blue-50 px-4 py-2 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors">
+            <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="hidden sm:flex flex-col items-center gap-0.5 text-sm font-bold text-blue-900 bg-blue-50 px-4 py-2 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
               <span className="flex items-center gap-1.5">
-                <Phone className="h-4 w-4 text-amber-600" />
+                <Phone className="h-4 w-4 text-amber-600" aria-hidden="true" />
                 <span>חייגו ישירות</span>
               </span>
               <span className="text-[10px] font-medium text-slate-500 leading-none">{OWNER_PHONE_DISPLAY}</span>

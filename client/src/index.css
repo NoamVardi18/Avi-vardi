@@ -123,3 +123,21 @@
 button:active, a:active {
   transition: transform 0.1s ease-out;
 }
+
+/* ============================================================
+   WCAG 2.1 AA - Global keyboard focus-visible policy
+   Ensures all interactive elements have a visible focus ring
+   when navigated via keyboard (Tab key), without affecting
+   mouse/touch users (focus-visible pseudo-class).
+   ============================================================ */
+:focus-visible {
+  outline: 3px solid oklch(0.75 0.18 80); /* amber-400 equivalent */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default outline only when focus-visible is supported
+   (browsers that don't support it still get the default outline) */
+:focus:not(:focus-visible) {
+  outline: none;
+}

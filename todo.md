@@ -58,13 +58,13 @@
 - [ ] Prepare for Vercel deployment (next session)
 
 ## Phase 5 - Layout Fix & Accessibility
-- [ ] Move contact form widget to left side of Hero section (currently on right)
-- [ ] Remove floating phone number text from hero left side
-- [ ] Add skip-to-content link for keyboard users
-- [ ] Add ARIA labels to all interactive elements (buttons, links, forms)
-- [ ] Add role and aria attributes to navigation, main, sections
-- [ ] Ensure all images have meaningful alt text
-- [ ] Add lang="he" and dir="rtl" to HTML element
-- [ ] Ensure color contrast meets WCAG AA (4.5:1 for text)
-- [ ] Add focus-visible styles for keyboard navigation
-- [ ] Add accessibility statement / הצהרת נגישות section or link
+- [x] Move contact form widget to left side of Hero section (currently on right)
+- [x] Remove floating phone number text from hero left side
+- [x] Add skip-to-content link for keyboard users
+- [x] Add ARIA labels to all interactive elements (buttons, links, forms)
+- [x] Add role and aria attributes to navigation, main, sections
+- [x] Ensure all images have meaningful alt text
+- [x] Add lang="he" and dir="rtl" to HTML element
+- [x] Ensure color contrast meets WCAG AA (4.5:1 for text)
+- [x] Add focus-visible styles for keyboard navigation
+- [x] Add accessibility statement / הצהרת נגישות section or link
