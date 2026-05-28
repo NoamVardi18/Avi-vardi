@@ -3,12 +3,11 @@
   "buildCommand": "pnpm build",
   "installCommand": "pnpm install",
   "framework": null,
-  "functions": {
-    "dist/index.js": {
-      "runtime": "nodejs20.x"
-    }
+  "env": {
+    "STATIC_DIR": "dist/public",
+    "NODE_ENV": "production"
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist/index.js" }
+    { "source": "/(.*)", "destination": "/api/index" }
   ]
 }
