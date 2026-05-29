@@ -393,14 +393,6 @@ export default function Home() {
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                {/* Overlay Badge */}
-                <div className="absolute bottom-6 right-6 bg-blue-900 text-white px-6 py-3.5 rounded-xl shadow-lg border border-amber-500/30 flex items-center gap-3">
-                  <ShieldCheck className="h-8 w-8 text-amber-400" aria-hidden="true" />
-                  <div>
-                    <span className="block text-sm font-bold text-amber-400">אמינות ובטיחות</span>
-                    <span className="block text-xs text-slate-300">ברישיון משרד התחבורה</span>
-                  </div>
-                </div>
               </div>
               {/* Second bus photo below the main image */}
               <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-slate-100 hover:shadow-2xl transition-shadow duration-300 hover-lift">
@@ -409,6 +401,14 @@ export default function Home() {
                   alt="האוטובוס של אבי ורדי - מרסדס איריזר"
                   className="w-full h-52 object-cover"
                 />
+              </div>
+              {/* Badge below second image */}
+              <div className="bg-blue-900 text-white px-6 py-3.5 rounded-xl shadow-lg border border-amber-500/30 flex items-center gap-3">
+                <ShieldCheck className="h-8 w-8 text-amber-400" aria-hidden="true" />
+                <div>
+                  <span className="block text-sm font-bold text-amber-400">אמינות ובטיחות</span>
+                  <span className="block text-xs text-slate-300">ברישיון משרד התחבורה</span>
+                </div>
               </div>
             </div>
 
@@ -656,7 +656,7 @@ export default function Home() {
 
       {/* Floating Action Buttons - WhatsApp & Call */}
       <div
-        className="fixed bottom-6 right-6 z-50 flex flex-col gap-3"
+        className="fixed bottom-6 left-6 z-50 flex flex-col gap-3"
         role="complementary"
         aria-label="כפתורי יצירת קשר מהיר"
       >
