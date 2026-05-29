@@ -595,10 +595,10 @@ export default function Home() {
                 <Phone className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>{OWNER_PHONE_DISPLAY} (אבי)</span>
               </a>
-              <div className="flex items-center gap-3 text-slate-300 justify-start">
+              <a href="https://maps.google.com/?q=מבשרת+ציון" target="_blank" rel="noreferrer" aria-label="פתח במפות גוגל" className="flex items-center gap-3 text-slate-300 hover:text-amber-400 transition-colors justify-start">
                 <MapPin className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>{OWNER_LOCATION}</span>
-              </div>
+              </a>
             </div>
           </div>
 
