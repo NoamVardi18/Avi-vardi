@@ -36,6 +36,7 @@ const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
 export default function Home() {
   // Booking modal state
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
   const [bookingName, setBookingName] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
   const [bookingDate, setBookingDate] = useState("");
@@ -102,6 +103,47 @@ export default function Home() {
       >
         דלג לתוכן הראשי
       </a>
+
+      {/* Accessibility Modal */}
+      {showAccessibilityModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowAccessibilityModal(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="relative z-10 w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="accessibility-modal-title"
+          >
+            <button
+              onClick={() => setShowAccessibilityModal(false)}
+              className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+              aria-label="סגור הצהרת נגישות"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <h2 id="accessibility-modal-title" className="text-lg font-black text-blue-900 mb-4">הצהרת נגישות</h2>
+            <div className="text-slate-600 text-sm leading-relaxed space-y-3">
+              <p>אתר זה שואף לעמוד בדרישות תקן הנגישות הישראלי (WCAG 2.1 רמה AA) ולהנגיש את התכנים לכלל המשתמשים, לרבות אלו שעושים שימוש בטכנולוגיות עזר לנגישות.</p>
+              <p>האתר מתוחזק בשפה העברית (כיוון ימין לשמאל), ניתן לנווט באמצעות מקלדת, כל התמונות כוללות תיאור חלופי (alt), וכל הטפסים מסומנים כראוי.</p>
+              <p>
+                אם נתקלתם בבעיית נגישות, נא צרו קשר בטלפון{" "}
+                <a href={`tel:${OWNER_PHONE}`} className="text-amber-600 underline font-bold">{OWNER_PHONE_DISPLAY}</a>
+                {" "}או בוואצאפ ונשתדל לסייע בהקדם האפשרי.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowAccessibilityModal(false)}
+              className="mt-6 w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+            >
+              סגור
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Booking Modal */}
       {showBookingModal && (
@@ -634,24 +676,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
           <p>© {new Date().getFullYear()} אבי ורדי הסעות. כל הזכויות שמורות.</p>
           <p className="mt-2">
-            <a
-              href="#accessibility"
+            <button
+              onClick={() => setShowAccessibilityModal(true)}
               className="underline hover:text-slate-300 transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded"
             >
               הצהרת נגישות
-            </a>
+            </button>
           </p>
         </div>
 
-        {/* Accessibility Statement */}
-        <div id="accessibility" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-right">
-          <h2 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-4">הצהרת נגישות</h2>
-          <div className="text-slate-400 text-xs leading-relaxed space-y-2 max-w-2xl">
-            <p>אתר זה שואף לעמוד בדרישות תקן הנגישות הישראלי (WCAG 2.1 רמה AA) ולהנגיש את התכנים לכלל המשתמשים, לרבות אלו שעושים שימוש בטכנולוגיות עזר לנגישות.</p>
-            <p>האתר מתוחזק בשפה העברית (כיוון ימין לשמאל), ניתן לנווט באמצעות מקלדת, כל התמונות כוללות תיאור חלופי (alt), וכל הטפסים מסומנים כראוי.</p>
-            <p>אם נתקלתם בבעיית נגישות, נא צרו קשר בטלפון <a href={`tel:${OWNER_PHONE}`} className="text-amber-400 underline">{OWNER_PHONE_DISPLAY}</a> או בוואצאפ ונשתדל לסייע בהקדם האפשרי.</p>
-          </div>
-        </div>
       </footer>
 
       {/* Floating Action Buttons - WhatsApp & Call */}
