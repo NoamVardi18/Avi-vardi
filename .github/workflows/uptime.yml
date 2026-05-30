@@ -1,0 +1,27 @@
+name: Uptime Monitor & Auto-Restart
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check site
+        id: check
+        run: |
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 15 https://avivardi.online)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "Site returned: $STATUS"
+
+      - name: Trigger redeploy if down
+        if: steps.check.outputs.status != '200'
+        run: |
+          echo "Site is DOWN (status: ${{ steps.check.outputs.status }}) — triggering redeploy"
+          curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_5sirUswaYk8gdqTy09iS91BTgGJR/ugEWRVhrCm"
+
+      - name: Site is up
+        if: steps.check.outputs.status == '200'
+        run: echo "Site is UP ✓"
