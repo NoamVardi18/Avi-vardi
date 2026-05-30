@@ -101,14 +101,10 @@ export default function Home() {
   const [bookingNotes, setBookingNotes] = useState("");
 
   const createBooking = trpc.bookings.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("פרטיך התקבלו! אבי יחזור אליך בהקדם.");
       setShowBookingModal(false);
       resetForm();
-      // Open WhatsApp for owner notification
-      setTimeout(() => {
-        window.open(data.whatsappUrl, "_blank");
-      }, 800);
     },
     onError: () => {
       toast.error("אירעה שגיאה. נסה שוב או התקשר ישירות.");
