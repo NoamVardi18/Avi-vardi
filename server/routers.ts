@@ -25,6 +25,7 @@ export const appRouter = router({
         z.object({
           name: z.string().min(2, "שם חובה"),
           phone: z.string().min(9, "מספר טלפון חובה"),
+          email: z.string().email().optional(),
           tripDate: z.string().optional(),
           notes: z.string().optional(),
         })
@@ -33,6 +34,7 @@ export const appRouter = router({
         await saveLeadToSupabase({
           name: input.name,
           phone: input.phone,
+          email: input.email ?? null,
           date: input.tripDate ?? null,
           notes: input.notes ?? null,
         });

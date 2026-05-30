@@ -10,15 +10,20 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 /**
  * Save a booking lead to the avi-vardi-bus Supabase project (public.leads table).
  */
+// NOTE: Run this SQL to add the email column if it doesn't exist:
+// ALTER TABLE public.leads ADD COLUMN IF NOT EXISTS email text;
+
 export async function saveLeadToSupabase(data: {
   name: string;
   phone: string;
+  email?: string | null;
   date?: string | null;
   notes?: string | null;
 }) {
   const { error } = await supabase.from("leads").insert({
     name: data.name,
     phone: data.phone,
+    email: data.email ?? null,
     date: data.date ?? null,
     notes: data.notes ?? null,
   });

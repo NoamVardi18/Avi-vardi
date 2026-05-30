@@ -96,6 +96,7 @@ export default function Home() {
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
   const [bookingName, setBookingName] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingEmail, setBookingEmail] = useState("");
   const [bookingDate, setBookingDate] = useState("");
   const [bookingNotes, setBookingNotes] = useState("");
 
@@ -117,6 +118,7 @@ export default function Home() {
   const resetForm = () => {
     setBookingName("");
     setBookingPhone("");
+    setBookingEmail("");
     setBookingDate("");
     setBookingNotes("");
   };
@@ -134,6 +136,7 @@ export default function Home() {
     createBooking.mutate({
       name: bookingName.trim(),
       phone: bookingPhone.trim(),
+      email: bookingEmail.trim() || undefined,
       tripDate: bookingDate || undefined,
       notes: bookingNotes || undefined,
     });
@@ -260,6 +263,19 @@ export default function Home() {
                   onChange={(e) => setBookingPhone(e.target.value)}
                   className="border-slate-200 focus:border-amber-500"
                   required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="b-email" className="text-slate-700 text-xs font-bold">
+                  מייל לאישור <span className="text-slate-400 font-normal">(אופציונלי)</span>
+                </Label>
+                <Input
+                  id="b-email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={bookingEmail}
+                  onChange={(e) => setBookingEmail(e.target.value)}
+                  className="border-slate-200 focus:border-amber-500"
                 />
               </div>
               <div className="space-y-1.5">
@@ -399,6 +415,17 @@ export default function Home() {
                       placeholder="050-0000000"
                       value={bookingPhone}
                       onChange={(e) => setBookingPhone(e.target.value)}
+                      className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="hero-email" className="text-slate-300 text-xs font-bold">מייל לאישור (אופציונלי)</Label>
+                    <Input
+                      id="hero-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={bookingEmail}
+                      onChange={(e) => setBookingEmail(e.target.value)}
                       className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
                     />
                   </div>
