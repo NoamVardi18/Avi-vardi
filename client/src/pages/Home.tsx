@@ -48,14 +48,38 @@ const TRUST_BADGES = [
   { value: "5.0", label: "דירוג לקוחות", ariaLabel: "דירוג 5 מתוך 5" },
 ];
 
-const BUS_FEATURES = ["56 מושבים מתכוונים", "מיזוג אוויר מפוצל", "מערכת מולטימדיה"];
+const BUS_FEATURES = ["56 מושבים מרווחים", "מיזוג אוויר מפוצל", "מערכת מולטימדיה"];
 
-// Bus images uploaded to storage
+const SUPABASE_IMG = (name: string) =>
+  `https://nlwkksivgubcgfzqivcs.supabase.co/storage/v1/object/public/site-images/${name}`;
+
+// Bus images
 const BUS_HERO_IMG = "/manus-storage/bus-front-nature_6d1794ae.jpeg";
-const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
-const BUS_INTERIOR_IMG = "/manus-storage/bus-interior_17f8298e.jpeg";
+const BUS_PANORAMA_IMG = SUPABASE_IMG("bus-jerusalem-panorama.jpeg");
+const BUS_INTERIOR_IMG = SUPABASE_IMG("bus-interior-seats.jpeg");
+const BUS_WEDDING_IMG = SUPABASE_IMG("bus-wedding-night.jpeg");
+const MINIBUS_IMG = SUPABASE_IMG("minibus-jerusalem.jpeg");
 const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
 const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
+
+const FLEET = [
+  {
+    name: "אוטובוס 56 מקומות",
+    tag: "הרכב הראשי",
+    capacity: "עד 56 נוסעים",
+    img: BUS_PANORAMA_IMG,
+    features: ["56 כיסאות עור מרווחים", "מיזוג אוויר עוצמתי", "מערכת שמע מתקדמת", "תא מטען גדול"],
+    best: "חתונות • טיולים • קבוצות גדולות • נתב\"ג",
+  },
+  {
+    name: "מיניבוס",
+    tag: "לקבוצות קטנות",
+    capacity: "עד 20 נוסעים",
+    img: MINIBUS_IMG,
+    features: ["מרווח ונוח", "מיזוג אוויר", "גמיש ונגיש", "מתאים לעיר"],
+    best: "משפחות • סיורים • אירועים קטנים • עסקים",
+  },
+];
 
 export default function Home() {
   // Booking modal state
@@ -284,6 +308,7 @@ export default function Home() {
           <nav aria-label="ניווט ראשי" className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <a href="#about" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">עלינו</a>
             <a href="#services" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">שירותים</a>
+            <a href="#fleet" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">הצי שלנו</a>
             <a href="#reviews" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">ביקורות</a>
             <a
               href={`https://wa.me/${OWNER_WHATSAPP}`}
@@ -448,8 +473,8 @@ export default function Home() {
                 <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                   <img
-                    src={BUS_SIDE_IMG}
-                    alt="האוטובוס של אבי ורדי"
+                    src={BUS_PANORAMA_IMG}
+                    alt="האוטובוס של אבי ורדי עם נוף ירושלים"
                     className="w-full h-auto object-cover"
                     loading="lazy"
                   />
@@ -458,8 +483,8 @@ export default function Home() {
               {/* Second bus photo below the main image */}
               <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-slate-100 hover:shadow-2xl transition-shadow duration-300 hover-lift">
                 <img
-                  src={BUS_FRONT_ANGLE_IMG}
-                  alt="האוטובוס של אבי ורדי - מרסדס איריזר"
+                  src={BUS_WEDDING_IMG}
+                  alt="אורחים עולים על האוטובוס בחתונה"
                   className="w-full h-52 object-cover"
                   loading="lazy"
                 />
@@ -584,6 +609,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Fleet Section */}
+      <section id="fleet" aria-labelledby="fleet-heading" className="py-20 bg-slate-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="text-sm font-bold text-amber-400 tracking-wider uppercase">הצי שלנו</span>
+            <h2 id="fleet-heading" className="text-3xl sm:text-4xl font-black text-white mt-2 mb-4">
+              הרכב המתאים לכל קבוצה
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">
+              בין אם מדובר בחתונה גדולה או אירוע משפחתי קטן — יש לנו את הרכב הנכון עבורכם.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {FLEET.map((vehicle) => (
+              <div key={vehicle.name} className="bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 hover:border-amber-500/50 transition-colors group">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={vehicle.img}
+                    alt={vehicle.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-amber-500 text-slate-950 text-xs font-black px-3 py-1 rounded-full">
+                      {vehicle.tag}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 right-4">
+                    <span className="text-2xl font-black text-white">{vehicle.capacity}</span>
+                  </div>
+                </div>
+                <div className="p-6 text-right">
+                  <h3 className="text-xl font-black text-white mb-4">{vehicle.name}</h3>
+                  <ul className="space-y-2 mb-5">
+                    {vehicle.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2 justify-end text-sm text-slate-300">
+                        <span>{f}</span>
+                        <Check className="h-4 w-4 text-amber-400 flex-shrink-0" aria-hidden="true" />
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-amber-400 font-bold mb-5">{vehicle.best}</p>
+                  <button
+                    onClick={() => setShowBookingModal(true)}
+                    className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  >
+                    הזמינו את {vehicle.name}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Reviews Section */}
       <section id="reviews" aria-labelledby="reviews-heading" className="py-20 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -665,6 +747,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-slate-400">
                 <li><a href="#about" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">עלינו</a></li>
                 <li><a href="#services" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">שירותים</a></li>
+                <li><a href="#fleet" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">הצי שלנו</a></li>
                 <li><a href="#reviews" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">ביקורות</a></li>
               </ul>
             </nav>
