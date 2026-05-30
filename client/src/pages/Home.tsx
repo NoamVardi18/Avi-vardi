@@ -55,8 +55,9 @@ const SUPABASE_IMG = (name: string) =>
 
 // Bus images
 const BUS_HERO_IMG = "/manus-storage/bus-front-nature_6d1794ae.jpeg";
+const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
+const BUS_INTERIOR_IMG = "/manus-storage/bus-interior_17f8298e.jpeg";
 const BUS_PANORAMA_IMG = SUPABASE_IMG("bus-jerusalem-panorama.jpeg");
-const BUS_INTERIOR_IMG = SUPABASE_IMG("bus-interior-seats.jpeg");
 const BUS_WEDDING_IMG = SUPABASE_IMG("bus-wedding-night.jpeg");
 const MINIBUS_IMG = SUPABASE_IMG("minibus-jerusalem.jpeg");
 const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
@@ -64,19 +65,27 @@ const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
 
 const FLEET = [
   {
-    name: "אוטובוס 56 מקומות",
+    name: "האוטובוס המרכזי",
     tag: "הרכב הראשי",
-    capacity: "עד 56 נוסעים",
-    img: BUS_PANORAMA_IMG,
+    capacity: "56 מקומות",
+    img: BUS_HERO_IMG,
     features: ["56 כיסאות עור מרווחים", "מיזוג אוויר עוצמתי", "מערכת שמע מתקדמת", "תא מטען גדול"],
     best: "חתונות • טיולים • קבוצות גדולות • נתב\"ג",
   },
   {
-    name: "מיניבוס",
+    name: "אוטובוסים נוספים",
+    tag: "ניתן לתאם",
+    capacity: "עד 56 מקומות",
+    img: BUS_PANORAMA_IMG,
+    features: ["רכבים נוספים לקבוצות גדולות", "תיאום עם נהגים מקצועיים", "פתרון לכל גודל אירוע", "זמינות גבוהה"],
+    best: "אירועים גדולים • כנסים • סיורי קבוצות",
+  },
+  {
+    name: "מיניבוסים",
     tag: "לקבוצות קטנות",
-    capacity: "עד 20 נוסעים",
+    capacity: "עד 24 מקומות",
     img: MINIBUS_IMG,
-    features: ["מרווח ונוח", "מיזוג אוויר", "גמיש ונגיש", "מתאים לעיר"],
+    features: ["נוח ומרווח", "מיזוג אוויר", "גמיש לנסיעות עירוניות", "ניתן לתאם"],
     best: "משפחות • סיורים • אירועים קטנים • עסקים",
   },
 ];
@@ -473,8 +482,8 @@ export default function Home() {
                 <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                   <img
-                    src={BUS_PANORAMA_IMG}
-                    alt="האוטובוס של אבי ורדי עם נוף ירושלים"
+                    src={BUS_SIDE_IMG}
+                    alt="האוטובוס של אבי ורדי"
                     className="w-full h-auto object-cover"
                     loading="lazy"
                   />
@@ -483,8 +492,8 @@ export default function Home() {
               {/* Second bus photo below the main image */}
               <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-slate-100 hover:shadow-2xl transition-shadow duration-300 hover-lift">
                 <img
-                  src={BUS_WEDDING_IMG}
-                  alt="אורחים עולים על האוטובוס בחתונה"
+                  src={BUS_FRONT_ANGLE_IMG}
+                  alt="האוטובוס של אבי ורדי - מבט קדמי"
                   className="w-full h-52 object-cover"
                   loading="lazy"
                 />
