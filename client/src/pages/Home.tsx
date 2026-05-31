@@ -65,28 +65,18 @@ const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
 
 const FLEET = [
   {
-    name: "האוטובוס המרכזי",
-    tag: "הרכב הראשי",
+    name: "אוטובוס 56 מקומות",
     capacity: "56 מקומות",
     img: BUS_HERO_IMG,
     features: ["56 כיסאות עור מרווחים", "מיזוג אוויר עוצמתי", "מערכת שמע מתקדמת", "תא מטען גדול"],
     best: "חתונות • טיולים • קבוצות גדולות • נתב\"ג",
   },
   {
-    name: "אוטובוסים נוספים",
-    tag: "ניתן לתאם",
-    capacity: "עד 56 מקומות",
+    name: "אוטובוס עד 60 מקומות",
+    capacity: "עד 60 מקומות",
     img: BUS_PANORAMA_IMG,
     features: ["רכבים נוספים לקבוצות גדולות", "תיאום עם נהגים מקצועיים", "פתרון לכל גודל אירוע", "זמינות גבוהה"],
     best: "אירועים גדולים • כנסים • סיורי קבוצות",
-  },
-  {
-    name: "מיניבוסים",
-    tag: "לקבוצות קטנות",
-    capacity: "עד 24 מקומות",
-    img: MINIBUS_IMG,
-    features: ["נוח ומרווח", "מיזוג אוויר", "גמיש לנסיעות עירוניות", "ניתן לתאם"],
-    best: "משפחות • סיורים • אירועים קטנים • עסקים",
   },
 ];
 
@@ -665,11 +655,6 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-amber-500 text-slate-950 text-xs font-black px-3 py-1 rounded-full">
-                      {vehicle.tag}
-                    </span>
-                  </div>
                   <div className="absolute bottom-4 right-4">
                     <span className="text-2xl font-black text-white">{vehicle.capacity}</span>
                   </div>
