@@ -631,6 +631,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Popular Routes Section */}
+      <section id="routes" aria-labelledby="routes-heading" className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">מסלולים פופולריים</span>
+            <h2 id="routes-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
+              הסעות מירושלים לכל הארץ
+            </h2>
+            <p className="text-slate-600">
+              ההסעות הנפוצות ביותר מירושלים — לחתונות, אירועים, נתב״ג וטיולים. אפשר לתאם כל מסלול אחר בהתאמה אישית.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { from: "ירושלים", to: "ראשון לציון", tag: "חתונות", popular: true },
+              { from: "ירושלים", to: "גוש דן ותל אביב", tag: "אירועים", popular: true },
+              { from: "ירושלים", to: "נתב״ג", tag: "טיסות", popular: true },
+              { from: "ירושלים", to: "צפון הארץ", tag: "טיולים" },
+              { from: "ירושלים", to: "אילת והדרום", tag: "טיולים" },
+              { from: "בית שמש", to: "ירושלים", tag: "קבוצות קבועות" },
+            ].map((route) => (
+              <div
+                key={`${route.from}-${route.to}`}
+                className="relative bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-2xl p-5 transition-colors text-right group"
+              >
+                {route.popular && (
+                  <span className="absolute top-3 left-3 bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">
+                    מבוקש
+                  </span>
+                )}
+                <div className="flex items-center justify-end gap-2 mb-2">
+                  <MapPin className="h-4 w-4 text-amber-600" aria-hidden="true" />
+                  <span className="text-xs font-bold text-amber-700">{route.tag}</span>
+                </div>
+                <div className="text-blue-900 font-black text-lg leading-tight">
+                  {route.from} <span className="text-slate-400">←</span> {route.to}
+                </div>
+                <p className="text-xs text-slate-500 mt-1">אוטובוס 56 מקומות, נהג אישי</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <a
+              href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח להצעת מחיר להסעה.')}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              <span>קבלו הצעת מחיר למסלול שלכם</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Fleet Section */}
       <section id="fleet" aria-labelledby="fleet-heading" className="py-20 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
