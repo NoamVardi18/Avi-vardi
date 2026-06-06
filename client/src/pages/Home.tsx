@@ -360,7 +360,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0 opacity-40">
           <img
             src={BUS_HERO_IMG}
-            alt="האוטובוס של אבי ורדי"
+            alt="אוטובוס 56 מקומות - הסעות ירושלים - אבי ורדי"
             className="w-full h-full object-cover"
             fetchPriority="high"
           />
@@ -444,7 +444,7 @@ export default function Home() {
               <span className="text-xs font-bold text-amber-400">הסעות פרטיות באזור ירושלים ומרכז הארץ</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-none mb-6">
-              הנסיעה שלכם, <br />
+              הסעות ירושלים — <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">האחריות האישית שלי.</span>
             </h1>
             <p className="text-lg text-slate-300 max-w-xl mb-8 leading-relaxed">
@@ -496,7 +496,7 @@ export default function Home() {
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                   <img
                     src={BUS_SIDE_IMG}
-                    alt="האוטובוס של אבי ורדי"
+                    alt="אוטובוס אבי ורדי - שירות הסעות ירושלים"
                     className="w-full h-auto object-cover"
                     loading="lazy"
                   />
@@ -527,7 +527,7 @@ export default function Home() {
                 <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">הכירו את אבי</span>
               </div>
               <h2 id="about-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mb-6">
-                נהג פרטי מקצוען ובעל יחס אישי
+                נהג פרטי מקצועי ובעל יחס אישי
               </h2>
               <div className="space-y-6 text-slate-600 leading-relaxed text-base">
                 {ABOUT_TEXT.split("\n\n").map((paragraph, index) => (
@@ -567,10 +567,10 @@ export default function Home() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">השירותים שלנו</span>
             <h2 id="services-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
-              פתרונות נסיעה לכל מטרה
+              הסעות לחתונות, טיולים ונתב״ג — ירושלים ומרכז הארץ
             </h2>
             <p className="text-slate-600">
-              אני מספק מגוון רחב של שירותי הסעות פרטיים בהתאמה אישית מלאה לצרכים שלכם, עם דגש על נוחות, בטיחות ושירות ללא פשרות.
+              אני מספק הסעות לחתונות, טיולים, נתב״ג ואירועים מירושלים ואזורי הסביבה, בהתאמה אישית מלאה לצרכים שלכם, עם דגש על נוחות, בטיחות ושירות ללא פשרות.
             </p>
           </div>
 
@@ -622,7 +622,7 @@ export default function Home() {
             <div className="lg:col-span-5 h-64 lg:h-full min-h-[320px]">
               <img
                 src={BUS_INTERIOR_IMG}
-                alt="פנים האוטובוס של אבי ורדי"
+                alt="פנים אוטובוס הסעות ירושלים - אבי ורדי, 56 מקומות מרווחים"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
