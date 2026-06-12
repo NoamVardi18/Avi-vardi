@@ -1,28 +1,33 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Phone,
+  PhoneCall,
   MapPin,
   Star,
-  Compass,
-  Gift,
-  Plane,
-  Crown,
   Check,
-  MessageCircle,
-  Facebook,
+  X,
+  Menu,
+  ChevronLeft,
   Clock,
   ShieldCheck,
   Award,
-  ChevronLeft,
-  X,
+  Gift,
+  Compass,
+  Plane,
+  Crown,
   Users,
-  PhoneCall,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { REVIEWS, SERVICES, ABOUT_TEXT, OWNER_NAME, OWNER_PHONE, OWNER_PHONE_DISPLAY, OWNER_WHATSAPP, OWNER_LOCATION } from "@shared/const";
+import {
+  REVIEWS,
+  SERVICES,
+  ABOUT_TEXT,
+  OWNER_PHONE,
+  OWNER_PHONE_DISPLAY,
+  OWNER_WHATSAPP,
+  OWNER_LOCATION,
+} from "@shared/const";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 
@@ -35,69 +40,117 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-  Gift: <Gift className="h-8 w-8 text-amber-500" aria-hidden="true" />,
-  Compass: <Compass className="h-8 w-8 text-amber-500" aria-hidden="true" />,
-  Plane: <Plane className="h-8 w-8 text-amber-500" aria-hidden="true" />,
-  Crown: <Crown className="h-8 w-8 text-amber-500" aria-hidden="true" />,
-  Users: <Users className="h-8 w-8 text-amber-500" aria-hidden="true" />,
+  Gift: <Gift className="h-6 w-6" aria-hidden="true" />,
+  Compass: <Compass className="h-6 w-6" aria-hidden="true" />,
+  Plane: <Plane className="h-6 w-6" aria-hidden="true" />,
+  Crown: <Crown className="h-6 w-6" aria-hidden="true" />,
+  Users: <Users className="h-6 w-6" aria-hidden="true" />,
 };
-
-const TRUST_BADGES = [
-  { value: "100%", label: "עמידה בזמנים", ariaLabel: "100 אחוז" },
-  { value: "56", label: "מקומות ישיבה", ariaLabel: "56 מקומות" },
-  { value: "5.0", label: "דירוג לקוחות", ariaLabel: "דירוג 5 מתוך 5" },
-];
-
-const BUS_FEATURES = ["56 מושבים מרווחים", "מיזוג אוויר מפוצל", "מערכת מולטימדיה"];
 
 const SUPABASE_IMG = (name: string) =>
   `https://nlwkksivgubcgfzqivcs.supabase.co/storage/v1/object/public/site-images/${name}`;
 
-// Bus images
+// Bus images — the golden bus photos must stay as-is (brand asset)
 const BUS_HERO_IMG = "/manus-storage/bus-front-nature_6d1794ae.jpeg";
 const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
 const BUS_INTERIOR_IMG = "/manus-storage/bus-interior_17f8298e.jpeg";
 const BUS_PANORAMA_IMG = SUPABASE_IMG("bus-jerusalem-panorama.jpeg");
-const BUS_WEDDING_IMG = SUPABASE_IMG("bus-wedding-night.jpeg");
-const MINIBUS_IMG = SUPABASE_IMG("minibus-jerusalem.jpeg");
 const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
 const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
+
+const WA_LINK = (text: string) =>
+  `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+const HERO_STATS = [
+  { value: "56", label: "מקומות ישיבה", ariaLabel: "56 מקומות ישיבה" },
+  { value: "100%", label: "עמידה בזמנים", ariaLabel: "100 אחוז עמידה בזמנים" },
+  { value: "5.0", label: "דירוג לקוחות", ariaLabel: "דירוג 5 מתוך 5" },
+];
+
+const MARQUEE_DESTINATIONS = [
+  "הסעות לחתונות",
+  "נתב״ג",
+  "ירושלים",
+  "תל אביב והמרכז",
+  "טיולי חברה",
+  "בית שמש",
+  "אירועים ושמחות",
+  "הצפון",
+  "ים המלח ואילת",
+  "קבוצות קבועות",
+];
+
+const BUS_FEATURES = ["56 מושבים מרווחים", "מיזוג אוויר מפוצל", "מערכת מולטימדיה", "תא מטען ענק"];
+
+const ROUTES = [
+  { from: "ירושלים", to: "ראשון לציון", tag: "חתונות", popular: true },
+  { from: "ירושלים", to: "גוש דן ותל אביב", tag: "אירועים", popular: true },
+  { from: "ירושלים", to: "נתב״ג", tag: "טיסות", popular: true },
+  { from: "ירושלים", to: "צפון הארץ", tag: "טיולים", popular: false },
+  { from: "ירושלים", to: "אילת והדרום", tag: "טיולים", popular: false },
+  { from: "בית שמש", to: "ירושלים", tag: "קבוצות קבועות", popular: false },
+];
 
 const FLEET = [
   {
     name: "אוטובוס 56 מקומות",
-    capacity: "56 מקומות",
+    capacity: "56",
+    capacityLabel: "מקומות",
     img: BUS_HERO_IMG,
     features: ["56 כיסאות עור מרווחים", "מיזוג אוויר עוצמתי", "מערכת שמע מתקדמת", "תא מטען גדול"],
-    best: "חתונות • טיולים • קבוצות גדולות • נתב\"ג",
+    best: "חתונות · טיולים · קבוצות גדולות · נתב״ג",
   },
   {
     name: "אוטובוס עד 60 מקומות",
-    capacity: "עד 60 מקומות",
+    capacity: "60",
+    capacityLabel: "מקומות",
     img: BUS_PANORAMA_IMG,
     features: ["רכבים נוספים לקבוצות גדולות", "תיאום עם נהגים מקצועיים", "פתרון לכל גודל אירוע", "זמינות גבוהה"],
-    best: "אירועים גדולים • כנסים • סיורי קבוצות",
+    best: "אירועים גדולים · כנסים · סיורי קבוצות",
   },
 ];
 
+const TRIP_TYPES = ["חתונה", "אירוע", "טיול", "נתב״ג", "קבוצה קבועה", "אחר"];
+
+const NAV_LINKS = [
+  { href: "#about", label: "הכירו את אבי" },
+  { href: "#services", label: "שירותים" },
+  { href: "#routes", label: "מסלולים" },
+  { href: "#fleet", label: "הצי" },
+  { href: "#reviews", label: "ביקורות" },
+];
+
+function SectionKicker({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className={`h-px w-10 ${dark ? "bg-gold" : "bg-gold-deep"}`} aria-hidden="true"></span>
+      <span className={`text-sm font-bold tracking-widest ${dark ? "text-gold" : "text-gold-deep"}`}>{children}</span>
+    </div>
+  );
+}
+
 export default function Home() {
-  // Booking modal state
-  const [showBookingModal, setShowBookingModal] = useState(false);
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  // Booking form
   const [bookingName, setBookingName] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
   const [bookingEmail, setBookingEmail] = useState("");
   const [bookingDate, setBookingDate] = useState("");
+  const [bookingOrigin, setBookingOrigin] = useState("");
+  const [bookingDestination, setBookingDestination] = useState("");
+  const [bookingPassengers, setBookingPassengers] = useState("");
+  const [bookingTripType, setBookingTripType] = useState("");
   const [bookingNotes, setBookingNotes] = useState("");
 
   const createBooking = trpc.bookings.create.useMutation({
     onSuccess: () => {
       toast.success("פרטיך התקבלו! אבי יחזור אליך בהקדם.");
-      setShowBookingModal(false);
       resetForm();
     },
     onError: () => {
-      toast.error("אירעה שגיאה. נסה שוב או התקשר ישירות.");
+      toast.error("אירעה שגיאה. נסו שוב או התקשרו ישירות.");
     },
   });
 
@@ -106,25 +159,37 @@ export default function Home() {
     setBookingPhone("");
     setBookingEmail("");
     setBookingDate("");
+    setBookingOrigin("");
+    setBookingDestination("");
+    setBookingPassengers("");
+    setBookingTripType("");
     setBookingNotes("");
   };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!bookingName.trim()) {
-      toast.error("אנא הזן שם מלא");
+    if (bookingName.trim().length < 2) {
+      toast.error("אנא הזינו שם מלא");
       return;
     }
     if (!bookingPhone.trim() || bookingPhone.trim().length < 9) {
-      toast.error("אנא הזן מספר טלפון תקין");
+      toast.error("אנא הזינו מספר טלפון תקין");
       return;
     }
+    const composedNotes = [
+      bookingTripType && `סוג נסיעה: ${bookingTripType}`,
+      bookingOrigin.trim() && `מוצא: ${bookingOrigin.trim()}`,
+      bookingDestination.trim() && `יעד: ${bookingDestination.trim()}`,
+      bookingPassengers && `נוסעים: ${bookingPassengers}`,
+      bookingNotes.trim(),
+    ].filter(Boolean).join(" | ");
+
     createBooking.mutate({
       name: bookingName.trim(),
       phone: bookingPhone.trim(),
       email: bookingEmail.trim() || undefined,
       tripDate: bookingDate || undefined,
-      notes: bookingNotes || undefined,
+      notes: composedNotes || undefined,
     });
   };
 
@@ -132,22 +197,21 @@ export default function Home() {
     ICON_MAP[iconName] ?? ICON_MAP.Compass, []);
 
   useEffect(() => {
+    if (!showAccessibilityModal) return;
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      if (showAccessibilityModal) setShowAccessibilityModal(false);
-      if (showBookingModal) setShowBookingModal(false);
+      if (e.key === "Escape") setShowAccessibilityModal(false);
     };
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
-  }, [showAccessibilityModal, showBookingModal]);
+  }, [showAccessibilityModal]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans" dir="rtl">
+    <div className="min-h-screen flex flex-col bg-cream text-ink" dir="rtl">
 
       {/* Skip to main content - accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:right-4 focus:z-[200] focus:bg-amber-500 focus:text-slate-950 focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:right-4 focus:z-[200] focus:bg-gold focus:text-ink-deep focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
       >
         דלג לתוכן הראשי
       </a>
@@ -156,36 +220,36 @@ export default function Home() {
       {showAccessibilityModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink-deep/70 backdrop-blur-sm"
             onClick={() => setShowAccessibilityModal(false)}
             aria-hidden="true"
           />
           <div
-            className="relative z-10 w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
+            className="relative z-10 w-full max-w-lg bg-cream rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
             role="dialog"
             aria-modal="true"
             aria-labelledby="accessibility-modal-title"
           >
             <button
               onClick={() => setShowAccessibilityModal(false)}
-              className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+              className="absolute top-4 left-4 text-stone-400 hover:text-ink transition-colors cursor-pointer rounded"
               aria-label="סגור הצהרת נגישות"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
-            <h2 id="accessibility-modal-title" className="text-lg font-black text-blue-900 mb-4">הצהרת נגישות</h2>
-            <div className="text-slate-600 text-sm leading-relaxed space-y-3">
+            <h2 id="accessibility-modal-title" className="font-display text-xl font-bold text-ink mb-4">הצהרת נגישות</h2>
+            <div className="text-stone-600 text-sm leading-relaxed space-y-3">
               <p>אתר זה שואף לעמוד בדרישות תקן הנגישות הישראלי (WCAG 2.1 רמה AA) ולהנגיש את התכנים לכלל המשתמשים, לרבות אלו שעושים שימוש בטכנולוגיות עזר לנגישות.</p>
               <p>האתר מתוחזק בשפה העברית (כיוון ימין לשמאל), ניתן לנווט באמצעות מקלדת, כל התמונות כוללות תיאור חלופי (alt), וכל הטפסים מסומנים כראוי.</p>
               <p>
                 אם נתקלתם בבעיית נגישות, נא צרו קשר בטלפון{" "}
-                <a href={`tel:${OWNER_PHONE}`} className="text-amber-600 underline font-bold">{OWNER_PHONE_DISPLAY}</a>
+                <a href={`tel:${OWNER_PHONE}`} className="text-gold-deep underline font-bold">{OWNER_PHONE_DISPLAY}</a>
                 {" "}או בוואצאפ ונשתדל לסייע בהקדם האפשרי.
               </p>
             </div>
             <button
               onClick={() => setShowAccessibilityModal(false)}
-              className="mt-6 w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="mt-6 w-full bg-ink hover:bg-ink-deep text-cream font-bold py-2.5 rounded-lg transition-colors cursor-pointer"
             >
               סגור
             </button>
@@ -193,623 +257,766 @@ export default function Home() {
         </div>
       )}
 
-      {/* Booking Modal */}
-      {showBookingModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setShowBookingModal(false)}
-            aria-hidden="true"
-          />
-          <div
-            className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="booking-modal-title"
-          >
-            <button
-              onClick={() => setShowBookingModal(false)}
-              className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
-            aria-label="סגור חלון הזמנה"
-            >
-              <X className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="rounded-xl overflow-hidden border border-amber-500/30 w-10 h-10">
-                <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h2 id="booking-modal-title" className="text-lg font-black text-blue-900">הזמנת נסיעה</h2>
-                <p className="text-xs text-slate-500">אבי יחזור אליך בהקדם</p>
-              </div>
-            </div>
-            <form onSubmit={handleBookingSubmit} className="space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="b-name" className="text-slate-700 text-xs font-bold">
-                  שם מלא <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="b-name"
-                  placeholder="ישראל ישראלי"
-                  value={bookingName}
-                  onChange={(e) => setBookingName(e.target.value)}
-                  className="border-slate-200 focus:border-amber-500"
-                  required
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="b-phone" className="text-slate-700 text-xs font-bold">
-                  מספר טלפון <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="b-phone"
-                  type="tel"
-                  placeholder="050-0000000"
-                  value={bookingPhone}
-                  onChange={(e) => setBookingPhone(e.target.value)}
-                  className="border-slate-200 focus:border-amber-500"
-                  required
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="b-email" className="text-slate-700 text-xs font-bold">
-                  מייל לאישור <span className="text-slate-400 font-normal">(אופציונלי)</span>
-                </Label>
-                <Input
-                  id="b-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={bookingEmail}
-                  onChange={(e) => setBookingEmail(e.target.value)}
-                  className="border-slate-200 focus:border-amber-500"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="b-date" className="text-slate-700 text-xs font-bold">
-                  תאריך הנסיעה <span className="text-slate-400 font-normal">(אופציונלי)</span>
-                </Label>
-                <Input
-                  id="b-date"
-                  type="date"
-                  value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
-                  className="border-slate-200 focus:border-amber-500"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="b-notes" className="text-slate-700 text-xs font-bold">
-                  פרטים נוספים <span className="text-slate-400 font-normal">(אופציונלי)</span>
-                </Label>
-                <Input
-                  id="b-notes"
-                  placeholder="מוצא, יעד, מספר נוסעים..."
-                  value={bookingNotes}
-                  onChange={(e) => setBookingNotes(e.target.value)}
-                  className="border-slate-200 focus:border-amber-500"
-                />
-              </div>
-              <Button
-                type="submit"
-                disabled={createBooking.isPending}
-                className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl mt-2 shadow-lg shadow-amber-500/20 active:scale-[0.97] transition-all"
-              >
-                {createBooking.isPending ? "שולח..." : "שלח פרטים לאבי"}
-              </Button>
-              <p className="text-[10px] text-slate-400 text-center">
-                לאחר השליחה, אבי יחזור אליך בהקדם האפשרי
-              </p>
-            </form>
+      {/* Top utility strip */}
+      <div className="bg-ink-deep text-cream/80 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+              <span className="hidden sm:inline">{OWNER_LOCATION}</span>
+              <span className="sm:hidden">מבשרת ציון</span>
+            </span>
+            <span className="hidden md:flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+              <span>זמינות לתיאום 24/6</span>
+            </span>
           </div>
+          <a href={`tel:${OWNER_PHONE}`} className="flex items-center gap-1.5 font-bold text-gold-soft hover:text-gold transition-colors" aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`}>
+            <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+            <span dir="ltr">{OWNER_PHONE_DISPLAY}</span>
+          </a>
         </div>
-      )}
+      </div>
 
       {/* Header / Navigation */}
-      <header role="banner" className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="rounded-xl shadow-md overflow-hidden border border-amber-500/30 w-12 h-12">
-              <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
+      <header role="banner" className="sticky top-0 z-50 w-full border-b border-ink/10 bg-cream/90 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
+          <a href="#main-content" className="flex items-center gap-3 shrink-0">
+            <div className="rounded-lg overflow-hidden border border-gold/40 w-11 h-11 shadow-sm">
+              <img src={BUS_LOGO_IMG} alt="לוגו אבי ורדי הסעות" className="w-full h-full object-cover" />
             </div>
-            <div>
-              <span className="text-2xl font-black tracking-tight text-blue-900">אבי ורדי הסעות</span>
-              <span className="block text-xs font-semibold text-amber-600 tracking-wider">שירות הסעות פרטי</span>
+            <div className="leading-tight">
+              <span className="block font-display text-2xl font-black text-ink">אבי ורדי</span>
+              <span className="block text-[11px] font-bold text-gold-deep tracking-[0.2em]">הסעות פרטיות</span>
             </div>
-          </div>
+          </a>
 
-          <nav aria-label="ניווט ראשי" className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            <a href="#about" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">עלינו</a>
-            <a href="#services" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">שירותים</a>
-            <a href="#fleet" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">הצי שלנו</a>
-            <a href="#reviews" className="hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded px-1">ביקורות</a>
-            <a
-              href={`https://wa.me/${OWNER_WHATSAPP}`}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 text-green-600 hover:text-green-700 transition-colors font-semibold"
-              aria-label="שלח וואצאפ לאבי"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              <span>וואצאפ</span>
-            </a>
+          <nav aria-label="ניווט ראשי" className="hidden lg:flex items-center gap-7 text-sm font-medium text-stone-600">
+            {NAV_LINKS.map((link) => (
+              <a key={link.href} href={link.href} className="hover:text-ink transition-colors rounded px-1">
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="hidden sm:flex flex-col items-center gap-0.5 text-sm font-bold text-blue-900 bg-blue-50 px-4 py-2 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
-              <span className="flex items-center gap-1.5">
-                <Phone className="h-4 w-4 text-amber-600" aria-hidden="true" />
-                <span>חייגו ישירות</span>
-              </span>
-              <span className="text-[10px] font-medium text-slate-500 leading-none">{OWNER_PHONE_DISPLAY}</span>
-            </a>
             <a
-              href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח לקבל פרטים לגבי הסעה.')}`}
-              target="_blank"
-              rel="noreferrer"
-              className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-lg hover:shadow-blue-900/20 transition-all active:scale-[0.97]"
-              aria-label="הזמנת נסיעה דרך וואצאפ"
+              href="#booking"
+              className="hidden sm:inline-flex items-center gap-2 bg-ink hover:bg-ink-deep text-cream font-bold text-sm px-5 py-2.5 rounded-lg shadow-md transition-all active:scale-[0.97]"
             >
-              הזמנת נסיעה
+              <span>הזמנת נסיעה</span>
+              <ChevronLeft className="h-4 w-4 text-gold" aria-hidden="true" />
             </a>
+            <button
+              onClick={() => setMobileNavOpen((v) => !v)}
+              className="lg:hidden p-2 rounded-lg border border-ink/15 text-ink cursor-pointer"
+              aria-label={mobileNavOpen ? "סגור תפריט" : "פתח תפריט"}
+              aria-expanded={mobileNavOpen}
+            >
+              {mobileNavOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile nav panel */}
+        {mobileNavOpen && (
+          <nav aria-label="ניווט נייד" className="lg:hidden border-t border-ink/10 bg-cream px-4 py-4 animate-in fade-in slide-in-from-top-2 duration-200">
+            <ul className="space-y-1">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={() => setMobileNavOpen(false)}
+                    className="block py-2.5 px-2 rounded-lg font-medium text-ink hover:bg-cream-dark transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href="#booking"
+                  onClick={() => setMobileNavOpen(false)}
+                  className="mt-2 flex items-center justify-center gap-2 bg-ink text-cream font-bold py-3 rounded-lg"
+                >
+                  <span>הזמנת נסיעה</span>
+                  <ChevronLeft className="h-4 w-4 text-gold" aria-hidden="true" />
+                </a>
+              </li>
+            </ul>
+          </nav>
+        )}
       </header>
 
-      {/* Hero Section - main content */}
       <main id="main-content">
-      <section aria-label="ראשי - שירות הסעות אבי ורדי" className="relative overflow-hidden bg-slate-950 py-24 md:py-32">
-        <div className="absolute inset-0 z-0 opacity-40">
-          <img
-            src={BUS_HERO_IMG}
-            alt="אוטובוס 56 מקומות - הסעות ירושלים - אבי ורדי"
-            className="w-full h-full object-cover"
-            fetchPriority="high"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
+
+        {/* Hero */}
+        <section aria-label="ראשי - שירות הסעות אבי ורדי" className="relative overflow-hidden bg-cream">
+          {/* Decorative dotted route line */}
+          <svg
+            className="absolute inset-x-0 top-10 w-full h-64 text-ink/15 pointer-events-none hidden lg:block"
+            viewBox="0 0 1200 200"
+            fill="none"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M-20 170 C 250 40, 480 220, 720 90 S 1100 30, 1230 110" stroke="currentColor" strokeWidth="2" className="route-dashed" />
+            <circle cx="240" cy="103" r="5" fill="#d4a226" />
+            <circle cx="720" cy="90" r="5" fill="#d4a226" />
+            <circle cx="1080" cy="55" r="5" fill="#d4a226" />
+          </svg>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 md:pt-24 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+            {/* Text — right side */}
+            <div className="lg:col-span-6 text-right">
+              <div className="inline-flex items-center gap-2 border border-gold/50 bg-gold/10 px-4 py-1.5 rounded-full mb-7">
+                <Star className="h-3.5 w-3.5 text-gold-deep fill-gold" aria-hidden="true" />
+                <span className="text-xs font-bold text-gold-deep">הסעות פרטיות · ירושלים והמרכז · לכל הארץ</span>
+              </div>
+
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-ink leading-[1.05] mb-7">
+                אתם חוגגים.
+                <br />
+                <span className="text-gold-deep">אני נוהג.</span>
+              </h1>
+
+              <p className="text-lg text-stone-600 max-w-xl mb-9 leading-relaxed">
+                אני אבי ורדי — נהג פרטי עם אוטובוס מפואר של 56 מקומות. בלי מוקדים, בלי חברות ענק:
+                אתם מדברים ישירות עם הנהג שיגיע אליכם בזמן, לחתונה, לטיול או לטיסה.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-start">
+                <a
+                  href="#booking"
+                  className="inline-flex justify-center items-center gap-2 bg-gold hover:bg-gold-soft text-ink-deep font-extrabold text-base px-8 py-4 rounded-lg shadow-lg shadow-gold/25 transition-all active:scale-[0.97] hover:-translate-y-0.5"
+                >
+                  <span>הזמינו נסיעה</span>
+                  <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                </a>
+                <a
+                  href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="שלחו וואצאפ לאבי ורדי"
+                  className="inline-flex justify-center items-center gap-2 bg-transparent hover:bg-ink hover:text-cream text-ink font-bold text-base px-8 py-4 rounded-lg border-2 border-ink transition-all hover:-translate-y-0.5"
+                >
+                  <WhatsAppIcon className="h-5 w-5" />
+                  <span>דברו איתי בוואצאפ</span>
+                </a>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-ink/10 max-w-md" role="list" aria-label="נתוני אמון">
+                {HERO_STATS.map(({ value, label, ariaLabel }) => (
+                  <div key={label} className="flex flex-col" role="listitem">
+                    <span className="font-display text-3xl font-black text-ink" aria-label={ariaLabel}>{value}</span>
+                    <span className="text-xs text-stone-500 font-medium mt-1">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Image — left side */}
+            <div className="lg:col-span-6 relative">
+              <div className="absolute -inset-3 translate-x-4 translate-y-4 rounded-[2rem] border-2 border-gold/40 pointer-events-none" aria-hidden="true"></div>
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
+                <img
+                  src={BUS_HERO_IMG}
+                  alt="האוטובוס המוזהב של אבי ורדי — 56 מקומות, הסעות מירושלים"
+                  className="w-full h-[340px] sm:h-[420px] lg:h-[520px] object-cover"
+                  fetchPriority="high"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/60 via-transparent to-transparent" aria-hidden="true"></div>
+                <div className="absolute bottom-5 right-5 left-5 flex items-end justify-between gap-3">
+                  <div className="bg-cream/95 backdrop-blur rounded-xl px-5 py-3 shadow-lg">
+                    <span className="block font-display text-lg font-black text-ink leading-tight">האוטובוס המוזהב</span>
+                    <span className="block text-xs font-bold text-gold-deep">56 מקומות · מפואר וממוזג</span>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 bg-ink-deep/80 backdrop-blur text-cream rounded-xl px-4 py-3">
+                    <ShieldCheck className="h-5 w-5 text-gold" aria-hidden="true" />
+                    <span className="text-xs font-bold">רישיון משרד התחבורה</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Destinations marquee */}
+        <div className="bg-ink text-cream border-y border-gold/20 py-3.5 overflow-hidden" aria-hidden="true">
+          <div className="marquee-track flex w-max gap-0">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex items-center shrink-0">
+                {MARQUEE_DESTINATIONS.map((dest) => (
+                  <span key={`${copy}-${dest}`} className="flex items-center text-sm font-bold tracking-wide whitespace-nowrap">
+                    <span className="px-5">{dest}</span>
+                    <span className="text-gold">✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+          <span className="sr-only">יעדים נפוצים: {MARQUEE_DESTINATIONS.join(", ")}</span>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* About */}
+        <section id="about" aria-labelledby="about-heading" className="py-20 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-          {/* Quick contact widget - LEFT side */}
-          <div className="lg:col-span-5 order-2 lg:order-1">
-            <Card className="border-slate-800 bg-slate-900/90 text-white shadow-2xl backdrop-blur-md">
-              <CardHeader className="border-b border-slate-800 pb-6">
-                <CardTitle className="text-xl font-bold flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-amber-400" />
-                  <span>השאירו פרטים ואחזור אליכם</span>
-                </CardTitle>
-                <CardDescription className="text-slate-400">
-                  מלאו שם וטלפון ואבי יחזור אליכם עם הצעה משתלמת תוך דקות!
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <form onSubmit={handleBookingSubmit} className="space-y-4">
+              <div className="lg:col-span-7 text-right order-2 lg:order-1">
+                <SectionKicker>הכירו את אבי</SectionKicker>
+                <h2 id="about-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink mt-4 mb-7 leading-tight">
+                  נהג אחד. אוטובוס אחד.
+                  <br />
+                  <span className="text-gold-deep">סטנדרט אחר לגמרי.</span>
+                </h2>
+                <div className="space-y-5 text-stone-600 leading-relaxed text-base">
+                  {ABOUT_TEXT.split("\n\n").map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-6 mt-9 pt-8 border-t border-ink/10">
+                  <div className="flex items-start gap-3">
+                    <div className="bg-gold/15 p-2.5 rounded-lg text-gold-deep shrink-0">
+                      <MapPin className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <span className="block font-bold text-ink text-sm">מיקום וזמינות</span>
+                      <span className="text-sm text-stone-500">{OWNER_LOCATION} — משרת את ירושלים, בית שמש וכל הארץ</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-gold/15 p-2.5 rounded-lg text-gold-deep shrink-0">
+                      <Award className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <span className="block font-bold text-ink text-sm">אוטובוס מפואר</span>
+                      <span className="text-sm text-stone-500">56 מקומות ישיבה, נקי ומתוחזק ברמה הגבוהה ביותר</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 order-1 lg:order-2">
+                <div className="relative">
+                  <div className="rounded-2xl overflow-hidden shadow-xl">
+                    <img
+                      src={BUS_SIDE_IMG}
+                      alt="האוטובוס של אבי ורדי מהצד — שירות הסעות ירושלים"
+                      className="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="mt-5 grid grid-cols-[1fr_auto] gap-5 items-stretch">
+                    <div className="rounded-2xl overflow-hidden shadow-lg hover-lift">
+                      <img
+                        src={BUS_FRONT_ANGLE_IMG}
+                        alt="האוטובוס של אבי ורדי — מבט קדמי"
+                        className="w-full h-44 object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="bg-ink text-cream rounded-2xl px-5 py-4 flex flex-col items-center justify-center text-center shadow-lg">
+                      <ShieldCheck className="h-7 w-7 text-gold mb-2" aria-hidden="true" />
+                      <span className="text-xs font-bold text-gold leading-tight">אמינות<br />ובטיחות</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* Services — numbered editorial list */}
+        <section id="services" aria-labelledby="services-heading" className="py-20 md:py-24 bg-cream-dark border-y border-ink/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mb-14 text-right">
+              <SectionKicker>השירותים שלי</SectionKicker>
+              <h2 id="services-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink mt-4 mb-5 leading-tight">
+                לאן שצריך, מתי שצריך
+              </h2>
+              <p className="text-stone-600 leading-relaxed">
+                הסעות לחתונות, טיולים, נתב״ג ואירועים — מירושלים והסביבה, בהתאמה אישית מלאה,
+                עם דגש על נוחות, בטיחות ושירות ללא פשרות.
+              </p>
+            </div>
+
+            <ul className="border-t border-ink/10">
+              {SERVICES.map((service, i) => (
+                <li key={service.id} className="border-b border-ink/10">
+                  <div className="group grid grid-cols-[auto_auto_1fr] lg:grid-cols-[80px_56px_1fr_auto] items-start lg:items-center gap-x-5 gap-y-3 py-7 px-2 sm:px-4 hover:bg-white/70 rounded-lg transition-colors">
+                    <span className="font-display text-2xl lg:text-3xl font-black text-gold/80 leading-none pt-1 lg:pt-0" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="bg-ink text-gold rounded-xl w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center shrink-0">
+                      {renderIcon(service.icon)}
+                    </span>
+                    <div className="col-span-3 lg:col-span-1 text-right">
+                      <h3 className="font-display text-xl font-black text-ink mb-1.5">{service.title}</h3>
+                      <p className="text-sm text-stone-600 leading-relaxed max-w-2xl">{service.description}</p>
+                    </div>
+                    <a
+                      href="#booking"
+                      className="col-span-3 lg:col-span-1 justify-self-start lg:justify-self-end inline-flex items-center gap-1.5 text-sm font-bold text-gold-deep hover:text-ink transition-colors rounded"
+                      aria-label={`הזמנה — ${service.title}`}
+                    >
+                      <span>לפרטים והזמנה</span>
+                      <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" aria-hidden="true" />
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {/* Bus interior showcase */}
+            <div className="mt-16 bg-ink rounded-3xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
+              <div className="lg:col-span-7 p-8 sm:p-12 lg:p-14 text-right text-cream flex flex-col justify-center">
+                <SectionKicker dark>חוויית נסיעה VIP</SectionKicker>
+                <h3 className="font-display text-2xl sm:text-3xl font-black mt-3 mb-4">
+                  הצצה אל תוך האוטובוס המפואר
+                </h3>
+                <p className="text-stone-300 text-sm sm:text-base leading-relaxed mb-7">
+                  כדי להבטיח לכם את הנסיעה הנעימה ביותר, האוטובוס מצויד ב-56 מושבים מפנקים ומרווחים,
+                  מערכת מיזוג אוויר עוצמתית, תאורה נעימה ומערכת שמע מתקדמת.
+                  הכל נשמר ברמת ניקיון מוקפדת — לפני כל נסיעה.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {BUS_FEATURES.map((feature) => (
+                    <div key={feature} className="flex items-center gap-2 border border-gold/30 bg-gold/10 px-4 py-2 rounded-lg text-xs font-bold text-gold-soft">
+                      <Check className="h-4 w-4 text-gold" aria-hidden="true" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="lg:col-span-5 h-64 lg:h-auto min-h-[320px]">
+                <img
+                  src={BUS_INTERIOR_IMG}
+                  alt="פנים האוטובוס של אבי ורדי — 56 מושבים מרווחים וממוזגים"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Routes — departure board */}
+        <section id="routes" aria-labelledby="routes-heading" className="py-20 md:py-24 bg-ink text-cream">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 text-right">
+              <div>
+                <SectionKicker dark>לוח מסלולים</SectionKicker>
+                <h2 id="routes-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-cream mt-4 leading-tight">
+                  מירושלים לכל הארץ
+                </h2>
+              </div>
+              <p className="text-stone-400 max-w-md text-sm leading-relaxed">
+                המסלולים המבוקשים ביותר — וכל מסלול אחר בתיאום אישי. המחיר נקבע לפי מרחק, שעות והמתנה.
+              </p>
+            </div>
+
+            <div className="border border-cream/15 rounded-2xl overflow-hidden divide-y divide-cream/10 bg-ink-deep/40">
+              {ROUTES.map((route) => (
+                <div
+                  key={`${route.from}-${route.to}`}
+                  className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] items-center gap-3 sm:gap-6 px-5 sm:px-8 py-5 hover:bg-cream/5 transition-colors"
+                >
+                  <div className="flex items-center gap-3 text-right">
+                    <span className="font-display text-xl sm:text-2xl font-black text-cream">{route.from}</span>
+                    <svg className="w-10 h-3 text-gold shrink-0" viewBox="0 0 40 12" fill="none" aria-hidden="true">
+                      <path d="M38 6 H6" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 4" strokeLinecap="round" />
+                      <path d="M9 2 L4 6 L9 10" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="font-display text-xl sm:text-2xl font-black text-cream">{route.to}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-bold border border-gold/40 text-gold-soft px-3 py-1 rounded-full">{route.tag}</span>
+                    {route.popular && (
+                      <span className="text-[11px] font-black bg-gold text-ink-deep px-2.5 py-1 rounded-full">מבוקש</span>
+                    )}
+                  </div>
+                  <a
+                    href={WA_LINK(`שלום אבי, אשמח להצעת מחיר להסעה ${route.from} - ${route.to}.`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="justify-self-start sm:justify-self-end inline-flex items-center gap-1.5 text-sm font-bold text-stone-300 hover:text-gold transition-colors rounded"
+                    aria-label={`הצעת מחיר למסלול ${route.from} ${route.to}`}
+                  >
+                    <span>הצעת מחיר</span>
+                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href={WA_LINK("שלום אבי, אשמח להצעת מחיר להסעה.")}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 bg-gold hover:bg-gold-soft text-ink-deep font-extrabold px-7 py-3.5 rounded-lg shadow-lg shadow-gold/20 transition-all active:scale-[0.97]"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                <span>קבלו הצעת מחיר למסלול שלכם</span>
+              </a>
+              <span className="text-stone-400 text-sm">או חייגו: <a href={`tel:${OWNER_PHONE}`} className="font-bold text-cream hover:text-gold transition-colors" dir="ltr">{OWNER_PHONE_DISPLAY}</a></span>
+            </div>
+          </div>
+        </section>
+
+        {/* Fleet */}
+        <section id="fleet" aria-labelledby="fleet-heading" className="py-20 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mb-14 text-right">
+              <SectionKicker>הצי שלנו</SectionKicker>
+              <h2 id="fleet-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink mt-4 mb-5 leading-tight">
+                הרכב המתאים לכל קבוצה
+              </h2>
+              <p className="text-stone-600 leading-relaxed">
+                בין אם מדובר בחתונה גדולה או אירוע משפחתי — יש פתרון מדויק לגודל שלכם.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {FLEET.map((vehicle) => (
+                <article key={vehicle.name} className="border border-ink/10 rounded-2xl overflow-hidden bg-cream hover-lift">
+                  <div className="relative h-64 sm:h-72 overflow-hidden">
+                    <img
+                      src={vehicle.img}
+                      alt={vehicle.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/70 to-transparent" aria-hidden="true" />
+                    <div className="absolute bottom-4 right-4 bg-gold text-ink-deep rounded-xl px-4 py-2 text-center shadow-lg">
+                      <span className="block font-display text-2xl font-black leading-none">{vehicle.capacity}</span>
+                      <span className="block text-[10px] font-bold">{vehicle.capacityLabel}</span>
+                    </div>
+                  </div>
+                  <div className="p-7 text-right">
+                    <h3 className="font-display text-2xl font-black text-ink mb-5">{vehicle.name}</h3>
+                    <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-6">
+                      {vehicle.features.map((f) => (
+                        <li key={f} className="flex items-center gap-2 text-sm text-stone-600">
+                          <Check className="h-4 w-4 text-gold-deep shrink-0" aria-hidden="true" />
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-xs text-gold-deep font-bold mb-6 pb-6 border-b border-ink/10">{vehicle.best}</p>
+                    <a
+                      href="#booking"
+                      className="flex w-full items-center justify-center gap-2 bg-ink hover:bg-ink-deep text-cream font-bold py-3.5 rounded-lg transition-colors"
+                    >
+                      <span>הזמינו את {vehicle.name}</span>
+                      <ChevronLeft className="h-4 w-4 text-gold" aria-hidden="true" />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews */}
+        <section id="reviews" aria-labelledby="reviews-heading" className="py-20 md:py-24 bg-cream border-t border-ink/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-14">
+              <div className="flex justify-center"><SectionKicker>לקוחות מספרים</SectionKicker></div>
+              <h2 id="reviews-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink mt-4 mb-4 leading-tight">
+                האורחים האישיים שלי בדרך
+              </h2>
+              <div className="inline-flex items-center gap-1.5" aria-label="דירוג 5 מתוך 5 כוכבים" role="img">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-5 w-5 text-gold fill-gold" aria-hidden="true" />
+                ))}
+                <span className="text-sm font-bold text-stone-500 mr-2">5.0 ממוצע ביקורות</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+              {REVIEWS.map((review, i) => (
+                <figure
+                  key={review.id}
+                  className={`bg-white border border-ink/10 rounded-2xl p-7 shadow-sm hover-lift text-right ${i % 2 === 1 ? "md:translate-y-6" : ""}`}
+                >
+                  <span className="font-display block text-6xl leading-none text-gold/60 select-none" aria-hidden="true">”</span>
+                  <blockquote className="text-stone-700 text-sm sm:text-base leading-relaxed -mt-4 mb-6">
+                    {review.text}
+                  </blockquote>
+                  <figcaption className="flex items-center justify-between pt-5 border-t border-ink/10">
+                    <div className="flex items-center gap-3">
+                      <span className="w-11 h-11 rounded-full bg-ink text-gold font-display font-black text-lg flex items-center justify-center" aria-hidden="true">
+                        {review.name.charAt(0)}
+                      </span>
+                      <div>
+                        <span className="block font-bold text-ink text-sm">{review.name}</span>
+                        <span className="block text-[11px] text-stone-400 mt-0.5">{review.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-0.5" aria-label={`דירוג ${review.rating} מתוך 5 כוכבים`} role="img">
+                      {[...Array(review.rating)].map((_, j) => (
+                        <Star key={j} className="h-4 w-4 text-gold fill-gold" aria-hidden="true" />
+                      ))}
+                    </div>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Booking — boarding pass */}
+        <section id="booking" aria-labelledby="booking-heading" className="py-20 md:py-24 bg-ink relative overflow-hidden">
+          <svg
+            className="absolute inset-x-0 bottom-6 w-full h-40 text-cream/10 pointer-events-none"
+            viewBox="0 0 1200 120"
+            fill="none"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M-20 90 C 300 20, 700 130, 1230 50" stroke="currentColor" strokeWidth="2" className="route-dashed" />
+          </svg>
+
+          <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="flex justify-center"><SectionKicker dark>הזמנת נסיעה</SectionKicker></div>
+              <h2 id="booking-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-cream mt-4 mb-4 leading-tight">
+                כרטיס הנסיעה שלכם מתחיל כאן
+              </h2>
+              <p className="text-stone-400 text-sm sm:text-base">
+                מלאו פרטים ואבי יחזור אליכם אישית עם הצעת מחיר — בלי מוקדים ובלי המתנה.
+              </p>
+            </div>
+
+            {/* Boarding pass card */}
+            <div className="bg-cream rounded-2xl shadow-2xl grid grid-cols-1 lg:grid-cols-[1fr_300px] overflow-hidden relative">
+
+              {/* Main form */}
+              <form onSubmit={handleBookingSubmit} className="p-7 sm:p-10 text-right">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <span className="block font-display text-2xl font-black text-ink">כרטיס הזמנה</span>
+                    <span className="block text-xs font-bold text-gold-deep tracking-widest mt-1">אבי ורדי · הסעות פרטיות</span>
+                  </div>
+                  <div className="hidden sm:block rounded-lg overflow-hidden border border-gold/40 w-12 h-12">
+                    <img src={BUS_LOGO_IMG} alt="" className="w-full h-full object-cover" aria-hidden="true" />
+                  </div>
+                </div>
+
+                <fieldset className="mb-6">
+                  <legend className="text-xs font-bold text-stone-500 mb-2.5">סוג הנסיעה</legend>
+                  <div className="flex flex-wrap gap-2">
+                    {TRIP_TYPES.map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setBookingTripType(bookingTripType === type ? "" : type)}
+                        aria-pressed={bookingTripType === type}
+                        className={`px-4 py-2 rounded-full text-xs font-bold border transition-colors cursor-pointer ${
+                          bookingTripType === type
+                            ? "bg-ink text-cream border-ink"
+                            : "bg-white text-stone-600 border-stone-300 hover:border-ink"
+                        }`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div className="grid sm:grid-cols-2 gap-x-5 gap-y-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="hero-name" className="text-slate-300 text-xs font-bold">שם מלא *</Label>
+                    <Label htmlFor="b-name" className="text-stone-600 text-xs font-bold">
+                      שם מלא <span className="text-destructive">*</span>
+                    </Label>
                     <Input
-                      id="hero-name"
+                      id="b-name"
                       placeholder="ישראל ישראלי"
                       value={bookingName}
                       onChange={(e) => setBookingName(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
+                      className="bg-white border-stone-300"
+                      required
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="hero-phone" className="text-slate-300 text-xs font-bold">מספר טלפון *</Label>
+                    <Label htmlFor="b-phone" className="text-stone-600 text-xs font-bold">
+                      טלפון <span className="text-destructive">*</span>
+                    </Label>
                     <Input
-                      id="hero-phone"
+                      id="b-phone"
                       type="tel"
                       placeholder="050-0000000"
                       value={bookingPhone}
                       onChange={(e) => setBookingPhone(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
+                      className="bg-white border-stone-300"
+                      required
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="hero-email" className="text-slate-300 text-xs font-bold">מייל לאישור (אופציונלי)</Label>
+                    <Label htmlFor="b-origin" className="text-stone-600 text-xs font-bold">נקודת יציאה</Label>
                     <Input
-                      id="hero-email"
+                      id="b-origin"
+                      placeholder="לדוגמה: ירושלים"
+                      value={bookingOrigin}
+                      onChange={(e) => setBookingOrigin(e.target.value)}
+                      className="bg-white border-stone-300"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="b-destination" className="text-stone-600 text-xs font-bold">יעד</Label>
+                    <Input
+                      id="b-destination"
+                      placeholder="לדוגמה: תל אביב"
+                      value={bookingDestination}
+                      onChange={(e) => setBookingDestination(e.target.value)}
+                      className="bg-white border-stone-300"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="b-date" className="text-stone-600 text-xs font-bold">תאריך הנסיעה</Label>
+                    <Input
+                      id="b-date"
+                      type="date"
+                      value={bookingDate}
+                      onChange={(e) => setBookingDate(e.target.value)}
+                      className="bg-white border-stone-300"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="b-passengers" className="text-stone-600 text-xs font-bold">מספר נוסעים</Label>
+                    <Input
+                      id="b-passengers"
+                      type="number"
+                      min={1}
+                      max={120}
+                      placeholder="לדוגמה: 50"
+                      value={bookingPassengers}
+                      onChange={(e) => setBookingPassengers(e.target.value)}
+                      className="bg-white border-stone-300"
+                    />
+                  </div>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="b-email" className="text-stone-600 text-xs font-bold">
+                      מייל <span className="text-stone-400 font-normal">(אופציונלי)</span>
+                    </Label>
+                    <Input
+                      id="b-email"
                       type="email"
                       placeholder="your@email.com"
                       value={bookingEmail}
                       onChange={(e) => setBookingEmail(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
+                      className="bg-white border-stone-300"
                     />
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="hero-notes" className="text-slate-300 text-xs font-bold">פרטי הנסיעה (אופציונלי)</Label>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="b-notes" className="text-stone-600 text-xs font-bold">
+                      פרטים נוספים <span className="text-stone-400 font-normal">(אופציונלי)</span>
+                    </Label>
                     <Input
-                      id="hero-notes"
-                      placeholder="לדוגמה: הסעה לחתונה מירושלים לתל אביב ב-15/6"
+                      id="b-notes"
+                      placeholder="שעות, עצירות בדרך, בקשות מיוחדות..."
                       value={bookingNotes}
                       onChange={(e) => setBookingNotes(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-amber-500"
+                      className="bg-white border-stone-300"
                     />
                   </div>
-                  <Button
-                    type="submit"
-                    disabled={createBooking.isPending}
-                    className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-lg mt-2 shadow-lg shadow-amber-500/10 active:scale-[0.97] transition-all"
-                  >
-                    {createBooking.isPending ? "שולח..." : "שלחו לי הודעה"}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Hero text - RIGHT side */}
-          <div className="lg:col-span-7 text-right order-1 lg:order-2">
-            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full mb-6">
-              <Star className="h-4 w-4 text-amber-400 fill-amber-400" aria-hidden="true" />
-              <span className="text-xs font-bold text-amber-400">הסעות פרטיות באזור ירושלים ומרכז הארץ</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-none mb-6">
-              הסעות ירושלים — <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">האחריות האישית שלי.</span>
-            </h1>
-            <p className="text-lg text-slate-300 max-w-xl mb-8 leading-relaxed">
-              שירות הסעות פרטי ואקסקלוסיבי באוטובוס מפואר עם 56 מקומות. נהג מקצועי, אדיב ודייקן המעניק יחס אישי וחם לכל נסיעה – חתונות, טיולים, נתב"ג ואירועים מיוחדים.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-start">
-              <a
-                href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח לקבל פרטים לגבי הסעה.')}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-base px-8 py-4 rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-[0.97] hover:-translate-y-0.5"
-                aria-label="הזמינו נסיעה דרך וואצאפ"
-              >
-                <WhatsAppIcon className="h-5 w-5" />
-                <span>הזמינו נסיעה עכשיו</span>
-              </a>
-              <a
-                href={`tel:${OWNER_PHONE}`}
-                aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`}
-                className="inline-flex justify-center items-center gap-2 bg-slate-800/80 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl border border-slate-700 transition-all hover:-translate-y-0.5"
-              >
-                <Phone className="h-5 w-5 text-amber-400" aria-hidden="true" />
-                <span>חייגו ישירות</span>
-              </a>
-            </div>
-
-            {/* Quick trust badges */}
-            <div className="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-slate-800 max-w-lg" role="list" aria-label="נתוני אמון">
-              {TRUST_BADGES.map(({ value, label, ariaLabel }) => (
-                <div key={label} className="flex flex-col" role="listitem">
-                  <span className="text-2xl font-black text-white" aria-label={ariaLabel}>{value}</span>
-                  <span className="text-xs text-slate-400 font-medium">{label}</span>
                 </div>
-              ))}
-            </div>
-          </div>
 
-        </div>
-      </section>
+                <button
+                  type="submit"
+                  disabled={createBooking.isPending}
+                  className="w-full mt-7 bg-gold hover:bg-gold-soft disabled:opacity-60 text-ink-deep font-extrabold text-base py-4 rounded-lg shadow-lg shadow-gold/20 transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  {createBooking.isPending ? "שולח..." : "שלחו את הכרטיס לאבי"}
+                </button>
+                <p className="text-[11px] text-stone-400 text-center mt-3">
+                  לאחר השליחה אבי יחזור אליכם אישית בהקדם האפשרי
+                </p>
+              </form>
 
-      {/* About Me Section */}
-      <section id="about" aria-labelledby="about-heading" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 relative flex flex-col gap-5">
-              <div className="relative">
-                <div className="absolute -top-4 -right-4 w-72 h-72 bg-amber-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-                <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-                  <img
-                    src={BUS_SIDE_IMG}
-                    alt="אוטובוס אבי ורדי - שירות הסעות ירושלים"
-                    className="w-full h-auto object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-              {/* Second bus photo below the main image */}
-              <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-slate-100 hover:shadow-2xl transition-shadow duration-300 hover-lift">
-                <img
-                  src={BUS_FRONT_ANGLE_IMG}
-                  alt="האוטובוס של אבי ורדי - מבט קדמי"
-                  className="w-full h-52 object-cover"
-                  loading="lazy"
-                />
-              </div>
-              {/* Badge below second image */}
-              <div className="bg-blue-900 text-white px-6 py-3.5 rounded-xl shadow-lg border border-amber-500/30 flex items-center gap-3">
-                <ShieldCheck className="h-8 w-8 text-amber-400" aria-hidden="true" />
+              {/* Stub — perforated side */}
+              <aside className="relative bg-cream-dark p-7 sm:p-10 lg:p-8 flex flex-col justify-center gap-6 text-right border-t lg:border-t-0 border-dashed border-stone-300 lg:border-none" aria-label="יצירת קשר ישירה">
+                {/* vertical perforation + notches (desktop) */}
+                <div className="hidden lg:block absolute inset-y-0 right-0 w-px perforation-v" aria-hidden="true"></div>
+                <div className="hidden lg:block absolute -top-3 right-0 translate-x-1/2 w-6 h-6 rounded-full bg-ink" aria-hidden="true"></div>
+                <div className="hidden lg:block absolute -bottom-3 right-0 translate-x-1/2 w-6 h-6 rounded-full bg-ink" aria-hidden="true"></div>
+
                 <div>
-                  <span className="block text-sm font-bold text-amber-400">אמינות ובטיחות</span>
-                  <span className="block text-xs text-slate-300">ברישיון משרד התחבורה</span>
+                  <span className="block text-xs font-bold text-stone-500 tracking-widest mb-1">מעדיפים לדבר?</span>
+                  <span className="block font-display text-xl font-black text-ink">דברו ישירות עם אבי</span>
                 </div>
-              </div>
-            </div>
 
-            <div className="lg:col-span-7 text-right">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="h-px w-8 bg-amber-500"></span>
-                <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">הכירו את אבי</span>
-              </div>
-              <h2 id="about-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mb-6">
-                נהג פרטי מקצועי ובעל יחס אישי
-              </h2>
-              <div className="space-y-6 text-slate-600 leading-relaxed text-base">
-                {ABOUT_TEXT.split("\n\n").map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-
-              {/* Grid of details */}
-              <div className="grid grid-cols-2 gap-6 mt-8 pt-8 border-t border-slate-100">
-                <div className="flex items-start gap-3">
-                  <div className="bg-amber-50 p-2 rounded-lg text-amber-600">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <span className="block font-bold text-blue-900 text-sm">מיקום ונגישות</span>
-                    <span className="text-xs text-slate-500">{OWNER_LOCATION}, משרת את ירושלים, בית שמש וכל הארץ</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-amber-50 p-2 rounded-lg text-amber-600">
-                    <Award className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <span className="block font-bold text-blue-900 text-sm">אוטובוס מפואר</span>
-                    <span className="text-xs text-slate-500">56 מקומות ישיבה, נקי ומתוחזק ברמה הגבוהה ביותר</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" aria-labelledby="services-heading" className="py-20 bg-slate-50 border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">השירותים שלנו</span>
-            <h2 id="services-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
-              הסעות לחתונות, טיולים ונתב״ג — ירושלים ומרכז הארץ
-            </h2>
-            <p className="text-slate-600">
-              אני מספק הסעות לחתונות, טיולים, נתב״ג ואירועים מירושלים ואזורי הסביבה, בהתאמה אישית מלאה לצרכים שלכם, עם דגש על נוחות, בטיחות ושירות ללא פשרות.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {SERVICES.map((service) => (
-              <Card key={service.id} className="border-slate-100 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-right flex flex-col justify-between">
-                <CardHeader className="pb-4">
-                  <div className="bg-amber-50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 border border-amber-100/50">
-                    {renderIcon(service.icon)}
-                  </div>
-                  <CardTitle className="text-lg font-bold text-blue-900 mb-2">{service.title}</CardTitle>
-                  <CardDescription className="text-slate-600 text-sm leading-relaxed">
-                    {service.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0 pb-6">
-                  <button
-                    onClick={() => setShowBookingModal(true)}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:text-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
-                    aria-label={`הזמנה - ${service.title}`}
-                  >
-                    <span>לפרטים והזמנה</span>
-                    <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                  </button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Bus Interior CTA */}
-          <div className="mt-16 bg-blue-950 rounded-3xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
-            <div className="lg:col-span-7 p-8 sm:p-12 lg:p-16 text-right text-white">
-              <span className="text-amber-400 text-sm font-bold tracking-wider uppercase">חוויית נסיעה VIP</span>
-              <h3 className="text-2xl sm:text-3xl font-black mt-2 mb-4">
-                הצצה אל תוך האוטובוס המפואר
-              </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
-                כדי להבטיח לכם את הנסיעה הנעימה ביותר, האוטובוס מצויד ב-56 מושבים מפנקים ומרווחים, מערכת מיזוג אוויר עוצמתית, תאורה נעימה, ומערכת שמע מתקדמת. הכל נשמר ברמת ניקיון סטרילית ומוקפדת.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                {BUS_FEATURES.map((feature) => (
-                  <div key={feature} className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg text-xs font-bold">
-                    <Check className="h-4 w-4 text-amber-400" aria-hidden="true" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="lg:col-span-5 h-64 lg:h-full min-h-[320px]">
-              <img
-                src={BUS_INTERIOR_IMG}
-                alt="פנים אוטובוס הסעות ירושלים - אבי ורדי, 56 מקומות מרווחים"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Popular Routes Section */}
-      <section id="routes" aria-labelledby="routes-heading" className="py-20 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">מסלולים פופולריים</span>
-            <h2 id="routes-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mt-2 mb-4">
-              הסעות מירושלים לכל הארץ
-            </h2>
-            <p className="text-slate-600">
-              ההסעות הנפוצות ביותר מירושלים — לחתונות, אירועים, נתב״ג וטיולים. אפשר לתאם כל מסלול אחר בהתאמה אישית.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { from: "ירושלים", to: "ראשון לציון", tag: "חתונות", popular: true },
-              { from: "ירושלים", to: "גוש דן ותל אביב", tag: "אירועים", popular: true },
-              { from: "ירושלים", to: "נתב״ג", tag: "טיסות", popular: true },
-              { from: "ירושלים", to: "צפון הארץ", tag: "טיולים" },
-              { from: "ירושלים", to: "אילת והדרום", tag: "טיולים" },
-              { from: "בית שמש", to: "ירושלים", tag: "קבוצות קבועות" },
-            ].map((route) => (
-              <div
-                key={`${route.from}-${route.to}`}
-                className="relative bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-2xl p-5 transition-colors text-right group"
-              >
-                {route.popular && (
-                  <span className="absolute top-3 left-3 bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">
-                    מבוקש
+                <a href={`tel:${OWNER_PHONE}`} className="flex items-center gap-3 group" aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`}>
+                  <span className="bg-ink text-gold rounded-xl w-11 h-11 flex items-center justify-center shrink-0">
+                    <Phone className="h-5 w-5" aria-hidden="true" />
                   </span>
-                )}
-                <div className="flex items-center justify-end gap-2 mb-2">
-                  <MapPin className="h-4 w-4 text-amber-600" aria-hidden="true" />
-                  <span className="text-xs font-bold text-amber-700">{route.tag}</span>
-                </div>
-                <div className="text-blue-900 font-black text-lg leading-tight">
-                  {route.from} <span className="text-slate-400">←</span> {route.to}
-                </div>
-                <p className="text-xs text-slate-500 mt-1">אוטובוס 56 מקומות, נהג אישי</p>
-              </div>
-            ))}
-          </div>
+                  <span>
+                    <span className="block text-xs text-stone-500">חיוג ישיר</span>
+                    <span className="block font-black text-ink group-hover:text-gold-deep transition-colors" dir="ltr">{OWNER_PHONE_DISPLAY}</span>
+                  </span>
+                </a>
 
-          <div className="mt-10 text-center">
-            <a
-              href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח להצעת מחיר להסעה.')}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              <span>קבלו הצעת מחיר למסלול שלכם</span>
-            </a>
-          </div>
-        </div>
-      </section>
+                <a
+                  href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-white font-bold text-sm py-3 rounded-lg shadow-md transition-colors"
+                  aria-label="שלחו וואצאפ לאבי ורדי"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  <span>שלחו וואצאפ</span>
+                </a>
 
-      {/* Fleet Section */}
-      <section id="fleet" aria-labelledby="fleet-heading" className="py-20 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-sm font-bold text-amber-400 tracking-wider uppercase">הצי שלנו</span>
-            <h2 id="fleet-heading" className="text-3xl sm:text-4xl font-black text-white mt-2 mb-4">
-              הרכב המתאים לכל קבוצה
-            </h2>
-            <p className="text-slate-400 max-w-xl mx-auto">
-              בין אם מדובר בחתונה גדולה או אירוע משפחתי קטן — יש לנו את הרכב הנכון עבורכם.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {FLEET.map((vehicle) => (
-              <div key={vehicle.name} className="bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 hover:border-amber-500/50 transition-colors group">
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={vehicle.img}
-                    alt={vehicle.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                  <div className="absolute bottom-4 right-4">
-                    <span className="text-2xl font-black text-white">{vehicle.capacity}</span>
-                  </div>
+                <div className="pt-5 border-t border-stone-300/70 space-y-2 text-xs text-stone-500">
+                  <p className="flex items-center gap-2">
+                    <Clock className="h-3.5 w-3.5 text-gold-deep shrink-0" aria-hidden="true" />
+                    <span>זמינות לתיאום 24/6 (לא פעיל בשבת)</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <MapPin className="h-3.5 w-3.5 text-gold-deep shrink-0" aria-hidden="true" />
+                    <span>{OWNER_LOCATION}</span>
+                  </p>
                 </div>
-                <div className="p-6 text-right">
-                  <h3 className="text-xl font-black text-white mb-4">{vehicle.name}</h3>
-                  <ul className="space-y-2 mb-5">
-                    {vehicle.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2 justify-end text-sm text-slate-300">
-                        <span>{f}</span>
-                        <Check className="h-4 w-4 text-amber-400 flex-shrink-0" aria-hidden="true" />
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-xs text-amber-400 font-bold mb-5">{vehicle.best}</p>
-                  <button
-                    onClick={() => setShowBookingModal(true)}
-                    className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400"
-                  >
-                    הזמינו את {vehicle.name}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              </aside>
 
-      {/* Reviews Section */}
-      <section id="reviews" aria-labelledby="reviews-heading" className="py-20 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-3.5 py-1.5 rounded-full mb-3">
-              <Facebook className="h-4 w-4 text-blue-600 fill-blue-600" aria-hidden="true" />
-              <span className="text-xs font-bold text-blue-700">ביקורות מלקוחות מרוצים</span>
             </div>
-            <h2 id="reviews-heading" className="text-3xl sm:text-4xl font-black text-blue-900 mb-4">
-              מה הלקוחות שלנו מספרים?
-            </h2>
-            <p className="text-slate-600">
-              לקוחות מרוצים שנסעו עם אבי ורדי ומספרים על החוויה שלהם.
-            </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {REVIEWS.map((review) => (
-              <Card key={review.id} className="border-slate-100 bg-white shadow-md hover:shadow-lg transition-shadow text-right">
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-900 font-bold text-lg border border-blue-200">
-                        {review.name.charAt(0)}
-                      </div>
-                      <div>
-                        <span className="block font-bold text-blue-900 text-sm">{review.name}</span>
-                        <span className="block text-[10px] text-slate-400 mt-0.5">{review.date}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-0.5" aria-label={`דירוג ${review.rating} מתוך 5 כוכבים`} role="img">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" aria-hidden="true" />
-                      ))}
-                    </div>
-                  </div>
-                  <blockquote className="text-slate-600 text-sm leading-relaxed italic relative">
-                    <span className="absolute -top-4 -right-2 text-4xl text-blue-100 font-serif">"</span>
-                    <p className="relative z-10 pr-4">{review.text}</p>
-                  </blockquote>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
       </main>
 
-      {/* Footer & Contact Section */}
-      <footer id="contact" role="contentinfo" className="bg-slate-900 text-white pt-20 pb-10 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 text-right">
+      {/* Footer */}
+      <footer id="contact" role="contentinfo" className="bg-ink-deep text-cream pt-16 pb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-14 text-right">
 
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <div className="rounded-xl overflow-hidden border border-amber-500/30 w-12 h-12">
-                <img src={BUS_LOGO_IMG} alt="אבי ורדי הסעות" className="w-full h-full object-cover" />
+              <div className="rounded-lg overflow-hidden border border-gold/40 w-12 h-12">
+                <img src={BUS_LOGO_IMG} alt="לוגו אבי ורדי הסעות" className="w-full h-full object-cover" />
               </div>
-              <span className="text-2xl font-black text-white">אבי ורדי הסעות</span>
+              <div className="leading-tight">
+                <span className="block font-display text-2xl font-black text-cream">אבי ורדי</span>
+                <span className="block text-[11px] font-bold text-gold tracking-[0.2em]">הסעות פרטיות</span>
+              </div>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-sm">
-              שירותי הסעות פרטיים בבטיחות ובאמינות מוחלטת. נסיעות לאירועים, טיולים, קבוצות ונתב"ג. מבוסס במבשרת ציון, משרת את אזור ירושלים ובית שמש לכל הארץ.
+            <p className="text-stone-400 text-sm leading-relaxed mb-7 max-w-sm">
+              שירותי הסעות פרטיים בבטיחות ובאמינות מוחלטת. נסיעות לאירועים, טיולים, קבוצות ונתב״ג.
+              מבוסס במבשרת ציון, משרת את אזור ירושלים ובית שמש לכל הארץ.
             </p>
             <div className="space-y-3 text-sm">
-              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="flex items-center gap-3 text-slate-300 hover:text-amber-400 transition-colors justify-start">
-                <Phone className="h-4 w-4 text-amber-500" aria-hidden="true" />
-                <span>{OWNER_PHONE_DISPLAY} (אבי)</span>
+              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="flex items-center gap-3 text-stone-300 hover:text-gold transition-colors">
+                <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
+                <span dir="ltr">{OWNER_PHONE_DISPLAY}</span>
+                <span>(אבי)</span>
               </a>
-              <a href="https://maps.google.com/?q=מבשרת+ציון" target="_blank" rel="noreferrer" aria-label="פתח במפות גוגל" className="flex items-center gap-3 text-slate-300 hover:text-amber-400 transition-colors justify-start">
-                <MapPin className="h-4 w-4 text-amber-500" aria-hidden="true" />
+              <a href="https://maps.google.com/?q=מבשרת+ציון" target="_blank" rel="noreferrer" aria-label="פתח במפות גוגל" className="flex items-center gap-3 text-stone-300 hover:text-gold transition-colors">
+                <MapPin className="h-4 w-4 text-gold" aria-hidden="true" />
                 <span>{OWNER_LOCATION}</span>
               </a>
             </div>
@@ -817,27 +1024,30 @@ export default function Home() {
 
           <div className="lg:col-span-3">
             <nav aria-label="ניווט מהיר">
-              <h4 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-6">ניווט מהיר</h4>
-              <ul className="space-y-3 text-sm text-slate-400">
-                <li><a href="#about" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">עלינו</a></li>
-                <li><a href="#services" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">שירותים</a></li>
-                <li><a href="#fleet" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">הצי שלנו</a></li>
-                <li><a href="#reviews" className="hover:text-white transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded">ביקורות</a></li>
+              <h4 className="text-gold font-bold text-sm tracking-widest mb-6">ניווט מהיר</h4>
+              <ul className="space-y-3 text-sm text-stone-400">
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="hover:text-cream transition-colors rounded">{link.label}</a>
+                  </li>
+                ))}
+                <li><a href="#booking" className="hover:text-cream transition-colors rounded">הזמנת נסיעה</a></li>
               </ul>
             </nav>
           </div>
 
           <div className="lg:col-span-4">
-            <h4 className="text-amber-400 font-bold text-sm uppercase tracking-wider mb-6">שעות פעילות והזמנות</h4>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              זמינות מלאה לתיאום נסיעות מראש 24/6 (לא פעיל בשבת). מומלץ לשריין תאריכים מראש, במיוחד בעונת האירועים והקיץ.
+            <h4 className="text-gold font-bold text-sm tracking-widest mb-6">שעות פעילות והזמנות</h4>
+            <p className="text-stone-400 text-sm leading-relaxed mb-7">
+              זמינות מלאה לתיאום נסיעות מראש 24/6 (לא פעיל בשבת).
+              מומלץ לשריין תאריכים מראש, במיוחד בעונת האירועים והקיץ.
             </p>
-            <div className="flex gap-4 justify-start">
-              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400">
+            <div className="flex gap-4">
+              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="bg-cream text-ink-deep hover:bg-gold font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors">
                 חייגו עכשיו
               </a>
-              <a href={`https://wa.me/${OWNER_WHATSAPP}`} target="_blank" rel="noreferrer" aria-label="שלחו וואצאפ לאבי ורדי" className="bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-colors flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400">
-                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              <a href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")} target="_blank" rel="noreferrer" aria-label="שלחו וואצאפ לאבי ורדי" className="bg-[#25D366] hover:bg-[#1fbd5a] text-white font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors flex items-center gap-2">
+                <WhatsAppIcon className="h-4 w-4" />
                 <span>ווטסאפ</span>
               </a>
             </div>
@@ -845,48 +1055,40 @@ export default function Home() {
 
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
           <p>© {CURRENT_YEAR} אבי ורדי הסעות. כל הזכויות שמורות.</p>
-          <p className="mt-2">
-            <button
-              onClick={() => setShowAccessibilityModal(true)}
-              className="underline hover:text-slate-300 transition-colors focus:outline-none focus:ring-1 focus:ring-amber-400 rounded"
-            >
-              הצהרת נגישות
-            </button>
-          </p>
+          <button
+            onClick={() => setShowAccessibilityModal(true)}
+            className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
+          >
+            הצהרת נגישות
+          </button>
         </div>
-
       </footer>
 
-      {/* Floating Action Buttons - WhatsApp & Call */}
+      {/* Floating Action Buttons */}
       <div
         className="fixed bottom-6 left-6 z-50 flex flex-col gap-3"
         role="complementary"
         aria-label="כפתורי יצירת קשר מהיר"
       >
-        {/* WhatsApp floating button */}
         <a
-          href={`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('שלום אבי, אשמח לקבל פרטים לגבי הסעה.')}`}
+          href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}
           target="_blank"
           rel="noreferrer"
           aria-label="שלח וואצאפ לאבי ורדי"
-          className="group flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white rounded-full shadow-lg shadow-green-500/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-green-500/40 active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 float-pulse"
-          style={{ padding: '14px' }}
+          className="group flex items-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-white rounded-full shadow-lg shadow-[#25D366]/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl active:scale-95 float-pulse p-3.5"
         >
-          <WhatsAppIcon className="h-6 w-6 flex-shrink-0" />
+          <WhatsAppIcon className="h-6 w-6 shrink-0" />
           <span className="max-w-0 overflow-hidden group-hover:max-w-[6rem] transition-all duration-300 text-sm font-bold whitespace-nowrap">וואצאפ</span>
         </a>
-
-        {/* Phone floating button */}
         <a
           href={`tel:${OWNER_PHONE}`}
           aria-label={`חייג לאבי ורדי ${OWNER_PHONE_DISPLAY}`}
-          className="group flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white rounded-full shadow-lg shadow-blue-900/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/40 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-          style={{ padding: '14px' }}
+          className="group flex items-center gap-2 bg-ink hover:bg-ink-deep text-gold rounded-full shadow-lg shadow-ink/40 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl active:scale-95 p-3.5"
         >
-          <PhoneCall className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
-          <span className="max-w-0 overflow-hidden group-hover:max-w-[8rem] transition-all duration-300 text-sm font-bold whitespace-nowrap">{OWNER_PHONE_DISPLAY}</span>
+          <PhoneCall className="h-6 w-6 shrink-0" aria-hidden="true" />
+          <span className="max-w-0 overflow-hidden group-hover:max-w-[8rem] transition-all duration-300 text-sm font-bold whitespace-nowrap" dir="ltr">{OWNER_PHONE_DISPLAY}</span>
         </a>
       </div>
     </div>

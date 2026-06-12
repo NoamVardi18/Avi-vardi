@@ -40,69 +40,95 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Brand tokens — ink / cream / brass-gold */
+  --color-ink: #1c1917;
+  --color-ink-deep: #0c0a09;
+  --color-cream: #faf7f1;
+  --color-cream-dark: #f3eee4;
+  --color-gold: #d4a226;
+  --color-gold-soft: #e8c468;
+  --color-gold-deep: #8a6a1f;
+
+  --font-display: "Frank Ruhl Libre", "Heebo", serif;
 }
 
 :root {
-  /* Royal Blue & Elegant Gold Theme */
-  --primary: oklch(0.35 0.15 250); /* Royal Blue */
-  --primary-foreground: oklch(0.98 0.01 250);
-  --secondary: oklch(0.75 0.12 85); /* Muted Elegant Gold */
-  --secondary-foreground: oklch(0.2 0.05 85);
-  --background: oklch(0.99 0.005 250); /* Soft Blue-Gray Light Background */
-  --foreground: oklch(0.15 0.03 250); /* Deep Navy text */
-  
+  /* Editorial Ink & Brass theme */
+  --primary: oklch(0.22 0.01 60); /* ink */
+  --primary-foreground: oklch(0.97 0.01 85);
+  --secondary: oklch(0.93 0.015 85); /* warm sand */
+  --secondary-foreground: oklch(0.25 0.01 60);
+  --background: oklch(0.975 0.008 85); /* warm cream */
+  --foreground: oklch(0.2 0.01 60);
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.03 250);
+  --card-foreground: oklch(0.2 0.01 60);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.03 250);
-  
-  --muted: oklch(0.95 0.01 250);
-  --muted-foreground: oklch(0.45 0.03 250);
-  --accent: oklch(0.92 0.03 250);
-  --accent-foreground: oklch(0.35 0.15 250);
-  
+  --popover-foreground: oklch(0.2 0.01 60);
+
+  --muted: oklch(0.94 0.012 85);
+  --muted-foreground: oklch(0.45 0.012 60);
+  --accent: oklch(0.92 0.03 85);
+  --accent-foreground: oklch(0.35 0.06 80);
+
   --destructive: oklch(0.55 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  
-  --border: oklch(0.9 0.01 250);
-  --input: oklch(0.9 0.01 250);
-  --ring: oklch(0.5 0.15 250);
-  
-  --radius: 0.75rem;
+
+  --border: oklch(0.88 0.012 80);
+  --input: oklch(0.88 0.012 80);
+  --ring: oklch(0.72 0.13 85); /* gold */
+
+  --radius: 0.5rem;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Assistant', 'Heebo', sans-serif;
+    font-family: 'Heebo', 'Assistant', sans-serif;
     font-size: 16px;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Rubik', 'Assistant', sans-serif;
+  h1, h2, h3 {
+    font-family: 'Frank Ruhl Libre', 'Heebo', serif;
   }
 }
 
-/* RTL Helpers & Custom Animations */
+/* RTL helper */
 .rtl {
   direction: rtl;
 }
 
-.text-shadow-gold {
-  text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);
+/* Destinations marquee — duplicated content, +50% shift loops seamlessly in RTL */
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marquee-rtl 36s linear infinite;
+  }
 }
 
-.gold-gradient {
-  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+/* Floating button pulse */
+@keyframes float-pulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .float-pulse {
+    animation: float-pulse 3s ease-in-out infinite;
+  }
 }
 
-.blue-gradient {
-  background: linear-gradient(135deg, oklch(0.35 0.15 250) 0%, oklch(0.2 0.1 250) 100%);
-}
-
-/* Hover lift effect for cards and interactive elements */
+/* Hover lift */
 .hover-lift {
   transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -111,37 +137,36 @@
   box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.15);
 }
 
-/* Floating button pulse animation */
-@keyframes float-pulse {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .float-pulse {
-    animation: float-pulse 3s ease-in-out infinite;
-  }
-}
-
-/* Smooth scale on active for all interactive elements */
 button:active, a:active {
   transition: transform 0.1s ease-out;
 }
 
+/* Boarding-pass perforation between form and stub */
+.perforation-v {
+  background-image: linear-gradient(to bottom, var(--color-border) 55%, transparent 45%);
+  background-size: 1px 12px;
+  background-repeat: repeat-y;
+}
+.perforation-h {
+  background-image: linear-gradient(to left, var(--color-border) 55%, transparent 45%);
+  background-size: 12px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Dotted route line decoration */
+.route-dashed {
+  stroke-dasharray: 2 8;
+  stroke-linecap: round;
+}
+
 /* ============================================================
    WCAG 2.1 AA - Global keyboard focus-visible policy
-   Ensures all interactive elements have a visible focus ring
-   when navigated via keyboard (Tab key), without affecting
-   mouse/touch users (focus-visible pseudo-class).
    ============================================================ */
 :focus-visible {
-  outline: 3px solid oklch(0.75 0.18 80); /* amber-400 equivalent */
+  outline: 3px solid #d4a226;
   outline-offset: 2px;
   border-radius: 4px;
 }
-
-/* Remove default outline only when focus-visible is supported
-   (browsers that don't support it still get the default outline) */
 :focus:not(:focus-visible) {
   outline: none;
 }
