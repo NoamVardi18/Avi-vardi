@@ -116,3 +116,4 @@ client/public/__manus__/version.json
 # compiled python (regenerable)
 **/__pycache__/
 *.pyc
+vercel.env.txt
