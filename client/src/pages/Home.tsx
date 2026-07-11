@@ -47,16 +47,17 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Users: <Users className="h-6 w-6" aria-hidden="true" />,
 };
 
-const SUPABASE_IMG = (name: string) =>
-  `https://nlwkksivgubcgfzqivcs.supabase.co/storage/v1/object/public/site-images/${name}`;
-
-// Bus images — the golden bus photos must stay as-is (brand asset)
-const BUS_HERO_IMG = "/manus-storage/bus-front-nature_6d1794ae.jpeg";
+// Bus images — the ORIGINAL golden-bus photos (brand asset), now self-hosted under
+// client/public/images. 2026-07-11: they used to route through /manus-storage/* →
+// Forge presign, which 500s in prod ("Storage proxy not configured"); recovered the
+// originals from the Forge backend and pinned them locally so no external backend
+// can take them down again.
+const BUS_HERO_IMG = "/images/bus-front-nature.jpeg";
 const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
-const BUS_INTERIOR_IMG = "/manus-storage/bus-interior_17f8298e.jpeg";
-const BUS_PANORAMA_IMG = SUPABASE_IMG("bus-jerusalem-panorama.jpeg");
+const BUS_INTERIOR_IMG = "/images/bus-interior.jpeg";
+const BUS_PANORAMA_IMG = "/images/bus-panorama.jpeg";
 const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
-const BUS_FRONT_ANGLE_IMG = "/manus-storage/bus-front-angle_6bee6973.jpg";
+const BUS_FRONT_ANGLE_IMG = "/images/bus-front-angle.jpeg";
 
 const WA_LINK = (text: string) =>
   `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
