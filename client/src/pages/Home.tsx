@@ -55,7 +55,6 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 const BUS_HERO_IMG = "/images/bus-front-nature.jpeg";
 const BUS_SIDE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-side-nature-clean-bzkXQoheuinAbjgqqiK8ar.webp";
 const BUS_INTERIOR_IMG = "/images/bus-interior.jpeg";
-const BUS_PANORAMA_IMG = "/images/bus-panorama.jpeg";
 const BUS_LOGO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663699036625/jNBxQdxcxRHq8VPq64unqC/bus-logo-enhanced-DoiD8pdJuAM3Pu5JMuuSsu.webp";
 const BUS_FRONT_ANGLE_IMG = "/images/bus-front-angle.jpeg";
 
@@ -101,14 +100,6 @@ const FLEET = [
     features: ["56 כיסאות עור מרווחים", "מיזוג אוויר עוצמתי", "מערכת שמע מתקדמת", "תא מטען גדול"],
     best: "חתונות · טיולים · קבוצות גדולות · נתב״ג",
   },
-  {
-    name: "אוטובוס עד 60 מקומות",
-    capacity: "60",
-    capacityLabel: "מקומות",
-    img: BUS_PANORAMA_IMG,
-    features: ["רכבים נוספים לקבוצות גדולות", "תיאום עם נהגים מקצועיים", "פתרון לכל גודל אירוע", "זמינות גבוהה"],
-    best: "אירועים גדולים · כנסים · סיורי קבוצות",
-  },
 ];
 
 const TRIP_TYPES = ["חתונה", "אירוע", "טיול", "נתב״ג", "קבוצה קבועה", "אחר"];
@@ -117,7 +108,7 @@ const NAV_LINKS = [
   { href: "#about", label: "הכירו את אבי" },
   { href: "#services", label: "שירותים" },
   { href: "#routes", label: "מסלולים" },
-  { href: "#fleet", label: "הצי" },
+  { href: "#fleet", label: "האוטובוס" },
   { href: "#reviews", label: "ביקורות" },
 ];
 
@@ -132,6 +123,7 @@ function SectionKicker({ children, dark = false }: { children: React.ReactNode; 
 
 export default function Home() {
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   // Booking form
@@ -198,13 +190,16 @@ export default function Home() {
     ICON_MAP[iconName] ?? ICON_MAP.Compass, []);
 
   useEffect(() => {
-    if (!showAccessibilityModal) return;
+    if (!showAccessibilityModal && !showPrivacyModal) return;
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShowAccessibilityModal(false);
+      if (e.key === "Escape") {
+        setShowAccessibilityModal(false);
+        setShowPrivacyModal(false);
+      }
     };
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
-  }, [showAccessibilityModal]);
+  }, [showAccessibilityModal, showPrivacyModal]);
 
   return (
     <div className="min-h-screen flex flex-col bg-cream text-ink" dir="rtl">
@@ -250,6 +245,46 @@ export default function Home() {
             </div>
             <button
               onClick={() => setShowAccessibilityModal(false)}
+              className="mt-6 w-full bg-ink hover:bg-ink-deep text-cream font-bold py-2.5 rounded-lg transition-colors cursor-pointer"
+            >
+              סגור
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Privacy Modal */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-ink-deep/70 backdrop-blur-sm"
+            onClick={() => setShowPrivacyModal(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="relative z-10 w-full max-w-lg bg-cream rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="privacy-modal-title"
+          >
+            <button
+              onClick={() => setShowPrivacyModal(false)}
+              className="absolute top-4 left-4 text-stone-400 hover:text-ink transition-colors cursor-pointer rounded"
+              aria-label="סגור מדיניות פרטיות"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <h2 id="privacy-modal-title" className="font-display text-xl font-bold text-ink mb-4">מדיניות פרטיות</h2>
+            <div className="text-stone-600 text-sm leading-relaxed space-y-3">
+              <p>טופס ההזמנה באתר זה אוסף שם מלא, מספר טלפון, כתובת מייל (אופציונלי) ופרטי הנסיעה המבוקשת (תאריך, מוצא, יעד, מספר נוסעים).</p>
+              <p>הפרטים משמשים אך ורק כדי לחזור אליכם בנוגע לפנייה, ואינם משותפים עם צד שלישי כלשהו.</p>
+              <p>
+                לעיון בפרטים שנשמרו או להסרתם, ניתן לפנות בטלפון{" "}
+                <a href={`tel:${OWNER_PHONE}`} className="text-gold-deep underline font-bold">{OWNER_PHONE_DISPLAY}</a>.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowPrivacyModal(false)}
               className="mt-6 w-full bg-ink hover:bg-ink-deep text-cream font-bold py-2.5 rounded-lg transition-colors cursor-pointer"
             >
               סגור
@@ -674,16 +709,16 @@ export default function Home() {
         <section id="fleet" aria-labelledby="fleet-heading" className="py-20 md:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mb-14 text-right">
-              <SectionKicker>הצי שלנו</SectionKicker>
+              <SectionKicker>האוטובוס שלנו</SectionKicker>
               <h2 id="fleet-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink mt-4 mb-5 leading-tight">
-                הרכב המתאים לכל קבוצה
+                נהג אחד. אוטובוס אחד. סטנדרט אחר לגמרי.
               </h2>
               <p className="text-stone-600 leading-relaxed">
-                בין אם מדובר בחתונה גדולה או אירוע משפחתי — יש פתרון מדויק לגודל שלכם.
+                אותו אוטובוס מפואר, מכל אירוע ועד כל טיול — 56 מקומות מרווחים, בלי הפתעות ובלי קבלני משנה.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 max-w-xl mx-auto gap-8">
               {FLEET.map((vehicle) => (
                 <article key={vehicle.name} className="border border-ink/10 rounded-2xl overflow-hidden bg-cream hover-lift">
                   <div className="relative h-64 sm:h-72 overflow-hidden">
@@ -1058,12 +1093,20 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
           <p>© {CURRENT_YEAR} אבי ורדי הסעות. כל הזכויות שמורות.</p>
-          <button
-            onClick={() => setShowAccessibilityModal(true)}
-            className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
-          >
-            הצהרת נגישות
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowPrivacyModal(true)}
+              className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
+            >
+              מדיניות פרטיות
+            </button>
+            <button
+              onClick={() => setShowAccessibilityModal(true)}
+              className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
+            >
+              הצהרת נגישות
+            </button>
+          </div>
         </div>
       </footer>
 
