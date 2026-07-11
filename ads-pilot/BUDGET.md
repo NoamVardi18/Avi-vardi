@@ -14,16 +14,20 @@ week 1–2 of live data. Nothing here spends money; this is the plan Noam runs b
 | After day 60 | settle to ₪25/day (~₪750/mo) | Once the credit is secured |
 | Daily budget | `NOAM-DECIDES` | Google may spend up to ~2× daily on peak days, averaging to target |
 
-**Budget split across the 3 ad groups** (start here, rebalance in week 2 on real data):
+**Budget split across the 4 ad groups** (start here, rebalance in week 2 on real data — updated for
+KEYWORDS v2's new 4th ad group, "חברת הסעות"):
 
 | Ad group | Share | ~₪/day @ ₪30 | Why |
 |---|---|---|---|
-| נתב"ג / שדה תעופה | ~45% | ₪13 | Highest search frequency + clearest "book now" intent |
-| חתונות ואירועים | ~30% | ₪9 | Highest ticket value, but lower volume / planned ahead |
-| טיולים והשכרת אוטובוס | ~25% | ₪8 | Broadest intent, more qualifying needed |
+| נתב"ג / שדה תעופה | ~38% | ₪11 | Highest search frequency + clearest "book now" intent |
+| חתונות ואירועים | ~26% | ₪8 | Highest ticket value, but lower volume / planned ahead |
+| טיולים והשכרת אוטובוס | ~21% | ₪6 | Broadest intent, more qualifying needed |
+| חברת הסעות (חדש) | ~15% | ₪5 | Generic category term, top-of-funnel — smallest slice until it proves out |
 
 Simplest start: one shared campaign budget of ₪30/day, watch per-ad-group cost-per-call, shift budget
-to the winner in week 2. Don't over-engineer the split before you have data.
+to the winner in week 2. Don't over-engineer the split before you have data. The new 4th group takes
+its share proportionally off the other three (was 45/30/25, now 38/26/21 + 15 for the new group) —
+re-derive from real data once calls come in, same as the original three.
 
 ---
 
