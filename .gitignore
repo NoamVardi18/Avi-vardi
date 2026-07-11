@@ -117,3 +117,6 @@ client/public/__manus__/version.json
 **/__pycache__/
 *.pyc
 vercel.env.txt
+.vercel
+.env*
+BRIEF.md
