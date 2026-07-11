@@ -375,7 +375,7 @@ out-of-area origins, and (v2) kids/school/army traffic that doesn't fit Avi's ta
 |---|---|
 | דרושים | מחפשי עבודה |
 | עבודה | מחפשי עבודה |
-| נהג | מחפשי משרת נהג |
+| ~~נהג~~ | REMOVED 2026-07-11: negative blocks any query containing the word — would kill "אוטובוס עם נהג" core keywords; דרושים/משרה/עבודה cover job-seekers |
 | משרה | מחפשי עבודה |
 | רישיון | מחפשי רישיון/קורס |
 | קורס | מחפשי הכשרה |
