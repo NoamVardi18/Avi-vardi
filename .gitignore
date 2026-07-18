@@ -120,3 +120,6 @@ vercel.env.txt
 .vercel
 .env*
 BRIEF.md
+
+# local verification screenshots
+.local-verify-*.png
