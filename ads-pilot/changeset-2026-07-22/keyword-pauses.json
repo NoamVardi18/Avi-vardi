@@ -1,0 +1,13 @@
+[
+  {"text": "חיפוש עבודה נהג אוטובוס", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "job-seeker intent ('bus driver job search') — actively invites job-seekers, 0% customer intent"},
+  {"text": "נהג הסעות", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "driver intent, 7imp/1clk/₪6.98 — pulls נהג/דרייבר personal-driver waste"},
+  {"text": "נהג הסעות פרטי", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-driver intent, 5imp — personal-driver waste"},
+  {"text": "שירות הסעות פרטי", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-driver intent, 2imp — personal-driver waste"},
+  {"text": "הסעות פרטיות", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-transport generic, 5imp — pulls personal-driver / דרייבר waste"},
+  {"text": "חברת הסעות בראשון לציון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (Rishon) — outside Jerusalem/Mevaseret/Shoham zone"},
+  {"text": "הסעות תל אביב", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (TLV)"},
+  {"text": "חברת הסעות תל אביב", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (TLV)"},
+  {"text": "הסעות בצפון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (North)"},
+  {"text": "חברת הסעות בצפון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (North)"},
+  {"text": "חברת הסעות בדרום", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (South)"}
+]

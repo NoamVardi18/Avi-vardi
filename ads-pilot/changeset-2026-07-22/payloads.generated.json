@@ -1,0 +1,892 @@
+{
+  "rsa_creates": [
+    {
+      "_group": "טיולים ואירועים",
+      "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
+      "operations": [
+        {
+          "create": {
+            "adGroup": "customers/1128064207/adGroups/197000680966",
+            "status": "ENABLED",
+            "ad": {
+              "finalUrls": [
+                "https://www.avivardi.online"
+              ],
+              "responsiveSearchAd": {
+                "headlines": [
+                  {
+                    "text": "השכרת אוטובוס לטיולים"
+                  },
+                  {
+                    "text": "אוטובוס לטיול עם נהג צמוד"
+                  },
+                  {
+                    "text": "אוטובוס 56 מקומות לטיול"
+                  },
+                  {
+                    "text": "הסעות לטיולים בכל הארץ"
+                  },
+                  {
+                    "text": "השכרת אוטובוס ממוזג לטיול"
+                  },
+                  {
+                    "text": "אוטובוס לקבוצות וטיולים"
+                  },
+                  {
+                    "text": "הצעת מחיר לאוטובוס לטיול"
+                  },
+                  {
+                    "text": "אוטובוס לטיול - מחיר משתלם"
+                  },
+                  {
+                    "text": "הסעות לטיולים מירושלים"
+                  },
+                  {
+                    "text": "אוטובוס לטיול בית ספר"
+                  },
+                  {
+                    "text": "נהג צמוד לכל טיול באוטובוס"
+                  },
+                  {
+                    "text": "אוטובוס לטיול - זמינות מלאה"
+                  },
+                  {
+                    "text": "השכרת אוטובוס לאירועים"
+                  },
+                  {
+                    "text": "אוטובוס לטיול קבוצתי"
+                  }
+                ],
+                "descriptions": [
+                  {
+                    "text": "השכרת אוטובוס 56 מקומות לטיולים וקבוצות. נהג צמוד ומקצועי, אוטובוס ממוזג ונקי."
+                  },
+                  {
+                    "text": "אבי ורדי הסעות - שירות אישי בירושלים והסביבה. הצעת מחיר מהירה בטלפון, בלי מוקדים."
+                  },
+                  {
+                    "text": "אוטובוס לכל טיול - בית ספר, עבודה, משפחה. זמינות גבוהה ומחיר הוגן. התקשרו עכשיו."
+                  },
+                  {
+                    "text": "הסעות בטוחות ואמינות לטיולים בכל הארץ. נהג ותיק, רכב מתוחזק ויחס אישי לכל הזמנה."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_group": "הסעות לעובדים וכללי",
+      "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
+      "operations": [
+        {
+          "create": {
+            "adGroup": "customers/1128064207/adGroups/198995179115",
+            "status": "ENABLED",
+            "ad": {
+              "finalUrls": [
+                "https://www.avivardi.online"
+              ],
+              "responsiveSearchAd": {
+                "headlines": [
+                  {
+                    "text": "השכרת אוטובוס לעובדים"
+                  },
+                  {
+                    "text": "הסעות עובדים באוטובוס"
+                  },
+                  {
+                    "text": "מחיר השכרת אוטובוס ליום"
+                  },
+                  {
+                    "text": "אוטובוס עם נהג ליום שלם"
+                  },
+                  {
+                    "text": "השכרת אוטובוס - הצעת מחיר"
+                  },
+                  {
+                    "text": "אוטובוס 56 מקומות להשכרה"
+                  },
+                  {
+                    "text": "הסעות קבועות לעובדים"
+                  },
+                  {
+                    "text": "כמה עולה אוטובוס ליום?"
+                  },
+                  {
+                    "text": "אוטובוס ממוזג עם נהג צמוד"
+                  },
+                  {
+                    "text": "השכרת אוטובוס בירושלים"
+                  },
+                  {
+                    "text": "הסעות עובדים - מחיר משתלם"
+                  },
+                  {
+                    "text": "אוטובוס להשכרה לכל מטרה"
+                  },
+                  {
+                    "text": "הצעת מחיר לאוטובוס מיידית"
+                  },
+                  {
+                    "text": "אוטובוס לעובדים - נהג צמוד"
+                  }
+                ],
+                "descriptions": [
+                  {
+                    "text": "השכרת אוטובוס 56 מקומות להסעות עובדים. מחיר הוגן ליום שלם, נהג צמוד, אוטובוס ממוזג."
+                  },
+                  {
+                    "text": "אבי ורדי הסעות - הצעת מחיר מהירה בטלפון, ישירות בלי מוקדים. שירות בירושלים והסביבה."
+                  },
+                  {
+                    "text": "הסעות עובדים קבועות או חד פעמיות. אמינות, דייקנות ומחיר משתלם. התקשרו לפרטים."
+                  },
+                  {
+                    "text": "אוטובוס עם נהג לכל צורך - עבודה, אירוע, טיול. זמינות גבוהה ויחס אישי לכל לקוח."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_group": "חתונות",
+      "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
+      "operations": [
+        {
+          "create": {
+            "adGroup": "customers/1128064207/adGroups/201158533351",
+            "status": "ENABLED",
+            "ad": {
+              "finalUrls": [
+                "https://www.avivardi.online"
+              ],
+              "responsiveSearchAd": {
+                "headlines": [
+                  {
+                    "text": "אוטובוס לחתונה עם נהג"
+                  },
+                  {
+                    "text": "השכרת אוטובוס לחתונה"
+                  },
+                  {
+                    "text": "הסעות אורחים לחתונה"
+                  },
+                  {
+                    "text": "אוטובוס 56 מקומות לחתונה"
+                  },
+                  {
+                    "text": "הסעות לאירועים וחתונות"
+                  },
+                  {
+                    "text": "אוטובוס ממוזג לחתונה"
+                  },
+                  {
+                    "text": "הצעת מחיר להסעות חתונה"
+                  },
+                  {
+                    "text": "אוטובוס לחתונה בירושלים"
+                  },
+                  {
+                    "text": "הסעות לחתונה - נהג צמוד"
+                  },
+                  {
+                    "text": "אוטובוס לאירוע עם נהג"
+                  },
+                  {
+                    "text": "הסעת אורחים באוטובוס"
+                  },
+                  {
+                    "text": "אוטובוס מפואר לחתונה"
+                  },
+                  {
+                    "text": "השכרת אוטובוס לאירועים"
+                  },
+                  {
+                    "text": "אוטובוס לחתונה - זמינות מלאה"
+                  }
+                ],
+                "descriptions": [
+                  {
+                    "text": "הסעות אורחים לחתונה באוטובוס 56 מקומות. נהג צמוד, אוטובוס ממוזג ומפואר, דייקנות מלאה."
+                  },
+                  {
+                    "text": "אבי ורדי הסעות - הצעת מחיר מהירה לחתונה או אירוע. שירות אישי בירושלים והסביבה."
+                  },
+                  {
+                    "text": "אפשרו לאורחים להגיע יחד ובנוחות באוטובוס ממוזג עם נהג ותיק. התקשרו עכשיו לפרטים."
+                  },
+                  {
+                    "text": "הסעות לכל אירוע - חתונה, בר מצווה, ברית. מחיר משתלם וזמינות גבוהה. יחס אישי אמין."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_group": "נתב״ג",
+      "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
+      "operations": [
+        {
+          "create": {
+            "adGroup": "customers/1128064207/adGroups/202032774927",
+            "status": "ENABLED",
+            "ad": {
+              "finalUrls": [
+                "https://www.avivardi.online"
+              ],
+              "responsiveSearchAd": {
+                "headlines": [
+                  {
+                    "text": "אוטובוס לנתב״ג מירושלים"
+                  },
+                  {
+                    "text": "מיניבוס לנתב״ג עם נהג"
+                  },
+                  {
+                    "text": "הסעות לשדה התעופה נתב״ג"
+                  },
+                  {
+                    "text": "אוטובוס לנתב״ג 24 שעות"
+                  },
+                  {
+                    "text": "מיניבוס לשדה תעופה"
+                  },
+                  {
+                    "text": "הסעה לנתב״ג ממבשרת ציון"
+                  },
+                  {
+                    "text": "אוטובוס לטיסה - נהג צמוד"
+                  },
+                  {
+                    "text": "מיניבוס לנתב״ג מירושלים"
+                  },
+                  {
+                    "text": "הסעות נתב״ג בכל שעה"
+                  },
+                  {
+                    "text": "אוטובוס 56 מקומות לנתב״ג"
+                  },
+                  {
+                    "text": "מיניבוס ממוזג לשדה תעופה"
+                  },
+                  {
+                    "text": "הסעה פרטית לנתב״ג"
+                  },
+                  {
+                    "text": "אוטובוס לנתב״ג - הזמנה מהירה"
+                  },
+                  {
+                    "text": "מיניבוס לנתב״ג עם נהג צמוד"
+                  }
+                ],
+                "descriptions": [
+                  {
+                    "text": "הסעות לנתב״ג מירושלים והסביבה בכל שעה. אוטובוס או מיניבוס ממוזג עם נהג צמוד ואמין."
+                  },
+                  {
+                    "text": "אבי ורדי הסעות - הסעה לשדה התעופה בזמן, גם בלילה. הצעת מחיר מהירה בטלפון, בלי מוקדים."
+                  },
+                  {
+                    "text": "מיניבוס ואוטובוס לנתב״ג לקבוצות ומשפחות. דייקנות מלאה, נהג ותיק ומחיר הוגן. התקשרו."
+                  },
+                  {
+                    "text": "הסעה נוחה ובטוחה לטיסה ובחזרה. זמינות 24 שעות, מבשרת ציון, ירושלים ושוהם. יחס אישי."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "old_ad_pauses": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
+    "operations": [
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/197000680966~816419150547",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/197000680966~816438019647",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/198995179115~816438019650",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/198995179115~816454544560",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/201158533351~816438019644",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/201158533351~816527498297",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/202032774927~816438019641",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupAds/202032774927~816454215061",
+          "status": "PAUSED"
+        },
+        "updateMask": "status"
+      }
+    ]
+  },
+  "keyword_adds": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupCriteria:mutate",
+    "operations": [
+      {
+        "create": {
+          "adGroup": "customers/1128064207/adGroups/198995179115",
+          "status": "ENABLED",
+          "keyword": {
+            "text": "כמה עולה להשכיר אוטובוס ליום",
+            "matchType": "EXACT"
+          }
+        }
+      },
+      {
+        "create": {
+          "adGroup": "customers/1128064207/adGroups/198995179115",
+          "status": "ENABLED",
+          "keyword": {
+            "text": "כמה עולה לשכור אוטובוס ליום",
+            "matchType": "EXACT"
+          }
+        }
+      },
+      {
+        "create": {
+          "adGroup": "customers/1128064207/adGroups/198995179115",
+          "status": "ENABLED",
+          "keyword": {
+            "text": "אוטובוס ליום שלם מחיר",
+            "matchType": "EXACT"
+          }
+        }
+      },
+      {
+        "create": {
+          "adGroup": "customers/1128064207/adGroups/198995179115",
+          "status": "ENABLED",
+          "keyword": {
+            "text": "הצעת מחיר הסעות",
+            "matchType": "EXACT"
+          }
+        }
+      }
+    ]
+  },
+  "negative_adds": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/campaignCriteria:mutate",
+    "_note": "Send only candidates NOT already in the fresh negative pull. add-if-absent = dedup first.",
+    "operations": [
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "דרייבר",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "נהג פרטי",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אור בוס",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אורבוס",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אור ירושלים",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "חבצלת",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "בון תור",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "ברזני",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "הורן",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "ליאם",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מטיילי",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מיה טורס",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "שעיבי",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מסיעי",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "רבני",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "רם שן",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "נכים",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "כסא גלגלים",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מעלון",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "בני ברק",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אילת",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אשדוד",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "קורס",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "רישיון",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מכרז",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "צעצוע",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "אגד",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "רכבת",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "תחבורה ציבורית",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "קווים",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "לוח זמנים",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "תחנה מרכזית",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add-if-absent"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "רב קו",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add-if-absent"
+      }
+    ]
+  },
+  "keyword_pauses_TEMPLATE": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupCriteria:mutate",
+    "_note": "Match each text to its criterion_id via GAQL query #3, then set resourceName = adGroupId~criterionId.",
+    "operations": [
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חיפוש עבודה נהג אוטובוס>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חיפוש עבודה נהג אוטובוס",
+        "_priority": "HIGH"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "נהג הסעות",
+        "_priority": "HIGH"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות פרטי>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "נהג הסעות פרטי",
+        "_priority": "HIGH"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:שירות הסעות פרטי>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "שירות הסעות פרטי",
+        "_priority": "HIGH"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות פרטיות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות פרטיות",
+        "_priority": "HIGH"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בראשון לציון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בראשון לציון",
+        "_priority": "LOW"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות תל אביב>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות תל אביב",
+        "_priority": "LOW"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות תל אביב>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות תל אביב",
+        "_priority": "LOW"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות בצפון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות בצפון",
+        "_priority": "LOW"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בצפון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בצפון",
+        "_priority": "LOW"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בדרום>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בדרום",
+        "_priority": "LOW"
+      }
+    ]
+  }
+}
