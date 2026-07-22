@@ -24,7 +24,7 @@
                     "text": "אוטובוס 56 מקומות לטיול"
                   },
                   {
-                    "text": "הסעות לטיולים בכל הארץ"
+                    "text": "אוטובוס לטיולים בכל הארץ"
                   },
                   {
                     "text": "השכרת אוטובוס ממוזג לטיול"
@@ -39,7 +39,7 @@
                     "text": "אוטובוס לטיול - מחיר משתלם"
                   },
                   {
-                    "text": "הסעות לטיולים מירושלים"
+                    "text": "אוטובוס לטיולים מירושלים"
                   },
                   {
                     "text": "אוטובוס לטיול בית ספר"
@@ -68,7 +68,7 @@
                     "text": "אוטובוס לכל טיול - בית ספר, עבודה, משפחה. זמינות גבוהה ומחיר הוגן. התקשרו עכשיו."
                   },
                   {
-                    "text": "הסעות בטוחות ואמינות לטיולים בכל הארץ. נהג ותיק, רכב מתוחזק ויחס אישי לכל הזמנה."
+                    "text": "אוטובוס בטוח ואמין לטיולים בכל הארץ. נהג ותיק, רכב מתוחזק ויחס אישי לכל הזמנה."
                   }
                 ]
               }
@@ -110,7 +110,7 @@
                     "text": "אוטובוס 56 מקומות להשכרה"
                   },
                   {
-                    "text": "הסעות קבועות לעובדים"
+                    "text": "אוטובוס להסעות עובדים"
                   },
                   {
                     "text": "כמה עולה אוטובוס ליום?"
@@ -122,7 +122,7 @@
                     "text": "השכרת אוטובוס בירושלים"
                   },
                   {
-                    "text": "הסעות עובדים - מחיר משתלם"
+                    "text": "אוטובוס לעובדים במחיר משתלם"
                   },
                   {
                     "text": "אוטובוס להשכרה לכל מטרה"
@@ -142,7 +142,7 @@
                     "text": "אבי ורדי הסעות - הצעת מחיר מהירה בטלפון, ישירות בלי מוקדים. שירות בירושלים והסביבה."
                   },
                   {
-                    "text": "הסעות עובדים קבועות או חד פעמיות. אמינות, דייקנות ומחיר משתלם. התקשרו לפרטים."
+                    "text": "אוטובוס להסעות עובדים קבועות או חד פעמיות. אמינות, דייקנות ומחיר משתלם. התקשרו."
                   },
                   {
                     "text": "אוטובוס עם נהג לכל צורך - עבודה, אירוע, טיול. זמינות גבוהה ויחס אישי לכל לקוח."
@@ -175,25 +175,16 @@
                     "text": "השכרת אוטובוס לחתונה"
                   },
                   {
-                    "text": "הסעות אורחים לחתונה"
-                  },
-                  {
                     "text": "אוטובוס 56 מקומות לחתונה"
-                  },
-                  {
-                    "text": "הסעות לאירועים וחתונות"
                   },
                   {
                     "text": "אוטובוס ממוזג לחתונה"
                   },
                   {
-                    "text": "הצעת מחיר להסעות חתונה"
+                    "text": "הצעת מחיר לאוטובוס לחתונה"
                   },
                   {
                     "text": "אוטובוס לחתונה בירושלים"
-                  },
-                  {
-                    "text": "הסעות לחתונה - נהג צמוד"
                   },
                   {
                     "text": "אוטובוס לאירוע עם נהג"
@@ -209,20 +200,29 @@
                   },
                   {
                     "text": "אוטובוס לחתונה - זמינות מלאה"
+                  },
+                  {
+                    "text": "אוטובוס להסעת אורחים לחתונה"
+                  },
+                  {
+                    "text": "אוטובוס לאירועים וחתונות"
+                  },
+                  {
+                    "text": "אוטובוס לחתונה - נהג צמוד"
                   }
                 ],
                 "descriptions": [
                   {
-                    "text": "הסעות אורחים לחתונה באוטובוס 56 מקומות. נהג צמוד, אוטובוס ממוזג ומפואר, דייקנות מלאה."
+                    "text": "הסעת אורחים לחתונה באוטובוס 56 מקומות. נהג צמוד, אוטובוס ממוזג ומפואר, דייקנות מלאה."
                   },
                   {
                     "text": "אבי ורדי הסעות - הצעת מחיר מהירה לחתונה או אירוע. שירות אישי בירושלים והסביבה."
                   },
                   {
-                    "text": "אפשרו לאורחים להגיע יחד ובנוחות באוטובוס ממוזג עם נהג ותיק. התקשרו עכשיו לפרטים."
+                    "text": "שאורחים יגיעו יחד ובנוחות באוטובוס ממוזג עם נהג ותיק. התקשרו עכשיו לפרטים."
                   },
                   {
-                    "text": "הסעות לכל אירוע - חתונה, בר מצווה, ברית. מחיר משתלם וזמינות גבוהה. יחס אישי אמין."
+                    "text": "אוטובוס לכל אירוע - חתונה, בר מצווה, ברית. מחיר משתלם וזמינות גבוהה. יחס אישי אמין."
                   }
                 ]
               }
@@ -249,54 +249,54 @@
                     "text": "אוטובוס לנתב״ג מירושלים"
                   },
                   {
-                    "text": "מיניבוס לנתב״ג עם נהג"
-                  },
-                  {
-                    "text": "הסעות לשדה התעופה נתב״ג"
-                  },
-                  {
                     "text": "אוטובוס לנתב״ג 24 שעות"
                   },
                   {
-                    "text": "מיניבוס לשדה תעופה"
-                  },
-                  {
-                    "text": "הסעה לנתב״ג ממבשרת ציון"
-                  },
-                  {
-                    "text": "אוטובוס לטיסה - נהג צמוד"
-                  },
-                  {
-                    "text": "מיניבוס לנתב״ג מירושלים"
-                  },
-                  {
-                    "text": "הסעות נתב״ג בכל שעה"
+                    "text": "אוטובוס לנתב״ג עם נהג"
                   },
                   {
                     "text": "אוטובוס 56 מקומות לנתב״ג"
                   },
                   {
-                    "text": "מיניבוס ממוזג לשדה תעופה"
+                    "text": "אוטובוס לשדה התעופה"
                   },
                   {
-                    "text": "הסעה פרטית לנתב״ג"
+                    "text": "אוטובוס לנתב״ג ממבשרת ציון"
+                  },
+                  {
+                    "text": "אוטובוס לטיסה - נהג צמוד"
+                  },
+                  {
+                    "text": "אוטובוס לנתב״ג בכל שעה"
+                  },
+                  {
+                    "text": "השכרת אוטובוס לנתב״ג"
+                  },
+                  {
+                    "text": "אוטובוס ממוזג לשדה תעופה"
+                  },
+                  {
+                    "text": "אוטובוס פרטי לנתב״ג"
                   },
                   {
                     "text": "אוטובוס לנתב״ג - הזמנה מהירה"
                   },
                   {
-                    "text": "מיניבוס לנתב״ג עם נהג צמוד"
+                    "text": "אוטובוס לנתב״ג יום ולילה"
+                  },
+                  {
+                    "text": "אוטובוס לשדה התעופה נתב״ג"
                   }
                 ],
                 "descriptions": [
                   {
-                    "text": "הסעות לנתב״ג מירושלים והסביבה בכל שעה. אוטובוס או מיניבוס ממוזג עם נהג צמוד ואמין."
+                    "text": "הסעות לנתב״ג מירושלים והסביבה בכל שעה. אוטובוס ממוזג עם נהג צמוד ואמין."
                   },
                   {
                     "text": "אבי ורדי הסעות - הסעה לשדה התעופה בזמן, גם בלילה. הצעת מחיר מהירה בטלפון, בלי מוקדים."
                   },
                   {
-                    "text": "מיניבוס ואוטובוס לנתב״ג לקבוצות ומשפחות. דייקנות מלאה, נהג ותיק ומחיר הוגן. התקשרו."
+                    "text": "אוטובוס לנתב״ג לקבוצות ומשפחות. דייקנות מלאה, נהג ותיק ומחיר הוגן. התקשרו."
                   },
                   {
                     "text": "הסעה נוחה ובטוחה לטיסה ובחזרה. זמינות 24 שעות, מבשרת ציון, ירושלים ושוהם. יחס אישי."
@@ -309,64 +309,32 @@
       ]
     }
   ],
-  "old_ad_pauses": {
+  "old_ad_removes": {
     "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupAds:mutate",
     "operations": [
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/197000680966~816419150547",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/197000680966~816419150547"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/197000680966~816438019647",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/197000680966~816438019647"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/198995179115~816438019650",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/198995179115~816438019650"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/198995179115~816454544560",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/198995179115~816454544560"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/201158533351~816438019644",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/201158533351~816438019644"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/201158533351~816527498297",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/201158533351~816527498297"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/202032774927~816438019641",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/202032774927~816438019641"
       },
       {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupAds/202032774927~816454215061",
-          "status": "PAUSED"
-        },
-        "updateMask": "status"
+        "remove": "customers/1128064207/adGroupAds/202032774927~816454215061"
       }
     ]
   },
@@ -402,22 +370,297 @@
             "matchType": "EXACT"
           }
         }
+      }
+    ]
+  },
+  "keyword_pauses_TEMPLATE": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupCriteria:mutate",
+    "_note": "Match each text to its criterion_id via the Step-1 keyword pull, then set resourceName = adGroupId~criterionId. Any text not in the live pull (already removed) -> drop that op.",
+    "operations": [
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:שירותי הסעות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "שירותי הסעות",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
       },
       {
-        "create": {
-          "adGroup": "customers/1128064207/adGroups/198995179115",
-          "status": "ENABLED",
-          "keyword": {
-            "text": "הצעת מחיר הסעות",
-            "matchType": "EXACT"
-          }
-        }
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברות הסעה>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברות הסעה",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות מיניבוסים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות מיניבוסים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות לאירועים מחירים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות לאירועים מחירים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הזמנת מיניבוס>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הזמנת מיניבוס",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מיניבוס מפואר>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מיניבוס מפואר",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מיניבוס מחיר>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מיניבוס מחיר",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות לעובדים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות לעובדים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות פרטיות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות פרטיות",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות לירושלים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות לירושלים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בראשון לציון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בראשון לציון",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות בצפון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות בצפון",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מחיר מיניבוס>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מחיר מיניבוס",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות vip>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות vip",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בצפון>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בצפון",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מיניבוס vip>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מיניבוס vip",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בדרום>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות בדרום",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות מירושלים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות מירושלים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מיניבוס ירושלים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מיניבוס ירושלים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות למסיבות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות למסיבות",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות תל אביב>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות תל אביב",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הזמנת הסעה>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הזמנת הסעה",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מחיר הסעה לחתונה>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מחיר הסעה לחתונה",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות יוקרה>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות יוקרה",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות ירושלים>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "הסעות ירושלים",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות תל אביב>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חברת הסעות תל אביב",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "נהג הסעות",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:מיניבוס הסעה>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "מיניבוס הסעה",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות פרטי>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "נהג הסעות פרטי",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:שירות הסעות פרטי>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "שירות הסעות פרטי",
+        "_reason": "no-אוטובוס (Noam law 2026-07-23)"
+      },
+      {
+        "update": {
+          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חיפוש עבודה נהג אוטובוס>",
+          "status": "PAUSED"
+        },
+        "updateMask": "status",
+        "_text": "חיפוש עבודה נהג אוטובוס",
+        "_reason": "job-seeker waste (original HIGH list; foreman ruling 2026-07-23)"
       }
     ]
   },
   "negative_adds": {
     "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/campaignCriteria:mutate",
-    "_note": "Send only candidates NOT already in the fresh negative pull. add-if-absent = dedup first.",
+    "_note": "Send only candidates NOT already in the fresh negative pull. add-if-absent = dedup first. מיניבוס/מיניבוסים AND עבודה require step (d) pauses confirmed landed first (they self-block live positives pre-pause).",
     "operations": [
       {
         "create": {
@@ -428,7 +671,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "personal-driver"
       },
       {
         "create": {
@@ -439,7 +683,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "personal-driver"
       },
       {
         "create": {
@@ -450,7 +695,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -461,7 +707,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -472,7 +719,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -483,7 +731,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -494,7 +743,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -505,7 +755,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -516,7 +767,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -527,7 +779,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -538,7 +791,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -549,7 +803,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -560,7 +815,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -571,7 +827,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -582,7 +839,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -593,7 +851,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "competitor-brand"
       },
       {
         "create": {
@@ -604,7 +863,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "off-fleet-accessible"
       },
       {
         "create": {
@@ -615,7 +875,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "off-fleet-accessible"
       },
       {
         "create": {
@@ -626,7 +887,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "off-fleet-accessible"
       },
       {
         "create": {
@@ -637,7 +899,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "out-of-geo"
       },
       {
         "create": {
@@ -648,7 +911,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "out-of-geo"
       },
       {
         "create": {
@@ -659,7 +923,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "out-of-geo"
       },
       {
         "create": {
@@ -670,7 +935,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "jobs-licensing"
       },
       {
         "create": {
@@ -681,7 +947,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "jobs-licensing"
       },
       {
         "create": {
@@ -692,7 +959,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "b2g-tender"
       },
       {
         "create": {
@@ -703,7 +971,68 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add"
+        "_decision": "add",
+        "_cat": "toys"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מיניבוס",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add",
+        "_cat": "off-fleet-minibus"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "מיניבוסים",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add",
+        "_cat": "off-fleet-minibus"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "ראשון לציון",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add",
+        "_cat": "out-of-geo"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "תל אביב",
+            "matchType": "PHRASE"
+          }
+        },
+        "_decision": "add",
+        "_cat": "out-of-geo"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "צפון",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add",
+        "_cat": "out-of-geo"
       },
       {
         "create": {
@@ -714,7 +1043,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -725,7 +1055,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -736,7 +1067,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -747,7 +1079,8 @@
             "matchType": "BROAD"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -758,7 +1091,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -769,7 +1103,8 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
       },
       {
         "create": {
@@ -780,112 +1115,48 @@
             "matchType": "PHRASE"
           }
         },
-        "_decision": "add-if-absent"
+        "_decision": "add-if-absent",
+        "_cat": "public-transit"
+      },
+      {
+        "create": {
+          "campaign": "customers/1128064207/campaigns/24022931741",
+          "negative": true,
+          "keyword": {
+            "text": "עבודה",
+            "matchType": "BROAD"
+          }
+        },
+        "_decision": "add",
+        "_cat": "jobs-licensing"
       }
     ]
   },
-  "keyword_pauses_TEMPLATE": {
-    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/adGroupCriteria:mutate",
-    "_note": "Match each text to its criterion_id via GAQL query #3, then set resourceName = adGroupId~criterionId.",
+  "campaign_bidding_ceiling_CONDITIONAL": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/campaigns:mutate",
+    "_note": "APPLY ONLY IF bidding_strategy_type == TARGET_SPEND (Maximize Clicks). Else drop + report the strategy. Do NOT touch budget.",
     "operations": [
       {
         "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חיפוש עבודה נהג אוטובוס>",
-          "status": "PAUSED"
+          "resourceName": "customers/1128064207/campaigns/24022931741",
+          "targetSpend": {
+            "cpcBidCeilingMicros": "8000000"
+          }
         },
-        "updateMask": "status",
-        "_text": "חיפוש עבודה נהג אוטובוס",
-        "_priority": "HIGH"
-      },
+        "updateMask": "target_spend.cpc_bid_ceiling_micros"
+      }
+    ]
+  },
+  "campaign_enable": {
+    "_endpoint": "https://googleads.googleapis.com/v21/customers/1128064207/campaigns:mutate",
+    "_note": "RUN LAST. Only send after STEP 4 post-verify asserts every ENABLED headline contains אוטובוס. If post-verify fails, DO NOT enable — Telegram Noam.",
+    "operations": [
       {
         "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות>",
-          "status": "PAUSED"
+          "resourceName": "customers/1128064207/campaigns/24022931741",
+          "status": "ENABLED"
         },
-        "updateMask": "status",
-        "_text": "נהג הסעות",
-        "_priority": "HIGH"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:נהג הסעות פרטי>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "נהג הסעות פרטי",
-        "_priority": "HIGH"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:שירות הסעות פרטי>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "שירות הסעות פרטי",
-        "_priority": "HIGH"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות פרטיות>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "הסעות פרטיות",
-        "_priority": "HIGH"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בראשון לציון>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "חברת הסעות בראשון לציון",
-        "_priority": "LOW"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות תל אביב>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "הסעות תל אביב",
-        "_priority": "LOW"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות תל אביב>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "חברת הסעות תל אביב",
-        "_priority": "LOW"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:הסעות בצפון>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "הסעות בצפון",
-        "_priority": "LOW"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בצפון>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "חברת הסעות בצפון",
-        "_priority": "LOW"
-      },
-      {
-        "update": {
-          "resourceName": "customers/1128064207/adGroupCriteria/202032774927~<CRIT_ID:חברת הסעות בדרום>",
-          "status": "PAUSED"
-        },
-        "updateMask": "status",
-        "_text": "חברת הסעות בדרום",
-        "_priority": "LOW"
+        "updateMask": "status"
       }
     ]
   }

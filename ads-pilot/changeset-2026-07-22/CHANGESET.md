@@ -1,215 +1,74 @@
 # CHANGESET — Google Ads bus-campaign fix (אבי ורדי הסעות)
 
-**Built:** 2026-07-22 (staged; API quota-blocked ~15h, push runs after ~05:00 IL 2026-07-23)
-**Account:** customer `1128064207` · Search campaign `24022931741` "אבי ורדי — חיפוש" (**stays PAUSED** — re-enable is Noam's tap only)
-**Directive:** *"every title will have a bus in it — if someone needs a bus, he just writes a bus. Find the titles that give the best conversion rate."*
+**Built:** 2026-07-22 · **Revised to Noam's tightened law:** 2026-07-23 (API quota-blocked ~15h; push runs via launchd after quota reset)
+**Account:** customer `1128064207` · Search campaign `24022931741` "אבי ורדי — חיפוש"
+**Directive (verbatim, 2026-07-23):** *"כותרת מחויבת במילה אוטובוס לפחות. לא מיניבוס וכו · הכלי היחיד שיש בחברה זה אוטובוס · תמחק את המודעות הלא טובות · תתקן הכל כולל להפעיל את הפרסומת."*
 
-**Machine source-of-truth files in this dir** (the runbook builds payloads from these, not from the prose below):
-`headlines.json` (RSAs) · `keyword-adds.json` (exact adds) · `keyword-pauses.json` (pauses) · `negatives.json` (negative candidates + self-block verdicts) · `verify-changeset.cjs` (the check).
+## THE TIGHTENED LAW (supersedes the earlier 4-bus-word rule everywhere)
+1. **Every headline contains the literal word אוטובוס** (substring — לאוטובוס/האוטובוס/באוטובוס count). הסעות/הסעה/מיניבוס alone NO LONGER qualify.
+2. **The fleet is ONE 56-seat bus. NO minibus anywhere** — not in headlines, descriptions, or positive keywords.
+3. **The ad may show only on searches containing אוטובוס** → every live keyword lacking אוטובוס is PAUSED (30 keywords).
+4. **The 8 old ads are REMOVED** (deleted), not paused.
+5. **The campaign is ENABLED** as the final mutation — only after post-verify passes. (The old "keep PAUSED / re-enable is Noam's tap" law is REVOKED — Noam approved the enable.)
+6. **Bidding:** if strategy is Maximize Clicks (TARGET_SPEND), cap CPC at ₪8 (8,000,000 micros); else leave bidding untouched and report it. Budget stays ₪30/day.
 
-**Verify output:** `node verify-changeset.cjs` → **PASS** (56/56 headlines ≤30 chars + bus word; 16/16 descriptions ≤90; self-block table clean; 4 exact adds new + bus-worded). Re-run it any time.
+**Machine source-of-truth files** (the runbook builds payloads from these, not from the prose below):
+`headlines.json` · `keyword-adds.json` · `keyword-pauses.json` · `negatives.json` · `build-payloads.cjs` → `payloads.generated.json` · `verify-changeset.cjs` (the check) · `PUSH-RUNBOOK.md` (the blind-executable push).
+
+**Verify output:** `node verify-changeset.cjs` → **PASS** (56/56 headlines ≤30 chars + literal אוטובוס, 0 minibus; 16/16 descriptions ≤90, 0 minibus; pause list == the 30 live non-אוטובוס keywords + 1 explicit job-seeker exception = 31; negatives self-block-clear vs the surviving active set; 3 exact adds new + bus-worded). Re-run any time.
 
 ---
 
 ## A. New RSAs — one per ad group
+**Design principle:** every headline in every RSA contains the literal word אוטובוס, so whatever 3 headlines Google assembles, אוטובוס always shows — **no pinning required** (all headlines unpinned, all 4 groups), which maximizes Google's combination testing and lifts the ad strength / Ad Rank that was the diagnosed bottleneck (4 of 8 old RSAs were POOR → impression-starved).
+- 14 headlines + 4 descriptions per group (Google max 15H/4D). Char counts = graphemes (Hebrew letter / gershayim = 1), matching Google's counter; all ≤30 / ≤90 (see `verify-changeset.cjs` output for the per-line table).
+- Final URL `https://www.avivardi.online` (unchanged). Sitelinks unchanged.
+- **נתב״ג group is bus-to-airport only** — every minibus headline was reworked to an אוטובוס phrasing (e.g. אוטובוס לנתב״ג מירושלים / אוטובוס לשדה התעופה / אוטובוס פרטי לנתב״ג).
+- Descriptions keep the brand line **אבי ורדי הסעות** (brand NAME — allowed; the hard אוטובוס rule is on headlines, and "no minibus service" is enforced by stripping every minibus mention, e.g. "אוטובוס או מיניבוס ממוזג" → "אוטובוס ממוזג").
 
-**The design principle:** *every* headline in *every* RSA contains a bus word (אוטובוס / הסעה / הסעות / מיניבוס). Because of that, no matter which 3 headlines Google assembles, a bus word always shows — so **no pinning is required** to satisfy Noam's rule. This is deliberate:
-
-- **Pinning recommendation: PIN NOTHING (all headlines unpinned), all 4 groups.** The task allows "at most one pinned headline"; I use zero. Justification: the bus-word guarantee is already structural (all headlines carry it), so no slot needs a pin to protect it. Every pin cuts Google's testable combinations (~75% per pinned slot, industry figure) and the diagnosed bottleneck here is **ad strength / Ad Rank suppression** (4 of 8 old RSAs were POOR → impression-starved). Maximum unpinned combinations = best ad strength = the exact lever that fixes serving. Pinning would fight the fix.
-- 14 headlines + 4 descriptions per group (Google max is 15H/4D; 14 leaves headroom and all are strong).
-- Char counts below are graphemes (Hebrew letter / gershayim = 1), matching Google's counter. All ≤30 / ≤90.
-- Final URL: `https://www.avivardi.online` (unchanged). Sitelinks unchanged (already all bus/airport/wedding themed).
-
-### Group 1 — טיולים ואירועים  (ad_group `197000680966`)
-Theme: trip & group-outing bus rental. Grounded in live keywords (אוטובוס לטיול, השכרת אוטובוס עם נהג, קבוצות) + research (השכרת אוטובוס עם נהג).
-
-| # | Headline | chars |
-|---|---|---|
-| 1 | השכרת אוטובוס לטיולים | 21 |
-| 2 | אוטובוס לטיול עם נהג צמוד | 25 |
-| 3 | אוטובוס 56 מקומות לטיול | 23 |
-| 4 | הסעות לטיולים בכל הארץ | 22 |
-| 5 | השכרת אוטובוס ממוזג לטיול | 25 |
-| 6 | אוטובוס לקבוצות וטיולים | 23 |
-| 7 | הצעת מחיר לאוטובוס לטיול | 24 |
-| 8 | אוטובוס לטיול - מחיר משתלם | 26 |
-| 9 | הסעות לטיולים מירושלים | 22 |
-| 10 | אוטובוס לטיול בית ספר | 21 |
-| 11 | נהג צמוד לכל טיול באוטובוס | 26 |
-| 12 | אוטובוס לטיול - זמינות מלאה | 27 |
-| 13 | השכרת אוטובוס לאירועים | 22 |
-| 14 | אוטובוס לטיול קבוצתי | 20 |
-
-Descriptions (≤90): see `headlines.json` group 1 — price/fleet, identity (בלי מוקדים), use-cases, trust.
-
-### Group 2 — הסעות לעובדים וכללי  (ad_group `198995179115`)
-Theme: employee shuttles + general rental + **price** (this group carries the price-shopper exact-match adds). Grounded in the only clicking keyword family (מחיר השכרת אוטובוס, השכרת אוטובוס) + search terms (כמה עולה … אוטובוס ליום).
-
-| # | Headline | chars |
-|---|---|---|
-| 1 | השכרת אוטובוס לעובדים | 21 |
-| 2 | הסעות עובדים באוטובוס | 21 |
-| 3 | מחיר השכרת אוטובוס ליום | 23 |
-| 4 | אוטובוס עם נהג ליום שלם | 23 |
-| 5 | השכרת אוטובוס - הצעת מחיר | 25 |
-| 6 | אוטובוס 56 מקומות להשכרה | 24 |
-| 7 | הסעות קבועות לעובדים | 20 |
-| 8 | כמה עולה אוטובוס ליום? | 22 |
-| 9 | אוטובוס ממוזג עם נהג צמוד | 25 |
-| 10 | השכרת אוטובוס בירושלים | 22 |
-| 11 | הסעות עובדים - מחיר משתלם | 25 |
-| 12 | אוטובוס להשכרה לכל מטרה | 23 |
-| 13 | הצעת מחיר לאוטובוס מיידית | 25 |
-| 14 | אוטובוס לעובדים - נהג צמוד | 26 |
-
-### Group 3 — חתונות  (ad_group `201158533351`)
-Theme: wedding/event guest shuttles. Grounded in live keywords (אוטובוס לחתונה, השכרת אוטובוס לאירוע) + search terms (אוטובוס לחתונה, השכרת אוטובוס לאירוע).
-
-| # | Headline | chars |
-|---|---|---|
-| 1 | אוטובוס לחתונה עם נהג | 21 |
-| 2 | השכרת אוטובוס לחתונה | 20 |
-| 3 | הסעות אורחים לחתונה | 19 |
-| 4 | אוטובוס 56 מקומות לחתונה | 24 |
-| 5 | הסעות לאירועים וחתונות | 22 |
-| 6 | אוטובוס ממוזג לחתונה | 20 |
-| 7 | הצעת מחיר להסעות חתונה | 22 |
-| 8 | אוטובוס לחתונה בירושלים | 23 |
-| 9 | הסעות לחתונה - נהג צמוד | 23 |
-| 10 | אוטובוס לאירוע עם נהג | 21 |
-| 11 | הסעת אורחים באוטובוס | 20 |
-| 12 | אוטובוס מפואר לחתונה | 20 |
-| 13 | השכרת אוטובוס לאירועים | 22 |
-| 14 | אוטובוס לחתונה - זמינות מלאה | 28 |
-
-### Group 4 — נתב״ג  (ad_group `202032774927`)
-Theme: airport transfers, **leaning מיניבוס** (per brief) alongside אוטובוס. Grounded in the airport keyword/search family (אוטובוס לנתבג מירושלים = 10imp/2clk, אוטובוס לשדה תעופה) + geo (מבשרת ציון).
-
-| # | Headline | chars |
-|---|---|---|
-| 1 | אוטובוס לנתב״ג מירושלים | 23 |
-| 2 | מיניבוס לנתב״ג עם נהג | 21 |
-| 3 | הסעות לשדה התעופה נתב״ג | 23 |
-| 4 | אוטובוס לנתב״ג 24 שעות | 22 |
-| 5 | מיניבוס לשדה תעופה | 18 |
-| 6 | הסעה לנתב״ג ממבשרת ציון | 23 |
-| 7 | אוטובוס לטיסה - נהג צמוד | 24 |
-| 8 | מיניבוס לנתב״ג מירושלים | 23 |
-| 9 | הסעות נתב״ג בכל שעה | 19 |
-| 10 | אוטובוס 56 מקומות לנתב״ג | 24 |
-| 11 | מיניבוס ממוזג לשדה תעופה | 24 |
-| 12 | הסעה פרטית לנתב״ג | 17 |
-| 13 | אוטובוס לנתב״ג - הזמנה מהירה | 28 |
-| 14 | מיניבוס לנתב״ג עם נהג צמוד | 26 |
-
----
+Full 56-headline / 16-description bank: `headlines.json`.
 
 ## B. Keyword changes
 
-### B1. ADD — exact-match price-shoppers (4)  → group הסעות לעובדים וכללי (`198995179115`)
-All contain a bus word; none duplicate any of the 72 live keywords (verifier confirmed). Exact match captures the proven price-shopper queries tightly with no close-variant leak.
+### B1. ADD — exact-match price-shoppers (3) → group הסעות לעובדים וכללי (`198995179115`)
+All contain אוטובוס; none duplicate a live keyword. The earlier 4th add "הצעת מחיר הסעות" was **DROPPED** — it lacks אוטובוס (law #1).
 
 | Keyword | Match | Evidence |
 |---|---|---|
 | כמה עולה להשכיר אוטובוס ליום | EXACT | search term 3 imp / 1 clk |
 | כמה עולה לשכור אוטובוס ליום | EXACT | search term 3 imp |
 | אוטובוס ליום שלם מחיר | EXACT | search term 2 imp / 1 clk |
-| הצעת מחיר הסעות | EXACT | research: top-intent quote query (highest commercial intent) |
 
-### B2. PAUSE — waste-generating positives (11, all in נתב״ג `202032774927`)
-These are the BROAD generic non-bus / out-of-geo / job keywords that pull exactly the waste Noam flagged (personal-driver דרייבר, competitor brands, out-of-geo, job-seekers). Pausing is reversible (re-enable any time). **Criterion IDs are NOT in the snapshot — the runbook pulls them fresh by text before pausing.**
+### B2. PAUSE — every live keyword lacking אוטובוס + 1 job-seeker exception (31, all in נתב״ג `202032774927`)
+The whole non-אוטובוס set, computed from `ads.json` (law #3): generic הסעות/הסעה, all 8 minibus positives (הסעות מיניבוסים, מחיר מיניבוס, מיניבוס ירושלים …), driver/private-transport, and out-of-geo. Full list in `keyword-pauses.json`. **Criterion IDs are pulled fresh by exact text at push time.** Pausing is reversible.
 
-| Keyword | Priority | Why |
-|---|---|---|
-| חיפוש עבודה נהג אוטובוס | HIGH | job-seeker intent ("bus driver job search") — invites job-seekers |
-| נהג הסעות | HIGH | driver intent, 7imp/1clk/₪6.98 — pulls נהג/דרייבר personal-driver waste |
-| נהג הסעות פרטי | HIGH | private-driver intent |
-| שירות הסעות פרטי | HIGH | private-driver intent |
-| הסעות פרטיות | HIGH | private-transport generic — pulls דרייבר / personal-driver |
-| חברת הסעות בראשון לציון | LOW | out-of-geo (Rishon) |
-| הסעות תל אביב | LOW | out-of-geo (TLV) |
-| חברת הסעות תל אביב | LOW | out-of-geo (TLV) |
-| הסעות בצפון | LOW | out-of-geo (North) |
-| חברת הסעות בצפון | LOW | out-of-geo (North) |
-| חברת הסעות בדרום | LOW | out-of-geo (South) |
+**Foreman ruling (2026-07-23):** `חיפוש עבודה נהג אוטובוס` (a job-seeker keyword) CONTAINS אוטובוס, but a job search is waste regardless of wording — Noam's intent (irrelevant traffic never sees the ad) outranks the mechanical letter. It IS paused, as an explicit exception (verifier whitelists it). Consequently the `עבודה` negative is now self-block-clear and PROMOTED to an add (see C1).
 
-Pausing the four SELF-BLOCK positives above (ראשון לציון / תל אביב / צפון / job) also *unblocks* the corresponding geo/job negatives — but we don't need those negatives once the positives are paused, so we simply skip them (see C).
-
-### B3. CONVERT broad → phrase — RECOMMENDATION ONLY (not in the automated push)
-Match type is immutable in Google Ads, so a "convert" = remove the broad + create the phrase (a heavier, higher-judgment change). Left as a recommendation for a later interactive pass:
-
-- `שירותי הסעות` (36imp/3clk/₪20.05), `חברות הסעה` (31imp/3clk/₪19.58) — generic BROAD, biggest competitor-brand leak vectors. → phrase.
-- `הסעות ירושלים` (41imp/3clk/₪20.61), `הסעות לירושלים`, `הסעות מירושלים` — geo-relevant but BROAD. → phrase (keeps Jerusalem intent, drops the broad expansion).
-
-### B4. KEEP — everything else
-All bus-worded (אוטובוס/מיניבוס) keywords, the מיניבוס family, event/employee price keywords, and airport-specific אוטובוס-לנתב״ג keywords stay ENABLED unchanged.
-
----
+### B3. KEEP — the 41 אוטובוס keywords stay ENABLED unchanged.
 
 ## C. Negative keyword additions
+Self-block check (`verify-changeset.cjs`) now runs each candidate against the **surviving active set** (the 41 live keywords containing אוטובוס — the non-bus ones are paused in B2 first, so negatives are checked against what remains). Match type: single token → BROAD; multi-word brand/phrase → PHRASE. Runbook re-runs this against the fresh pull and dedups against the live negative list.
 
-**HARD-LAW self-block check ran programmatically** (`verify-changeset.cjs`): each candidate substring-grepped against ALL 72 live positive keyword texts from `ads.json`. Full table below. Match type: single-token → BROAD; multi-word brand/phrase → PHRASE (won't over-block). **Runbook re-runs this against the FRESH keyword pull, and dedups every candidate against the fresh negative list (the 40 existing negatives are not itemized in the snapshot).**
+### C1. ADD (self-block CLEAR)
+- **minibus (NEW, law #2):** `מיניבוס`, `מיניבוסים` (BROAD) — the fleet has no minibus. Added **ONLY AFTER** the 8 minibus positives are paused (runbook ordering); now self-block-safe.
+- **PROMOTED ex-skips (NEW):** `ראשון לציון`, `תל אביב` (PHRASE), `צפון` (BROAD) — their blocking positives are now paused (B2), so these are clear and become out-of-geo negatives.
+- **PROMOTED ex-skip `עבודה` (BROAD, NEW):** job-seeker waste — its only blocking positive `חיפוש עבודה נהג אוטובוס` is now paused (B2 foreman exception), so it is self-block-clear. Added after the pauses land (like מיניבוס).
+- **competitor brands / personal-driver / off-fleet / out-of-geo / jobs / tenders / toys (26):** דרייבר, נהג פרטי, אור בוס, אורבוס, אור ירושלים, חבצלת, בון תור, ברזני, הורן, ליאם, מטיילי, מיה טורס, שעיבי, מסיעי, רבני, רם שן, נכים, כסא גלגלים, מעלון, בני ברק, אילת, אשדוד, קורס, רישיון, מכרז, צעצוע — all CLEAR.
 
-### C1. ADD (self-block CLEAR) — competitor brands, personal-driver, off-fleet, out-of-geo, jobs, tenders, toys
+### C2. ADD-IF-ABSENT (public-transit; dedup at runtime)
+`אגד` · `רכבת` · `תחבורה ציבורית` · `קווים` · `לוח זמנים` · `תחנה מרכזית` · `רב קו`.
 
-| Candidate | Match | Category | Self-block |
-|---|---|---|---|
-| דרייבר | BROAD | personal-driver (top waste ₪13.96) | CLEAR |
-| נהג פרטי | PHRASE | personal-driver | CLEAR |
-| אור בוס | PHRASE | competitor brand (₪5.13) | CLEAR |
-| אורבוס | PHRASE | competitor brand | CLEAR |
-| אור ירושלים | PHRASE | competitor brand | CLEAR |
-| חבצלת | BROAD | competitor brand (₪6.65) | CLEAR |
-| בון תור | PHRASE | competitor brand | CLEAR |
-| ברזני | BROAD | competitor brand | CLEAR |
-| הורן | BROAD | competitor brand | CLEAR |
-| ליאם | BROAD | competitor brand | CLEAR |
-| מטיילי | BROAD | competitor brand | CLEAR |
-| מיה טורס | PHRASE | competitor brand | CLEAR |
-| שעיבי | BROAD | competitor brand | CLEAR |
-| מסיעי | BROAD | competitor brand | CLEAR |
-| רבני | BROAD | competitor brand | CLEAR |
-| רם שן | PHRASE | competitor brand | CLEAR |
-| נכים | BROAD | off-fleet accessible (₪6.93) | CLEAR |
-| כסא גלגלים | PHRASE | off-fleet accessible | CLEAR |
-| מעלון | BROAD | off-fleet accessible | CLEAR |
-| בני ברק | PHRASE | out-of-geo (₪6.56) | CLEAR |
-| אילת | BROAD | out-of-geo | CLEAR |
-| אשדוד | BROAD | out-of-geo | CLEAR |
-| קורס | BROAD | jobs/licensing | CLEAR |
-| רישיון | BROAD | jobs/licensing | CLEAR |
-| מכרז | BROAD | B2G tender | CLEAR |
-| צעצוע | BROAD | toys | CLEAR |
+### C3. SKIP (self-block HIT)
+None. All earlier skips (ראשון לציון/תל אביב/צפון/מיניבוס/עבודה) were promoted to adds once their blocking positives entered the pause set.
 
-### C2. ADD-IF-ABSENT (self-block CLEAR; likely already negatives per the 2026-07-17 log — dedup at runtime)
-`אגד` · `רכבת` · `תחבורה ציבורית` · `קווים` · `לוח זמנים` · `תחנה מרכזית` · `רב קו` — all public-transit intent, all CLEAR. Add only the ones not already in the fresh negative pull.
-
-### C3. SKIP (self-block HIT — do NOT add; the paused positive handles the intent instead)
-
-| Candidate | Hits (live positive) | Handled by |
-|---|---|---|
-| ראשון לציון | חברת הסעות בראשון לציון | pause that positive (B2) |
-| תל אביב | הסעות תל אביב, חברת הסעות תל אביב | pause those positives (B2) |
-| צפון | הסעות בצפון, חברת הסעות בצפון | pause those positives (B2) |
-| עבודה | חיפוש עבודה נהג אוטובוס | pause that positive (B2) |
-| מיניבוס | 8 live מיניבוס positives | PERMANENT skip — account targets minibus rental |
-
-### C4. Already covered (do not re-add — dedup at runtime)
-From prior runs: `מונית/מוניות/taxi` (taxi), `למכירה/מכירה/קניית/אוטובוס למכירה/יד שניה/יד 2/ליסינג/מחירון` (used-bus sales), `דרוש` (job-seeker). Runbook dedups against the fresh pull regardless.
-
----
-
-## D. Bidding / budget / geo — RECOMMENDATION ONLY (NOT in the automated push)
-
-- **Budget:** keep **₪30/day** unchanged. Spend is already hitting ~2× budget on active days (₪59.66 / ₪59.99 on 07-19/07-20) — no room or reason to raise while conversions = 0.
-- **Bidding:** leave as-is (per RUN-KIT's manual-CPC posture). Do NOT switch to a conversion-based smart-bidding strategy yet — there are **0 conversions** to train on; smart bidding with no conversion data would starve delivery further. Revisit only after the AD_CALL conversion action logs real calls.
-- **Geo:** the out-of-geo waste (TLV/North/South/Rishon) is better solved at the **campaign location-targeting** level than with keyword pauses/negatives. Recommend Noam tighten campaign geo to Jerusalem + Mevaseret Zion + Shoham radius in the Ads UI. Left out of the automated push (campaign-criteria geo edit = higher-judgment; not requested).
-- **Conversion tracking sanity:** 0 conversions across 303 imp / 20 clicks over 9 days is the real headline. Before/at re-enable, Noam should confirm the AD_CALL conversion action is actually firing (call-from-ad tracking), otherwise optimization is flying blind. Flagged, not actioned.
-
----
+## D. Bidding / budget / geo
+- **Bidding:** CONDITIONAL — `campaign_bidding_ceiling_CONDITIONAL` op applies `cpc_bid_ceiling_micros = 8000000` (₪8) **only if** the fresh Step-1 pull shows `bidding_strategy_type == TARGET_SPEND` (Maximize Clicks). Any other strategy → dropped + reported, no bidding change.
+- **Budget:** keep **₪30/day** unchanged (never touched by the push).
+- **Geo / conversion tracking:** out-of-geo is better solved at campaign location-targeting; 0 conversions across 303 imp / 20 clicks remains the real headline — confirm the AD_CALL conversion action fires. Both flagged for Noam's UI, not in the automated push.
 
 ## E. Summary counts
-- **RSAs:** 4 new (one per group), 56 headlines total (all ≤30 + bus word), 16 descriptions (all ≤90). Old 8 RSAs → PAUSED (not removed).
-- **Keywords:** +4 exact adds · 11 pauses · 0 removals · (5 broad→phrase converts = recommendation only).
-- **Negatives:** up to 26 CLEAR adds + 7 add-if-absent, 5 self-block skips, ~11 already-covered dedups.
-- **Campaign status:** unchanged (PAUSED). Re-enable = Noam's tap (money gate).
+- **RSAs:** 4 new (56 headlines, all ≤30 + literal אוטובוס, 0 minibus; 16 descriptions, all ≤90, 0 minibus). Old 8 RSAs → **REMOVED**.
+- **Keywords:** +3 exact adds (all אוטובוס) · **31 pauses** (30 non-אוטובוס live + 1 job-seeker exception `חיפוש עבודה נהג אוטובוס`) · 0 removals.
+- **Negatives:** 32 CLEAR "add" (incl 2 minibus + 3 promoted geos + עבודה) + 7 add-if-absent = 39 pre-dedup · 0 skips.
+- **Bidding:** ₪8 CPC ceiling IF Maximize Clicks, else unchanged · budget ₪30/day unchanged.
+- **Campaign status:** **ENABLED** as the last mutation, gated on the bus-word post-verify passing.

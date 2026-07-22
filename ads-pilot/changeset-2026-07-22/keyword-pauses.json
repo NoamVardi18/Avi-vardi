@@ -1,13 +1,219 @@
 [
-  {"text": "חיפוש עבודה נהג אוטובוס", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "job-seeker intent ('bus driver job search') — actively invites job-seekers, 0% customer intent"},
-  {"text": "נהג הסעות", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "driver intent, 7imp/1clk/₪6.98 — pulls נהג/דרייבר personal-driver waste"},
-  {"text": "נהג הסעות פרטי", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-driver intent, 5imp — personal-driver waste"},
-  {"text": "שירות הסעות פרטי", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-driver intent, 2imp — personal-driver waste"},
-  {"text": "הסעות פרטיות", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "HIGH", "why": "private-transport generic, 5imp — pulls personal-driver / דרייבר waste"},
-  {"text": "חברת הסעות בראשון לציון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (Rishon) — outside Jerusalem/Mevaseret/Shoham zone"},
-  {"text": "הסעות תל אביב", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (TLV)"},
-  {"text": "חברת הסעות תל אביב", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (TLV)"},
-  {"text": "הסעות בצפון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (North)"},
-  {"text": "חברת הסעות בצפון", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (North)"},
-  {"text": "חברת הסעות בדרום", "ad_group_id": "202032774927", "group": "נתב״ג", "priority": "LOW", "why": "out-of-geo (South)"}
+  {
+    "text": "שירותי הסעות",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חברות הסעה",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות מיניבוסים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות לאירועים מחירים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הזמנת מיניבוס",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מיניבוס מפואר",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מיניבוס מחיר",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות לעובדים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות פרטיות",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות לירושלים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חברת הסעות בראשון לציון",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות בצפון",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מחיר מיניבוס",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות vip",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חברת הסעות בצפון",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מיניבוס vip",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חברת הסעות בדרום",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות מירושלים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מיניבוס ירושלים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות למסיבות",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות תל אביב",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הזמנת הסעה",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מחיר הסעה לחתונה",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות יוקרה",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "הסעות ירושלים",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חברת הסעות תל אביב",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "נהג הסעות",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "מיניבוס הסעה",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "נהג הסעות פרטי",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "שירות הסעות פרטי",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "no-אוטובוס (Noam law 2026-07-23)"
+  },
+  {
+    "text": "חיפוש עבודה נהג אוטובוס",
+    "match": "BROAD",
+    "group": "נתב״ג",
+    "ad_group_id": "202032774927",
+    "reason": "job-seeker waste (original HIGH list; foreman ruling 2026-07-23)"
+  }
 ]

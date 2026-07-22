@@ -25,6 +25,14 @@
   {"text": "רישיון", "match": "BROAD", "decision": "add", "cat": "jobs-licensing", "why": "license intent, not a customer"},
   {"text": "מכרז", "match": "BROAD", "decision": "add", "cat": "b2g-tender", "why": "government tender, not a private booking"},
   {"text": "צעצוע", "match": "BROAD", "decision": "add", "cat": "toys", "why": "toy-bus shopper"},
+
+  {"text": "מיניבוס", "match": "BROAD", "decision": "add", "cat": "off-fleet-minibus", "note": "fleet has no minibus — add ONLY AFTER minibus positives are paused (runbook ordering)", "why": "Noam law 2026-07-23: the only vehicle is one 56-seat bus; 8 minibus positives are being PAUSED first, so this is now self-block-safe against the surviving אוטובוס-only keyword set"},
+  {"text": "מיניבוסים", "match": "BROAD", "decision": "add", "cat": "off-fleet-minibus", "note": "fleet has no minibus — add ONLY AFTER minibus positives are paused (runbook ordering)", "why": "plural variant; blocks 'מיניבוסים'/'מיניבוסים הסעות' search terms"},
+
+  {"text": "ראשון לציון", "match": "PHRASE", "decision": "add", "cat": "out-of-geo", "note": "PROMOTED from skip — blocking positive 'חברת הסעות בראשון לציון' is now PAUSED (Noam law 2026-07-23), so this is self-block-clear against the active set", "why": "out-of-geo (Rishon) — outside Jerusalem/Mevaseret/Shoham zone"},
+  {"text": "תל אביב", "match": "PHRASE", "decision": "add", "cat": "out-of-geo", "note": "PROMOTED from skip — blocking positives 'הסעות תל אביב'/'חברת הסעות תל אביב' are now PAUSED (Noam law 2026-07-23)", "why": "out-of-geo (TLV)"},
+  {"text": "צפון", "match": "BROAD", "decision": "add", "cat": "out-of-geo", "note": "PROMOTED from skip — blocking positives 'הסעות בצפון'/'חברת הסעות בצפון' are now PAUSED (Noam law 2026-07-23)", "why": "out-of-geo (North)"},
+
   {"text": "אגד", "match": "BROAD", "decision": "add-if-absent", "cat": "public-transit", "why": "public-bus operator (likely already a negative per 2026-07-17 log — dedup at runtime)"},
   {"text": "רכבת", "match": "BROAD", "decision": "add-if-absent", "cat": "public-transit", "why": "train (likely already a negative — dedup)"},
   {"text": "תחבורה ציבורית", "match": "PHRASE", "decision": "add-if-absent", "cat": "public-transit", "why": "public transit (likely already a negative — dedup)"},
@@ -33,9 +41,5 @@
   {"text": "תחנה מרכזית", "match": "PHRASE", "decision": "add-if-absent", "cat": "public-transit", "why": "central bus station lookup"},
   {"text": "רב קו", "match": "PHRASE", "decision": "add-if-absent", "cat": "public-transit", "why": "transit fare card"},
 
-  {"text": "ראשון לציון", "match": "PHRASE", "decision": "skip", "cat": "SELF-BLOCK", "why": "substring of positive 'חברת הסעות בראשון לציון' -> pause that positive instead (see keyword-pauses)"},
-  {"text": "תל אביב", "match": "PHRASE", "decision": "skip", "cat": "SELF-BLOCK", "why": "substring of positives 'הסעות תל אביב' + 'חברת הסעות תל אביב' -> pause them instead"},
-  {"text": "צפון", "match": "BROAD", "decision": "skip", "cat": "SELF-BLOCK", "why": "substring of positives 'הסעות בצפון' + 'חברת הסעות בצפון' -> pause them instead"},
-  {"text": "עבודה", "match": "BROAD", "decision": "skip", "cat": "SELF-BLOCK", "why": "substring of positive 'חיפוש עבודה נהג אוטובוס' -> pause that positive instead"},
-  {"text": "מיניבוס", "match": "BROAD", "decision": "skip", "cat": "SELF-BLOCK", "why": "substring of 8 live מיניבוס positives — account actively targets minibus rental; PERMANENT skip"}
+  {"text": "עבודה", "match": "BROAD", "decision": "add", "cat": "jobs-licensing", "note": "PROMOTED from skip — foreman ruling 2026-07-23 PAUSES 'חיפוש עבודה נהג אוטובוס' (its only blocking positive), so this is now self-block-clear against the active set. Add AFTER the keyword pauses land (runbook ordering, like מיניבוס).", "why": "job-seeker intent ('דרוש/עבודה נהג') — waste; the blocking positive is being paused"}
 ]
