@@ -18,6 +18,20 @@ disarm() {
 ATT=$(( $(cat "$DIR/.push-attempts" 2>/dev/null || echo 0) + 1 )); echo "$ATT" > "$DIR/.push-attempts"
 cd "$DIR" || exit 1
 
+# 2026-07-23: both first attempts died on ENOTFOUND (no DNS when launchd fired).
+# Gate on real network before spending the attempt: wait up to 30 min.
+NET_OK=0
+for i in $(seq 1 60); do
+  if curl -sf --max-time 10 https://api.anthropic.com >/dev/null 2>&1 || curl -sf --max-time 10 https://googleads.googleapis.com >/dev/null 2>&1; then NET_OK=1; break; fi
+  sleep 30
+done
+if [ "$NET_OK" = "0" ]; then
+  echo "$(date -u +%FT%TZ) attempt $ATT skipped: no network after 30min wait" >> "$LOG"
+  # don't burn the attempt counter on a dead network
+  echo $((ATT - 1)) > "$DIR/.push-attempts"
+  exit 1
+fi
+
 {
   echo "===== push attempt $ATT start: $(date -u +%FT%TZ) ====="
   perl -e 'alarm shift; exec @ARGV' 2400 "$CLAUDE_BIN" -p "$(cat "$DIR/PUSH-RUNBOOK.md")" \

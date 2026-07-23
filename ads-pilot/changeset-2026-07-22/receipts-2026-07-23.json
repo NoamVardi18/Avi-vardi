@@ -1,0 +1,32 @@
+{
+  "_meta": {"run": "PUSH-RUNBOOK.md execute attempt 3 (interactive session)", "ts": "2026-07-23T20:00:00Z"},
+  "step0_probe": {
+    "query": "SELECT campaign.id, campaign.status, campaign.bidding_strategy_type FROM campaign WHERE campaign.id = 24022931741",
+    "result": {"status": "PAUSED", "bidding_strategy_type": "TARGET_SPEND"},
+    "verdict": "PASS - read quota open"
+  },
+  "step1_archive": {
+    "campaign_settings": {"status": "PAUSED", "bidding_strategy_type": "TARGET_SPEND", "budget_amount_micros": "30000000"},
+    "old_ads_count": 8,
+    "old_ads_headline_audit": "all 8 old ads carry a majority of non-אוטובוס headlines (11-13 of 15 headlines lack the word in 6 of 8 ads; the two נתב״ג ads fare slightly better at 11-12 of 15 lacking it); every ad also carries the brand-only headline אבי ורדי הסעות with no bus word",
+    "itemized_negatives_count": 39,
+    "live_keywords_202032774927_group": 44,
+    "pause_set_recomputed": 31,
+    "pause_set_matches_file": true,
+    "self_block_recompute": "confirmed all 31 keyword-pauses.json entries match live pull exactly (no drift since snapshot); surviving active (אוטובוס-bearing) set = 40 keywords across all 4 groups; מיניבוס/מיניבוסים/עבודה/ראשון לציון/תל אביב/צפון all CLEAR against the surviving set",
+    "dedup_finding": "3 additional duplicates found beyond the file's own add-if-absent flags: אילת (crit 44159753), קורס (crit 81885511), רישיון (crit 335851370) are listed in negatives.json as decision=add but already exist live as campaign negatives -- dropped along with the 5 labeled add-if-absent dupes (אגד, רכבת, תחבורה ציבורית, קווים, לוח זמנים). Net negative_adds after dedup: 31 of 39 candidates."
+  },
+  "step3_mutations": {
+    "attempted": ["rsa_creates x4 (validateOnly)"],
+    "result": "ALL BLOCKED - 429 RESOURCE_EXHAUSTED on mutate-operations quota (separate bucket from search/read quota, which remains open). Confirmed via two independent transports: native GOOGLEADS_MUTATE_AD_GROUP_ADS AND the REST proxy via COMPOSIO_REMOTE_WORKBENCH proxy_execute (v21). Both returned identical error: rateScope=DEVELOPER, rateName='Number of operations for basic access', retryDelay ~52700-53065s (~14.6-14.7 hours).",
+    "applied": 0,
+    "old_ad_removes": "NOT ATTEMPTED - blocked before reaching this step (write path confirmed dead at 3a)",
+    "keyword_adds": "NOT ATTEMPTED",
+    "keyword_pauses": "NOT ATTEMPTED",
+    "negative_adds": "NOT ATTEMPTED",
+    "bidding_ceiling": "NOT ATTEMPTED (would have applied - bidding_strategy_type=TARGET_SPEND confirmed)",
+    "campaign_enable": "NOT ATTEMPTED - never reached, and would be blocked by the same quota regardless"
+  },
+  "final_campaign_status": "PAUSED (unchanged - zero mutations landed)",
+  "verdict": "RUN BLOCKED at Step 3a. No mutation applied. Campaign state unchanged from pre-run. Zero risk of partial/inconsistent state since nothing wrote."
+}

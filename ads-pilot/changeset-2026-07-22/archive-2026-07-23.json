@@ -1,0 +1,8 @@
+{
+  "_meta": {"pulled_at": "2026-07-23T20:55:00Z", "customer_id": "1128064207", "campaign_id": "24022931741"},
+  "campaign_settings": {
+    "id": "24022931741", "name": "אבי ורדי — חיפוש", "status": "PAUSED",
+    "bidding_strategy_type": "TARGET_SPEND", "budget_amount_micros": "30000000"
+  },
+  "note": "Full GAQL result payloads for the 4 Step-1 queries were captured in-session (RSA content, itemized campaign negatives, keyword_view). This file holds the reduced settings snapshot; the audit derived from the full RSA/keyword pulls is in the push session report."
+}
