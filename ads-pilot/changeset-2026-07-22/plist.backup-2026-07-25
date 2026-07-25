@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.noam.ads-push-changeset</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/vardi/Claude/Avi-vardi/ads-pilot/changeset-2026-07-22/push-changeset.sh</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- one-shot: 2026-07-23 push window (quota resets ~13:30 IL); wrapper self-disarms after -->
+        <dict><key>Month</key><integer>7</integer><key>Day</key><integer>24</integer><key>Hour</key><integer>14</integer><key>Minute</key><integer>22</integer></dict>
+        <dict><key>Month</key><integer>7</integer><key>Day</key><integer>24</integer><key>Hour</key><integer>16</integer><key>Minute</key><integer>40</integer></dict>
+    </array>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/vardi/Claude/Avi-vardi/ads-pilot/changeset-2026-07-22/launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/vardi/Claude/Avi-vardi/ads-pilot/changeset-2026-07-22/launchd.log</string>
+</dict>
+</plist>

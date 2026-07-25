@@ -54,10 +54,17 @@ kwPauses.forEach(k => kwRows.push([CAMPAIGN, k.group, k.text, mt(k.match), 'Paus
 fs.writeFileSync(path.join(OUT, 'keywords-import.csv'), BOM + kwRows.map(row).join('\r\n') + '\r\n');
 
 // ================= Campaign negatives =================
+// Only decision === 'add' / 'add-if-absent' ships — mirrors build-payloads.cjs's filter
+// (line ~58) so the manual-import CSV can never diverge from the API payload. Before this
+// fix negatives.forEach() dumped EVERY entry regardless of decision, which is how 3
+// already-live negatives (see 2026-07-23 receipts dedup_finding) leaked into
+// negatives-import.csv as decision:'add' rows even though the source-of-truth marks them
+// 'skip'.
 const negHeader = ['Campaign', 'Keyword', 'Match Type'];
 const negRows = [negHeader];
 const negMt = m => ({ EXACT: 'Campaign Negative Exact', PHRASE: 'Campaign Negative Phrase', BROAD: 'Campaign Negative Broad' }[m] || m);
-negatives.forEach(n => negRows.push([CAMPAIGN, n.text, negMt(n.match)]));
+negatives.filter(n => n.decision === 'add' || n.decision === 'add-if-absent')
+  .forEach(n => negRows.push([CAMPAIGN, n.text, negMt(n.match)]));
 fs.writeFileSync(path.join(OUT, 'negatives-import.csv'), BOM + negRows.map(row).join('\r\n') + '\r\n');
 
 // ================= report =================

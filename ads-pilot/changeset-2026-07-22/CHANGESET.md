@@ -58,8 +58,9 @@ Self-block check (`verify-changeset.cjs`) now runs each candidate against the **
 ### C2. ADD-IF-ABSENT (public-transit; dedup at runtime)
 `אגד` · `רכבת` · `תחבורה ציבורית` · `קווים` · `לוח זמנים` · `תחנה מרכזית` · `רב קו`.
 
-### C3. SKIP (self-block HIT)
-None. All earlier skips (ראשון לציון/תל אביב/צפון/מיניבוס/עבודה) were promoted to adds once their blocking positives entered the pause set.
+### C3. SKIP
+All earlier self-block skips (ראשון לציון/תל אביב/צפון/מיניבוס/עבודה) were promoted to adds once their blocking positives entered the pause set.
+**CORRECTION (2026-07-25, code-debug audit):** the 2026-07-23 interactive push run's live pull (`receipts-2026-07-23.json` step1_archive.dedup_finding) found 3 of the "CLEAR add" candidates — אילת, קורס, רישיון — **already exist live** as campaign negatives; that finding was never written back to `negatives.json`, so `editor-package/negatives-import.csv` kept shipping them as new rows. `negatives.json` now marks all 3 `decision: "skip"` (cat unchanged, note cites the receipt). Root cause was two-layer: (1) the stale decision in the source file, and (2) `build-editor-package.cjs` had no decision filter at all (unlike `build-payloads.cjs`, which already filtered to `add`/`add-if-absent`) — so a 'skip' decision would have leaked into the CSV anyway. Both fixed; `negatives-import.csv` regenerated (39→36 rows); `node verify-changeset.cjs` re-run → still PASS.
 
 ## D. Bidding / budget / geo
 - **Bidding:** CONDITIONAL — `campaign_bidding_ceiling_CONDITIONAL` op applies `cpc_bid_ceiling_micros = 8000000` (₪8) **only if** the fresh Step-1 pull shows `bidding_strategy_type == TARGET_SPEND` (Maximize Clicks). Any other strategy → dropped + reported, no bidding change.
@@ -69,6 +70,6 @@ None. All earlier skips (ראשון לציון/תל אביב/צפון/מיניב
 ## E. Summary counts
 - **RSAs:** 4 new (56 headlines, all ≤30 + literal אוטובוס, 0 minibus; 16 descriptions, all ≤90, 0 minibus). Old 8 RSAs → **REMOVED**.
 - **Keywords:** +3 exact adds (all אוטובוס) · **31 pauses** (30 non-אוטובוס live + 1 job-seeker exception `חיפוש עבודה נהג אוטובוס`) · 0 removals.
-- **Negatives:** 32 CLEAR "add" (incl 2 minibus + 3 promoted geos + עבודה) + 7 add-if-absent = 39 pre-dedup · 0 skips.
+- **Negatives:** 29 CLEAR "add" (incl 2 minibus + 3 promoted geos + עבודה; excludes 3 already-live — see C3 correction) + 7 add-if-absent = 36 to ship · 3 skip (already live).
 - **Bidding:** ₪8 CPC ceiling IF Maximize Clicks, else unchanged · budget ₪30/day unchanged.
 - **Campaign status:** **ENABLED** as the last mutation, gated on the bus-word post-verify passing.

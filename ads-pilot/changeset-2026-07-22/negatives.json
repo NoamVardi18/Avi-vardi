@@ -19,10 +19,10 @@
   {"text": "כסא גלגלים", "match": "PHRASE", "decision": "add", "cat": "off-fleet-accessible", "why": "accessible-transport intent, off-fleet"},
   {"text": "מעלון", "match": "BROAD", "decision": "add", "cat": "off-fleet-accessible", "why": "'הסעות לנכים עם מעלון' — lift, off-fleet"},
   {"text": "בני ברק", "match": "PHRASE", "decision": "add", "cat": "out-of-geo", "why": "'הסעות בבני ברק' 1imp/1clk/₪6.56 — out of Jerusalem-area geo"},
-  {"text": "אילת", "match": "BROAD", "decision": "add", "cat": "out-of-geo", "why": "'הסעה/הסעות לאילת' — Noam-location note: never Eilat"},
+  {"text": "אילת", "match": "BROAD", "decision": "skip", "cat": "out-of-geo", "note": "ALREADY LIVE — confirmed present as a campaign negative in the 2026-07-23 interactive-run live pull (receipts-2026-07-23.json step1_archive.dedup_finding); re-adding would be a redundant/duplicate row", "why": "'הסעה/הסעות לאילת' — Noam-location note: never Eilat"},
   {"text": "אשדוד", "match": "BROAD", "decision": "add", "cat": "out-of-geo", "why": "'הסעות לאשדוד' — out of geo"},
-  {"text": "קורס", "match": "BROAD", "decision": "add", "cat": "jobs-licensing", "why": "driving-course intent, not a customer"},
-  {"text": "רישיון", "match": "BROAD", "decision": "add", "cat": "jobs-licensing", "why": "license intent, not a customer"},
+  {"text": "קורס", "match": "BROAD", "decision": "skip", "cat": "jobs-licensing", "note": "ALREADY LIVE — confirmed present as a campaign negative in the 2026-07-23 interactive-run live pull (receipts-2026-07-23.json step1_archive.dedup_finding); re-adding would be a redundant/duplicate row", "why": "driving-course intent, not a customer"},
+  {"text": "רישיון", "match": "BROAD", "decision": "skip", "cat": "jobs-licensing", "note": "ALREADY LIVE — confirmed present as a campaign negative in the 2026-07-23 interactive-run live pull (receipts-2026-07-23.json step1_archive.dedup_finding); re-adding would be a redundant/duplicate row", "why": "license intent, not a customer"},
   {"text": "מכרז", "match": "BROAD", "decision": "add", "cat": "b2g-tender", "why": "government tender, not a private booking"},
   {"text": "צעצוע", "match": "BROAD", "decision": "add", "cat": "toys", "why": "toy-bus shopper"},
 
