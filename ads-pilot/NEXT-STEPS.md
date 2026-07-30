@@ -1,8 +1,69 @@
-# NEXT-STEPS — zero to live campaign (Noam's ordered clicks)
+# NEXT-STEPS — live-account actions
 
-_Do these in order at ads.google.com. Two decision points are marked `NOAM-DECIDES`. Nothing is
-automated — every step is Noam's manual, approved action. Full detail lives in RUN-KIT.md / KEYWORDS.md
-/ BUDGET.md._
+> **Status 2026-07-30: the campaign is LIVE and has been for weeks.** The original zero-to-launch
+> checklist that used to be this file's contents is finished and is preserved at the bottom as
+> history — do not work from it. Current account truth is `CAMPAIGN-STATUS.md`; read that first.
+
+**Account:** customer `1128064207` · Search campaign `24022931741` "אבי ורדי — חיפוש" · ENABLED.
+**Nothing below has been applied.** All of it needs Noam or Avi at ads.google.com, or a mutate run
+once API quota clears (it was `RESOURCE_EXHAUSTED` on 07-30 with a ~17h retry).
+
+Ordered by shekels recovered per minute of work. Evidence for each: `CAMPAIGN-STATUS.md`
+§2026-07-30, and the report at `https://claude.ai/code/artifact/095ab645-cc41-483f-88b5-20a2c0515681`.
+
+1. **Move `אוטובוס לטיולים` from the נתב״ג ad group to `טיולים ואירועים`, and change BROAD → PHRASE.**
+   It is 71% of the airport group's impressions and 56% of the account's, at 0 clicks, being answered
+   by airport copy. `טיולים ואירועים` has served 0 impressions all week. Biggest single win, ~2 min.
+   While there: 2 other BROAD keywords are live (`אוטובוס הסעות לאירועים`, `אוטובוס לנתב ג בלילה`)
+   against KEYWORDS.md's own Phrase+Exact-only strategy — decide deliberately whether they stay.
+
+2. **Add English negative keywords** — `van`, `shuttle`, `taxi`, `train`, `station`, `central`,
+   `timetable`, `schedule`, `public transport`, `how to get`.
+   **Do NOT rely on language targeting for this.** Campaign language was set to Hebrew at creation
+   (history step 4 below) and English queries still came through — because Google language targeting
+   keys off the *user's Google interface language*, not the language of the query. A Hebrew-interface
+   user typing `tlv airport` matches regardless. All 73 current negatives are Hebrew, so the whole
+   English surface is unguarded, including `van service` — the minibus problem in English.
+   Keep the list targeted rather than blanket-blocking English: plenty of Israelis search in English,
+   so `bus rental jerusalem` is a real customer and must still match.
+
+3. **Add `קו` as a phrase negative, then re-read all 73 negatives for singular/plural gaps.**
+   `קו 485 מירושלים לנתבג` cost ₪5.85; the list has קווים (plural) only. Add `מחירון` and
+   `כמה עולה נסיעה` alongside. **Treat the singular/plural gap as a category, not one keyword.**
+
+4. **Confirm a call-conversion action exists** (history step 8 specified one; nobody ever confirmed it
+   shipped). 0 conversions lifetime on ₪190.75 spent. If there is no call tracking, that zero is an
+   absence of measurement, not a result, and Maximize-Clicks bidding has nothing to steer by.
+   **Do this before increasing spend.**
+
+5. **Fix the 7 assets that break KEYWORDS.md Law 1 (no price claims).**
+   `מחיר הוגן` in G1-D3, G2-D1, G4-D3 · `מחיר משתלם` in G1-H8, G2-H11, G2-D3, G3-D4.
+   Replace with the approved call-for-quote pattern `הצעת מחיר`, already used correctly in 8 places.
+
+6. **Decide on the 3 assets that break Law 2 (no kids/school/bar-mitzvah).**
+   Headline G1-H10 `אוטובוס לטיול בית ספר`, description G1-D3 (`בית ספר`), description G3-D4
+   (`בר מצווה`). Either the law changed or the copy is wrong — Avi's call. If a kids/schools negative
+   is live among the 73, the ads are currently bidding for what the negatives block.
+
+7. **Paste the 7 replacement assets that pin הסעות to אוטובוס** (5 descriptions + 2 sitelinks).
+   Limit-validated copy is in the report's Section 04. Lower value than 1–4: every headline already
+   carries אוטובוס, so this is dilution, not a miss.
+
+8. **Decide the ₪1,500 promo question with Avi.**
+   Needs ₪31.93/day to 09-09; running ₪5.09/day; projects to ~₪400. Either accept the target is gone
+   or deliberately raise volume — **but only after 1–3 land**, or the extra spend buys more of the
+   wrong traffic. Money decision: Avi's, never executed by an agent.
+
+Also unresolved, from CAMPAIGN-KNOWLEDGE §1: Google advertiser verification still blocks linking the
+business-name/logo assets (`CUSTOMER_NOT_VERIFIED`), and no ≥128×128 square logo exists.
+
+---
+
+## History — the original zero-to-live checklist (completed, kept for the record)
+
+_Noam's ordered manual clicks to get from no account to a live campaign. All done; the account,
+promo, campaign, ad groups, keywords, negatives, RSAs and sitelinks described here exist. Step 8
+(conversions) is the one whose completion was never confirmed — see item 4 above._
 
 1. `NOAM-DECIDES` **Account email:** recommended — new Google Ads account under **dad's** business
    Google identity; add Noam as Admin. (Why: RUN-KIT §1.)
@@ -23,3 +84,7 @@ automated — every step is Noam's manual, approved action. Full detail lives in
    מול הנהג · זמינות 24/6 · הצעת מחיר חינם).
 10. Log the campaign names verbatim to the lead log (`avivardi-search-natbag` / `-weddings` / `-tours`)
     so `/lead` attribution exact-matches; then **launch** and run the weekly 10-min ops (RUN-KIT §4).
+
+> Note: the live account ended up with **4** ad groups (טיולים ואירועים · הסעות לעובדים וכללי ·
+> חתונות · נתב״ג), not the 3 in step 6 and not the 4 different ones drafted in KEYWORDS.md.
+> The live structure is authoritative.

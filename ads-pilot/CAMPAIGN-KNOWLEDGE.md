@@ -13,7 +13,7 @@
 ### Search campaign (the live one)
 - **id:** `24022931741` — name **"אבי ורדי — חיפוש"**
 - **channel:** SEARCH
-- **status:** PAUSED (as of 2026-07-22/23 pulls) — was ENABLED/SERVING through at least 2026-07-20 (served 9 clicks/₪59.99 that day); pause timing/reason not confirmed as deliberate by Noam in the logs — flagged as an open question in the 2026-07-22 alert.
+- **status:** ~~PAUSED (as of 2026-07-22/23 pulls)~~ → **ENABLED and serving** (confirmed 2026-07-30 pull). The pause was real and lasted 07-21→07-25 (5 days, ₪0 spend), then it resumed on the 26th; the pause was never confirmed as deliberate in the logs and was almost certainly a manual change outside the tooling. **This line asserted a live-account fact that stopped being true — re-verify status with GAQL before relying on it, per the standing lesson in CAMPAIGN-STATUS.md.**
 - **budget:** ₪30/day (30,000,000 micros) — never touched by any run.
 - **bidding_strategy_type:** TARGET_SPEND (i.e. Maximize Clicks) — confirmed via GAQL 2026-07-23.
 - **Structure — 4 ad groups:**

@@ -2,6 +2,25 @@
 _On what searches the ads show. Hebrew copy (Israeli audience); structure in English._
 _כל התוכן טיוטה — לעריכה לפני שימוש. שום דבר כאן לא נוגע בחשבון פרסום._
 
+> ## ⚠️ PLANNING DRAFT — DOES NOT DESCRIBE THE LIVE ACCOUNT (checked 2026-07-30)
+>
+> This is the pre-launch design document. The live account diverged from it. **For live truth read
+> `CAMPAIGN-STATUS.md`**; use this file for the *reasoning* behind decisions, never for current state.
+>
+> Known divergences as of 2026-07-30:
+> - **Ad groups.** Live: `טיולים ואירועים` · `הסעות לעובדים וכללי` · `חתונות` · `נתב״ג`. The
+>   `חברת הסעות (חדש)` group designed below **does not exist**, and `הסעות עובדים` — marked
+>   "skip for pilot" below — **is a live ad group**.
+> - **Match types.** "Phrase + Exact only (no Broad)" below is **not what is live**: 3 BROAD keywords
+>   are running, and one of them (`אוטובוס לטיולים`, sitting in the *airport* group) is the single
+>   largest impression source in the account at 0 clicks.
+> - **Ad copy.** The RSAs drafted below were replaced wholesale by the 2026-07-25 changeset
+>   (4 ads × 14 headlines + 4 descriptions). Live copy is in `changeset-2026-07-22/editor-package/`.
+>
+> **The two hard laws in §v2 below are still binding — and the live copy currently breaks both.**
+> Law 1 (no price claims) is violated in 7 assets; Law 2 (no kids/school/bar-mitzvah) in 3.
+> Details and the exact asset list: `CAMPAIGN-STATUS.md` §2026-07-30, `NEXT-STEPS.md` items 5–6.
+
 > Geo v3 (2026-07-11): targeting narrowed live by Noam to ירושלים/מבשרת ציון/שוהם — גוש עציון/אפרת keywords removed to match.
 
 **Business:** הסעות אבי ורדי — נהג פרטי, אוטובוס אחד 56 מקומות. אזור שירות: ירושלים, גוש עציון,

@@ -2,6 +2,81 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-07-30 — AUDIT: headlines clean, matching and business-rule compliance are not
+
+Full read-only audit of the live account (snapshot `ads-ops/ads.json`, generated
+`2026-07-30T12:20:00Z` by live GAQL). **Nothing was mutated — the account is untouched.**
+Report page: `https://claude.ai/code/artifact/095ab645-cc41-483f-88b5-20a2c0515681`
+
+**Campaign is ENABLED and serving again.** This supersedes the `status: PAUSED` recorded in
+CAMPAIGN-KNOWLEDGE.md §1 (true 07-22/23, false now). The 5-day zero-spend gap 07-21→07-25 is
+explained: the campaign was manually PAUSED, then resumed on the 26th. Not a serving fault.
+
+**7-day performance (to 07-29):** 73 impressions · 6 clicks · ₪35.61 · **0 conversions** ·
+CTR 8.22% · avg CPC ₪5.93. Lifetime promo spend ₪190.75 of the ₪1,500 / 09-09 target.
+
+### What passed
+- **All 56 live headlines contain אוטובוס**, none contains מיניבוס, none exceeds 30 chars.
+- **All 43 enabled keywords** that use הסעות also carry אוטובוס.
+- 4 ads ENABLED + APPROVED, 73 negatives, 4 sitelinks.
+
+### What failed — ranked by cost
+1. **Cross-group broad match (highest cost).** `אוטובוס לטיולים` is BROAD **and sits in the
+   נתב״ג ad group** — 41 impressions, 0 clicks: 71% of that group's traffic and 56% of the whole
+   account's. Trip searchers are served airport copy, while `טיולים ואירועים` — which holds the
+   correct copy — served **0 impressions all week**. Also contradicts KEYWORDS.md's own
+   "Phrase + Exact only (no Broad)" strategy; 3 BROAD keywords are live.
+2. **All 73 negatives are Hebrew, so English/transliterated queries bypass every one.** 8 of 28
+   visible search terms are English, including `van service` — the minibus problem in English —
+   and `transportation tel aviv to jerusalem`, which walked past the תל אביב out-of-area negative.
+   **Note the trap:** campaign language was already set to Hebrew at creation (NEXT-STEPS history
+   step 4), so language targeting is *not* the fix — it keys off the user's Google interface
+   language, not the query text. Fix is targeted English negatives; see NEXT-STEPS item 2.
+3. **Singular/plural negative gap.** `קו 485 מירושלים לנתבג` (public bus timetable) took a click
+   at ₪5.85. The negative list has קווים (plural); the query used קו (singular) — different
+   strings, nothing blocked it. **The 07-17 ops log flagged this exact query and said escalate
+   "if it recurs with spend attached." It recurred with spend and nothing escalated.**
+4. **Both KEYWORDS.md hard laws are violated by the live 07-25 copy** — see below.
+5. **הסעות unpinned below the headline layer.** 5 of 16 descriptions and 2 of 4 sitelinks say
+   הסעות/הסעה and never say אוטובוס. Real but *dilution only* — every headline carries אוטובוס,
+   so a served RSA always says "bus" somewhere. Replacement copy (limit-validated) is in the
+   report's Section 04.
+6. **0 conversions lifetime, and conversion tracking is unverified.** Every ad ends in
+   התקשרו עכשיו, so the real conversion is a phone call. NEXT-STEPS step 8 specified a call asset
+   + forwarding-number tracking; **whether it was ever set up is unconfirmed.** If not, ₪190.75
+   has bought no measurement and bidding has nothing to optimise toward.
+7. **Promo pace 16%.** ₪31.93/day needed to reach ₪1,500 by 09-09; actual ₪5.09/day. Projects to
+   ~₪400. Budget is ₪30/day, so budget is not the constraint — impression volume is.
+
+### Business-rule violations (new finding, 2026-07-30)
+KEYWORDS.md §v2 states two hard laws. The 07-25 changeset copy breaks both, and no gate caught it.
+
+- **Law 1 — "No price claims in ad copy — ever… no 'מחיר הוגן'".** Violated in **7 assets**:
+  headlines G1-H8 + G2-H11 (`מחיר משתלם`), descriptions G1-D3, G2-D1, G4-D3 (`מחיר הוגן`) and
+  G2-D3, G3-D4 (`מחיר משתלם`). The approved call-for-quote pattern (`הצעת מחיר`) *is* used in 8
+  places, so the intent was understood — these 7 slipped through anyway.
+- **Law 2 — "Kids destroy the bus — no bar/bat-mitzvah, school, kindergarten, or camp targeting".**
+  Violated by headline G1-H10 `אוטובוס לטיול בית ספר`, description G1-D3 (`בית ספר`) and
+  description G3-D4 (`בר מצווה`). Prior audits recorded a kids/schools negative category among the
+  73 live negatives — if that is accurate, **the ads are bidding for what the negatives block.**
+  Only the 39-item add-list is readable locally; confirm against the full 73.
+
+### Verification limits on this audit
+- Google Ads API returned `RESOURCE_EXHAUSTED` (DEVELOPER scope, ~17h retry) and the Chrome
+  extension is not connected, so **live ad text was not re-read today.** Text is the changeset
+  copy, corroborated three ways: the 07-26 live GAQL audit read all 56 headlines and confirmed the
+  IDs + the אוטובוס property; `ads-ops-log.jsonl` records no ad-text mutation since; today's pull
+  shows the same 4 ad IDs still ENABLED/APPROVED. Strong corroboration, not a fresh read.
+- **Open, resolvable with one GAQL query once quota clears:** (a) does a conversion action exist,
+  (b) is a kids/schools negative actually live among the 73.
+
+### Standing lesson added by this run
+A gate that checks one layer implies nothing about the layer beneath it. The אוטובוס rule was
+enforced on headlines and keywords and verified there — and was never applied to descriptions or
+sitelinks, where nobody looked. Same shape as the קו/קווים gap: **the guard was written for one
+form of the thing it guards.** When adding a content rule, enumerate every surface it must cover
+(headlines, descriptions, sitelinks, callouts) and every morphological form, then check all of them.
+
 ## 2026-07-26 — SUPERSEDED: THE CHANGESET **IS** LIVE (verified against the account)
 
 **The 2026-07-25 section below is now the stale artifact — it is wrong.** A read-only GAQL audit
