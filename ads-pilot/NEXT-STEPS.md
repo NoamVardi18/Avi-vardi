@@ -5,8 +5,12 @@
 > history — do not work from it. Current account truth is `CAMPAIGN-STATUS.md`; read that first.
 
 **Account:** customer `1128064207` · Search campaign `24022931741` "אבי ורדי — חיפוש" · ENABLED.
-**Nothing below has been applied.** All of it needs Noam or Avi at ads.google.com, or a mutate run
-once API quota clears (it was `RESOURCE_EXHAUSTED` on 07-30 with a ~17h retry).
+**Nothing below has been applied.** Verified against the live 07-31 pull: 43 enabled keywords,
+73 negatives, 4 ads — unchanged, nothing added or removed by any session.
+Needs Noam or Avi at ads.google.com, or a mutate run once quota frees up. **Interactive GAQL is
+effectively unavailable:** the 5×/day scheduled job consumes each developer-token quota window as it
+opens, so ad-hoc queries returned `RESOURCE_EXHAUSTED` (~14h retry) on both 07-30 and 07-31. Read the
+scheduled run's `ads.json` instead of trying to query live.
 
 Ordered by shekels recovered per minute of work. Evidence for each: `CAMPAIGN-STATUS.md`
 §2026-07-30, and the report at `https://claude.ai/code/artifact/095ab645-cc41-483f-88b5-20a2c0515681`.
@@ -27,9 +31,24 @@ Ordered by shekels recovered per minute of work. Evidence for each: `CAMPAIGN-ST
    Keep the list targeted rather than blanket-blocking English: plenty of Israelis search in English,
    so `bus rental jerusalem` is a real customer and must still match.
 
-3. **Add `קו` as a phrase negative, then re-read all 73 negatives for singular/plural gaps.**
-   `קו 485 מירושלים לנתבג` cost ₪5.85; the list has קווים (plural) only. Add `מחירון` and
-   `כמה עולה נסיעה` alongside. **Treat the singular/plural gap as a category, not one keyword.**
+3. **Add negatives `קו` · `גילי` · `זולה` (phrase), then re-read all 73 for singular/plural gaps.**
+   `קו 485 מירושלים לנתבג` has now billed in **three separate weeks** (₪5.85 each on 07-30, 07-31);
+   the list has קווים (plural) only. `טיולי גילי` = a competitor not on the 12-name list.
+   `הסעה זולה` = bargain-hunter. Add `מחירון` and `כמה עולה נסיעה` alongside.
+   **Treat the singular/plural gap as a category, not one keyword.**
+
+3b. **Add EXACT-match negatives `[הסעות]` `[הסעה]` `[הסעה זולה]` `[הסעה לירושלים]` — but only AFTER
+   item 1.** These 4 dead-generic queries are ~16 of the 35 unclicked הסעות impressions. **Exact match
+   is load-bearing:** a phrase/broad negative on `הסעות` would also kill `חברת הסעות בירושלים`, the
+   account's best remaining query. The other 9 הסעות variants are company-seeking = real ICP, and have
+   only ever been shown *airport* copy — give them one fair week against the right ad before judging.
+
+3c. **`OPS-PROMPT.md:128` — widen the watchdog's allowed negative categories. NOAM'S CALL, not auto-applied.**
+   Currently *"job-seeker / kids / army / minibus / taxi"* only, so the 5×/day job **cannot** act on the
+   public-transit, competitor, English or price-shopper junk this account actually produces — it
+   identifies them and declines, by design. Proposed additions: public-transit-line lookups,
+   competitor brand names, English/transliterated transit phrases, explicit cheap/bargain modifiers.
+   Gated because it expands autonomous mutation authority on an account that spends Avi's money.
 
 4. **Confirm a call-conversion action exists** (history step 8 specified one; nobody ever confirmed it
    shipped). 0 conversions lifetime on ₪190.75 spent. If there is no call tracking, that zero is an

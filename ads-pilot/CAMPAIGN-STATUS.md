@@ -2,6 +2,59 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-07-31 — LIVE RE-PULL: nothing removed, 2 new leaks, watchdog blind spot found
+
+Live GAQL pull `2026-07-31T11:04:04Z` (11/11 queries OK, via the scheduled run). Supersedes the
+07-30 numbers below; **all findings there still stand.** Still **0 mutations — account untouched.**
+
+**Account unchanged since the audit began:** 43 enabled keywords · 73 negatives · 4 ENABLED/APPROVED
+ads · 0 DISAPPROVED. Nothing was removed or added by any session.
+
+**7d to 07-30:** 105 impr · 10 clicks · ₪59.53 · **0 conversions** · CTR 9.52% · CPC ₪5.95.
+Promo ₪202.70/₪1,500 by 09-09 → 40 days, needs ₪32.43/day, running ₪8.50/day = **26% of pace**
+(was 16%), projects to ~₪543. Click quality improving: **4 of 6 traceable clicks on genuine charter
+intent** (₪23.85), vs 2 of 4 last week.
+
+### Answering "did we remove the הסעות searchers?" — no, and a blanket block would be wrong
+- 7d: **13 distinct הסעות queries, 35 impressions, 0 clicks, ₪0.** On CPC they cost nothing directly.
+- They cost **CTR**: strip those 35 dead impressions and the visible sample goes 8.3% → **16.2%**.
+  Click-through is the main Quality Score input, so the vague traffic raises CPC on the good clicks.
+- **The family splits.** Junk = bare `הסעות` (13 impr), `הסעה`, `הסעה זולה`, `הסעה לירושלים`.
+  Keep = `חברת הסעות בירושלים` (6 impr) + 8 more company-seeking/bus-qualified variants (19 impr) —
+  that is the actual ICP.
+- **Instrument: EXACT-match negatives.** A phrase/broad negative on `הסעות` would also kill
+  `חברת הסעות בירושלים`. Exact blocks only the bare query. 4 exact negatives close the junk half.
+- **Sequence matters:** every "keep" query was answered by the *airport* ad (all attributed to נתב״ג
+  via the misplaced BROAD keyword). They have never been shown company-hire copy — **fix routing
+  first, judge them after.**
+
+### New this week
+- **Finding 08 (structural, biggest) — the ads-ops watchdog cannot fix any of this by design.**
+  `OPS-PROMPT.md:128` limits autonomous negatives to *"job-seeker / kids / army / minibus / taxi"*.
+  Public-transit, competitor-brand, English and price-shopper junk are **all outside its mandate**, so
+  it identifies them correctly and declines to act — verbatim in today's run: *"…outside the allowed
+  negative categories (job-seeker/kids/army/minibus/taxi only) — no negative added."* This is why
+  `קו 485` has billed in **three separate weeks** (07-17 logged "escalate if it recurs with spend";
+  07-30 and 07-31 it recurred with spend; nothing fired — the escalation note was never wired to
+  anything). **The job works as written; the spec is wrong.** NOT changed autonomously: it governs
+  autonomous mutations on an account spending Avi's money → Noam's call.
+- **`טיולי גילי`** — competitor brand, not among the 12 competitor names already negated.
+- **`הסעה זולה`** ("cheap ride") — and note the causal link: the ads advertise `מחיר משתלם`/`מחיר הוגן`,
+  which is exactly what a bargain-hunter searches. **The Law-1 violation is actively recruiting the
+  wrong customer** — fixing the copy and blocking the query are one job.
+- **BROAD `אוטובוס לטיולים` grew 41 → 51 impressions**, still in נתב״ג = 65% of that group, 49% of the
+  account. `טיולים ואירועים` **still 0 impressions, two weeks running.** Every vague הסעות query
+  routes through this one keyword.
+- Minor/unexplained: total keyword rows 75 → 73 (43 ENABLED unchanged; PAUSED 31 → 29). No mutation
+  logged; most likely removed/paused rows ageing out of the reporting window. Not treated as an alarm.
+
+### Why the API could not be queried directly this session
+Developer-token rate limit at `DEVELOPER` scope; **the 5×/day scheduled job consumes each quota
+window as it opens.** Interactive GAQL returned `RESOURCE_EXHAUSTED` (~14h retry) on both 07-30 and
+07-31. Live data above is the 11:04Z scheduled run's output, not a stale cache. **Still unread live:**
+ad creative text (snapshot carries IDs/status/approval only), whether a conversion action exists, and
+whether a kids/schools negative is among the 73.
+
 ## 2026-07-30 — AUDIT: headlines clean, matching and business-rule compliance are not
 
 Full read-only audit of the live account (snapshot `ads-ops/ads.json`, generated
