@@ -2,6 +2,62 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-03 — THE אוטובוס LAW ENFORCED. Root cause found and fixed (first mutations ever)
+
+Noam, 4th time asking: every entry point must require the literal word **אוטובוס**; anything else
+(מיניבוס, מונית, ואן, טרמפ, "9 מקומות", bare הסעות) must not be able to reach the ad. Fewer clicks
+explicitly accepted — *"לא אכפת לי שירד הכמות קליקים... כל קליק צריך להיות איכותי"*.
+
+**Root cause — it was never the ad copy, and never נתב״ג as a theme. It was 3 BROAD keywords.**
+All 4 live RSAs were already 100% compliant (every headline in all four ENABLED ads contains
+אוטובוס — verified this session, 56/56 headlines). 40 of the 43 enabled keywords were already
+PHRASE/EXACT with אוטובוס in the text. The entire junk stream came from **3 BROAD keywords sitting
+in the נתב״ג ad group**:
+- `אוטובוס לטיולים` (BROAD) · `אוטובוס הסעות לאירועים` (BROAD) · `אוטובוס לנתב ג בלילה` (BROAD)
+
+**Broad match ignores the word.** The keyword *text* contained אוטובוס, so every prior audit read as
+compliant — but BROAD matches on *meaning*, so those three matched `מיניבוסים הסעות`, `taxi app
+israel`, `van service`, `הסעות` (23 impressions), `קו 485 מירושלים לנתבג`, `דרייבר ירושלים`,
+competitor brands, and job-seeker queries. **This is why "every headline says אוטובוס" kept being
+true while the wrong people kept calling.**
+
+**The natural experiment in the 30d search-term data proves it:**
+| ad group | keyword match types | search terms containing אוטובוס |
+|---|---|---|
+| הסעות לעובדים וכללי | PHRASE/EXACT only | **11 of 11** |
+| חתונות | PHRASE only | **5 of 5** |
+| נתב״ג | PHRASE + **3 BROAD** | ~15 of ~90 |
+
+**Money (30d live pull):** 20 clicks · ₪122.21. נתב״ג took 13 clicks / ₪82.03 = **67% of spend**, of
+which only ₪11.64 was on genuine אוטובוס intent → **≈₪70 of ₪122 (58% of all spend) was waste, and
+every shekel traced to those 3 broad keywords.** Noam's instinct that "most of the waste is נתב״ג"
+was right about the location and wrong about the cause — the airport *phrase* keywords are fine.
+
+### Mutations applied (validateOnly → mutate → fresh GAQL re-query, all PASS)
+1. **Paused the 3 BROAD keywords.** Account now has **0 BROAD keywords enabled.**
+2. **Added 6 PHRASE keywords** so real intent the broads were carrying isn't lost:
+   `הזמנת אוטובוס`, `הסעות אוטובוסים`, `חברת אוטובוסים`, `חברות אוטובוסים בירושלים` (→ עובדים וכללי);
+   `אוטובוס לנתבג בלילה`, `אוטובוס לנתבג בשבת` (→ נתב״ג).
+3. **Added 16 campaign negatives** — `נהג אוטובוס` (job-seekers, the one junk class that *does*
+   contain אוטובוס), `6/7/8/9/10 מקומות` (the wrong-vehicle asks Noam named), `טיולי גילי`, `קו 485`,
+   and 8 English (`bus`, `minibus`, `van`, `shuttle`, `airport`, `transportation`, `driver`,
+   `rental`) — English can never contain אוטובוס, and Noam flagged English `bus` as ambiguous.
+   Negatives total 73 → 89. Seat negatives are safe against `אוטובוס 56 מקומות` (tokens `56` ≠ `6`).
+
+**Verified live post-change:** 46 ENABLED keywords · **0 BROAD** · **46/46 contain אוטובוס.**
+Untouched, as always: budgets, bids, campaign status, PMax `24022824230` (still paused).
+
+### Prevention — why this can't be the 5th time
+`ads-ops/OPS-PROMPT.md` gained **"Allowed mutation 3 — pause a keyword that breaks the אוטובוס law"**.
+The 5×/day watchdog previously *could not fix this by design*: HARD LAWS forbade pausing any positive
+keyword, so even a perfect audit was powerless. It now checks both conditions (PHRASE/EXACT, and
+אוטובוס in the text) every run, pauses violators, and alerts — because a violation reappearing means
+something outside the job (Google auto-applied "recommendations", or a hand edit) is re-introducing
+broad match.
+
+**Open question for Noam (not acted on):** whether נתב״ג earns its keep. Recommendation: keep it —
+the waste was the 3 broads, not the airport theme — and judge it on 2 weeks of now-clean data.
+
 ## 2026-08-03 — Watchdog mandate widened (R-widen-ads-ops-watchdog, Noam-approved 2026-08-01)
 
 `OPS-PROMPT.md:127` ("Allowed mutation 1") widened from job-seeker/kids/army/minibus/taxi-only to also
