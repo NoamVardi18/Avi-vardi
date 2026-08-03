@@ -2,6 +2,18 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-03 — Watchdog mandate widened (R-widen-ads-ops-watchdog, Noam-approved 2026-08-01)
+
+`OPS-PROMPT.md:127` ("Allowed mutation 1") widened from job-seeker/kids/army/minibus/taxi-only to also
+cover public-transit lookups, competitor brand names, English/transliterated transit phrases, and
+price/bargain-shopper modifiers — closing the "Finding 08" blind spot below (the 5x/day job could
+identify this junk but not act on it; `קו 485` had billed in 3 separate weeks with nothing firing).
+Escalate-on-ambiguity rule kept; negative keywords still only ever reduce spend, no budget/bid/status/
+copy authority added. File actually lives at `Architect/invoice-engine/ads-ops/OPS-PROMPT.md`, not
+under this `ads-pilot/` dir (this dir holds the planning docs; the live watchdog + its prompt live in
+`Architect/invoice-engine/ads-ops/`) — noted here since NEXT-STEPS.md item 3c and this file both
+reference it by relative name only.
+
 ## 2026-07-31 — LIVE RE-PULL: nothing removed, 2 new leaks, watchdog blind spot found
 
 Live GAQL pull `2026-07-31T11:04:04Z` (11/11 queries OK, via the scheduled run). Supersedes the
