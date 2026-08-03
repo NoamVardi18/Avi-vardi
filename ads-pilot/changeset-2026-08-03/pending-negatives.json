@@ -1,0 +1,519 @@
+{
+  "created": "2026-08-03",
+  "campaign_id": "24022931741",
+  "customer_id": "1128064207",
+  "reason": "אוטובוס-law hardening layer 2; blocked on API 429 RESOURCE_EXHAUSTED (developer basic-access daily op cap)",
+  "applied": false,
+  "operations": [
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "אוטובוס זעיר",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "אוטובוס קטן",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "אוטובוס ציבורי",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "תחנת אוטובוס",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "קו אוטובוס",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "אוטובוס משומש",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "מיני בוס",
+          "match_type": "PHRASE"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "ואן",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "וואן",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "מיניוואן",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "טרמפ",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "טרמפים",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "שאטל",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "לימוזינה",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "טיולית",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "טיוליות",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "רכב",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "יד שנייה",
+          "match_type": "BROAD"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה זולה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות זולות",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות זולות בירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה לירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות בירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות בירושלים מחירים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות באזור ירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לנתבג",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לנתבג מירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה לנתבג",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה לשדה התעופה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לשדה התעופה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לשדה תעופה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה לשדה התעופה מירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעה לשדה התעופה בן גוריון",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לאירועים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לחתונה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות ברמת הגולן",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות רמת הגולן",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות לים המלח מירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "הסעות מודיעין עילית",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "שירותי הסעות",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברת הסעות",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברת הסעות בירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברת הסעות ירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברות הסעות",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברות הסעות בירושלים",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "חברות הסעות בירושלים והסביבה",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "קו מירושלים לנתבג",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "קווי לילה לנתבג",
+          "match_type": "EXACT"
+        }
+      }
+    },
+    {
+      "create": {
+        "campaign": "customers/1128064207/campaigns/24022931741",
+        "negative": true,
+        "keyword": {
+          "text": "takana merkazit",
+          "match_type": "EXACT"
+        }
+      }
+    }
+  ]
+}

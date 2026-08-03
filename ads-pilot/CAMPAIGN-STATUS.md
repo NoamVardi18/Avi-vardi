@@ -2,6 +2,42 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-03 (later) — CORRECTION: "phrase match guarantees the word" is FALSE
+
+The section below claimed PHRASE/EXACT + אוטובוס-in-text **is** the enforcement mechanism. That is
+wrong and Noam caught it. Google's own docs on close variants: *"Ads may show on searches that include
+the meaning of your keyword. The meaning of the keyword can be implied"* (phrase), and exact match
+*"may show on searches that have the same meaning or same intent"*. So `אוטובוס להשכרה` can legally
+match `מיניבוס להשכרה` **with the word never appearing**. No Google setting can express "the query
+must contain this word." Any claim that config alone guarantees it is false — do not repeat it.
+Source: https://support.google.com/google-ads/answer/7478529
+
+**What IS deterministic: negative keywords do not expand to close variants** — Google explicitly tells
+advertisers to add synonyms/plurals/misspellings themselves precisely because negatives are literal.
+That asymmetry is the whole strategy: positives cannot guarantee, negatives can.
+Source: https://support.google.com/google-ads/answer/2453972
+
+### So the guarantee is a loop, not a setting
+`OPS-PROMPT.md` gained **Allowed mutation 4 — the אוטובוס closing loop**: every run (5×/day), every
+search term with ≥1 impression is substring-tested for `אוטובוס` (one test covers `באוטובוס`/
+`לאוטובוס`/`האוטובוס`/`אוטובוסים`), and **any term without it becomes an EXACT negative, verbatim**.
+EXACT negatives block only that literal query, so they can never self-block a positive — the
+self-block check is satisfied by construction. Each leak therefore costs at most one impression cycle
+before being permanently walled. The run now reports `autobus_compliance_pct` (target 100%).
+
+### Layer 2 staged but NOT applied — API quota
+A 51-negative wall was built and **blocked by `429 RESOURCE_EXHAUSTED`** (developer-token basic-access
+daily operation cap, retry ~18h — the same limit hit on 07-30 and 07-31). It is staged at
+`changeset-2026-08-03/` as `pending-negatives.json` (`applied: false`) + `negatives-import.csv`
+(Google Ads Editor format, matches the 07-22 editor-package convention). Contents: an 18-term synonym
+wall (מיניבוס variants, ואן/וואן/מיניוואן, טרמפ, שאטל, לימוזינה, טיולית, רכב, יד שנייה) including the
+**אוטובוס-but-still-wrong** traps — `אוטובוס זעיר` (= minibus, 9-16 seats, exactly Noam's complaint),
+`אוטובוס קטן`, `אוטובוס ציבורי`, `תחנת אוטובוס`, `קו אוטובוס`, `אוטובוס משומש` — plus 33 EXACT
+negatives for junk already observed in this account (the whole bare-`הסעות` family, competitor and
+public-transit queries). **Self-block check run and PASSED against all 46 live positives.**
+Two ways it lands: Noam imports the CSV in Editor (~3 min), or the watchdog drains it automatically
+on the next run with quota. Note both scheduled runs after the quota hit (11:00, 14:00) exited 1.
+
 ## 2026-08-03 — THE אוטובוס LAW ENFORCED. Root cause found and fixed (first mutations ever)
 
 Noam, 4th time asking: every entry point must require the literal word **אוטובוס**; anything else
