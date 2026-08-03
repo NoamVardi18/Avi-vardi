@@ -2,6 +2,49 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-03 (evening, final) — ENGLISH FULLY BLOCKED (Noam's call), Hebrew-only intake
+
+**Noam's ruling, verbatim intent:** *"maybe just cancel every search in english. as minibus is inside
+the bus word and we want only 'bus'. its bad leads anyways. do only hebrew. keep english possibility
+just keep words not working themselves."*
+
+He spotted the trap himself: **"minibus" contains "bus"**, the exact English mirror of the
+`אוטובוס זעיר` problem. Rather than trying to allow `bus` while excluding `minibus`, he chose the
+clean cut — no English search reaches the ads at all.
+
+### First: a mistake of mine that this corrected
+The 8 English negatives added earlier that afternoon (`bus`, `airport`, `transportation`, `rental`,
+`driver`, `van`, `shuttle`, `taxi`) were **too blunt in a way that fought his own rule** — as broad
+negatives, `rental`/`driver`/`airport`/`transportation` would have blocked
+`bus rental jerusalem`, `bus with driver`, `bus to airport`: genuine bus searches. Those 5 were
+**removed** in the UI before the new policy was applied. Recorded because the lesson generalises:
+a negative chosen for the junk it blocks must also be checked against the *good* queries it kills.
+
+### Applied (browser, campaign `אבי ורדי — חיפוש`, verified live in the table)
+~86 broad English negatives in three layers:
+1. **Vehicles//service nouns** — bus, buses, minibuses, mini bus, vans, minivan, mini van, taxis, cab,
+   cabs, shuttles, coach, coaches, limo, limousine, car, cars, transport, transportation, transfer(s),
+   rental(s), rent, hire, charter, driver(s). (`van`, `taxi`, `shuttle`, `minibus` already existed.)
+2. **Intent/context nouns** — ride, trip, tour(s), travel, seat(s), group, wedding, airport, station,
+   ticket(s), schedule, timetable, route, price, cost, cheap, book, booking, service(s), company,
+   jerusalem, israel, tel aviv, ben gurion.
+3. **Stopwords** — the, for, to, from, with, and, in, of, my, me, how, what, where, when, best, near,
+   you, your, we, is, are, a, an, on, at, by, or, it, this, that. **This layer is what makes it
+   airtight**: essentially no English query exists that contains none of these.
+
+### Language targeting deliberately LEFT ON — this is the point, not an oversight
+Noam: *"keep english possibility just keep words not working themselves."* Language targeting keys off
+the user's **Google interface language**, not the query language. Leaving אנגלית ON means an Anglo
+Jerusalem resident whose Google UI is English **can still reach the ads by searching in Hebrew**
+(`אוטובוס לחתונה`) — a real local customer segment. The negatives kill the English *words*. Net effect:
+**intake is Hebrew-only by query, without amputating a customer group by interface setting.**
+Do not "tidy this up" by removing English from the language list — that would lose those customers and
+block nothing extra.
+
+### Bidding: left as-is on Noam's explicit instruction
+*"no i want to keep it at 6 shekels for now."* `מקסימום המרות` stays, despite 0.00 conversions and
+0.00 conversion value (see the section below — the finding stands, the decision is his and it is made).
+
 ## 2026-08-03 (evening) — 51 negatives APPLIED via browser + full settings audit
 
 API stayed 429-exhausted (an 8-op batch failed identically to the 51-op one, and **reads went down
