@@ -2,6 +2,54 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-03 (evening) — 51 negatives APPLIED via browser + full settings audit
+
+API stayed 429-exhausted (an 8-op batch failed identically to the 51-op one, and **reads went down
+too**), so the whole layer-2 wall was applied through the **Google Ads web UI in Chrome** instead.
+`changeset-2026-08-03/pending-negatives.json` is now `applied: true`.
+
+**Account access note for future sessions:** the Ads account `112-806-4207` is reachable only from
+the Google account **vardi197@gmail.com** (`authuser=4` in the URL). `vardinoam3@gmail.com` has NO
+Ads account — landing there shows the *signup* flow, which must not be completed.
+
+### Applied via browser (verified by the live table + "מילות המפתח השליליות נוצרו" toast)
+- **51 campaign negatives** — 18-term synonym wall + 33 EXACT negatives. Match types confirmed live
+  as התאמה מדויקת / התאמה רחבה / התאמה לביטוי.
+- **Search Partners turned OFF.** `רשתות` read *"רשת החיפוש של Google, שותפי חיפוש"*; now reads
+  **"רשת החיפוש של Google"** only. Search-partner inventory is third-party sites — low intent, and
+  nothing in Noam's rule justified paying for it.
+
+### THE BIGGEST REMAINING PROBLEM — bidding is optimising for something that never happens
+- **Bidding = `מקסימום המרות` (Maximize Conversions).**
+- **Conversions recorded, all time: 0.00.** Both primary conversion actions (`קליקים לשיחות ממודעות`,
+  `שיחות ממודעות`) show status **"אין המרות מהזמן האחרון"**, `כל ההמרות` 0.00, **`ערך כל ההמרות` 0.00**.
+- **`כללי ערך`: לא הוגדר אף כלל** — this is the direct answer to Noam's "ערך המרות" question: there is
+  no conversion value in this account at all, because nothing has ever been recorded.
+- Campaign conversion goals = *phone-call leads + lead-form submissions*. **But Noam's actual complaint
+  is that people MESSAGE his dad.** Messages are not a tracked conversion, so the optimiser is blind by
+  construction — it is being asked to maximise an event that structurally never fires.
+- Consequence: smart bidding must spend the ₪30/day with zero quality signal. 30d = 38 clicks,
+  494 impressions, ₪231.54, CPC ₪6.09, 0 conversions. **This is very likely a larger cause of junk
+  clicks than the broad keywords were.** NOT changed — bid strategy is a money decision, Noam's call.
+
+### Verified already-correct (no change made)
+Display Network off · broad-match setting off · locations = ירושלים + מבשרת ציון with **נוכחות**
+(presence-only, not presence-or-interest) · **DSA not configured** (website field empty) ·
+auto-generated assets off · AI Max off.
+
+### Two things that must never be accepted
+1. The **"יישום המלצות באופן אוטומטי"** banner Google shows on the negatives page — auto-apply
+   recommendations can re-introduce broad match and silently break the אוטובוס law.
+2. **AI Max**, which Google is actively promoting in this campaign's settings; its own description
+   says it *"מרחיב את מילות המפתח להתאמה רחבה"*. Enabling it would undo this entire fix.
+
+### Deliberately NOT done: removing English from language targeting
+Noam flagged English. Language targeting keys off the user's **Google interface language**, not the
+query language — so removing English would exclude Anglo Jerusalem residents who search in Hebrew
+(`אוטובוס לחתונה`) with an English UI, a real customer segment, while blocking nothing extra: the
+English *queries* (`tlv airport`, `israel bus`, `van service`) are already dead via the 8 English
+negatives. Precise instrument beats blunt one; left ON deliberately.
+
 ## 2026-08-03 (later) — CORRECTION: "phrase match guarantees the word" is FALSE
 
 The section below claimed PHRASE/EXACT + אוטובוס-in-text **is** the enforcement mechanism. That is

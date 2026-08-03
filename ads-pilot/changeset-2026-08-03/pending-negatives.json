@@ -3,7 +3,7 @@
   "campaign_id": "24022931741",
   "customer_id": "1128064207",
   "reason": "אוטובוס-law hardening layer 2; blocked on API 429 RESOURCE_EXHAUSTED (developer basic-access daily op cap)",
-  "applied": false,
+  "applied": true,
   "operations": [
     {
       "create": {
@@ -515,5 +515,7 @@
         }
       }
     }
-  ]
+  ],
+  "applied_at": "2026-08-03",
+  "applied_via": "Google Ads web UI (Chrome), campaign אבי ורדי — חיפוש; API was 429-exhausted"
 }
