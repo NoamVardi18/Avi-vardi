@@ -2,6 +2,81 @@
 
 > Read this before trusting any commit message in this directory's history.
 
+## 2026-08-05 — נתב״ג CLOSED (Noam's call): ad group paused + airport negative wall
+
+**Noam's ruling, verbatim intent:** *"i want you to close natbag's ads as its not profitable even for
+my dad to do a drive from there as its a small drive and makes whole day stuck afterwards."*
+Business reason, not a performance reason: an airport run is a short, cheap job that blocks the
+whole rest of the driver's day. It is unprofitable even when it converts.
+
+### The numbers that confirmed it (live UI, 30-day window 2026-07-07 → 2026-08-03)
+| Ad group | impressions | clicks | conversions |
+|---|---|---|---|
+| נתב״ג | 436 | 27 | 0 |
+| הסעות לעובדים וכללי | 78 | 13 | 0 |
+| חתונות | 16 | 3 | 0 |
+| טיולים ואירועים | 1 | 0 | 0 |
+| **campaign total** | **531** | **43** | **0.00** — ₪260.57 spent |
+
+נתב״ג was **82% of impressions and 63% of clicks** — the majority of the budget was buying the one
+job type Noam does not want. Pausing it is the single biggest spend change available.
+
+### Applied (browser UI, verified live)
+1. **Ad group נתב״ג (id 202032774927) → PAUSED.** Confirmed by fresh page reload: status reads
+   `מושהית`; the other three ad groups still read `כשירה`. Its RSA now shows `לא כשירה`.
+2. **18 campaign-level BROAD negatives added** (221 → **239** total, toast
+   `מילות המפתח השליליות נוצרו.`, all 18 re-confirmed present after reload, tagged
+   `קמפיין` / `התאמה רחבה`):
+   נתב"ג · לנתב"ג · מנתב"ג · בנתב"ג · נתבג · לנתבג · שדה תעופה · שדה התעופה · לשדה התעופה ·
+   נמל תעופה · נמל התעופה · בן גוריון · טיסה · לטיסה · טיסות · מהטיסה · ואנים · נסיעה קצרה
+
+### Why the pause alone was NOT enough — the reason for step 2
+Pausing an ad group stops *its own* keywords. It does nothing about the **broad-match keywords in the
+three ad groups that are still live**, which can and do match airport queries. This is the standing
+lesson from this account restated: **only negatives are literal.** A paused ad group is a positive-side
+change and therefore not a guarantee; the guarantee had to be the negative wall.
+
+**Hebrew negatives do not stem** — `לנתב"ג` is a different token from `נתב"ג`, so every prefixed
+variant is a separate, deliberate entry. Do not "tidy up" these as duplicates; deleting the prefixed
+forms reopens the hole.
+
+Already present from earlier work, so not re-added: מונית · מוניות · מיניבוס · מיניבוסים ·
+"מיני בוס" (phrase) · ואן · וואן · מיניוואן · airport · ben gurion, plus a set of EXACT airport
+phrases (`[הסעה לנתבג]`, `[קווי לילה לנתבג]`, `[הסעה לשדה התעופה]` …).
+
+### The "bizarre 24/7 from the airport" copy Noam flagged — located, and it is now dark
+Full asset + ad-copy audit run across all 4 ad groups. Every hard airport / 24-7 / night claim lived
+**exclusively inside the נתב״ג RSA**, which is now non-serving:
+אוטובוס לנתב״ג 24 שעות · אוטובוס לנתב״ג בכל שעה · אוטובוס לנתב״ג יום ולילה ·
+אוטובוס לשדה התעופה · אוטובוס ממוזג לשדה תעופה · אוטובוס לטיסה - נהג צמוד
+and the descriptions `…בכל שעה`, `…גם בלילה`, `זמינות 24 שעות…`.
+The campaign sitelink `הסעות לנתב״ג` was found **already paused**. The three live ad groups contain
+no airport, no explicit 24/7, no taxi and no minibus language — the only residue is the soft
+availability phrasing `זמינות מלאה` / `זמינות גבוהה` in חתונות and טיולים, left alone as it makes no
+literal 24/7 or any-group-size promise. Two AI-generated image assets remain attached to the נתב״ג ad
+group; they cannot serve while it is paused, so they were left in place.
+
+### Not touched, deliberately
+- **Bidding.** Still `מקסימום המרות` per Noam's 2026-08-03 instruction (*"i want to keep it at 6
+  shekels for now"*). Flagged once, not re-litigated: a Maximize-Conversions strategy with **0
+  recorded conversions** has no signal to optimise toward. See the open item below.
+- Budget (₪30/day), the three live ad groups, all existing keywords and negatives.
+
+### THE REAL OPEN ITEM — the account has no conversion tracking
+43 clicks and ₪260.57 across 30 days produced `0.00` conversions, yet the campaign runs a call asset
+(052-480-4842) and a lead-form asset (`אוטובוס בהזמנה מהירה`). Phone calls are the actual business
+outcome and **nothing is counting them**. Until call-conversion tracking exists, every optimisation
+here — bidding included — is guesswork. This is the highest-value next fix on the account.
+
+### API status at time of this change: quota-exhausted, so this was done in the browser
+`GOOGLEADS_LIST_ACCESSIBLE_CUSTOMERS` returned HTTP 429 `RESOURCE_EXHAUSTED`,
+`rateScope: DEVELOPER`, `rateName: "Number of operations for basic access"`, `retryDelay: 6114s`.
+This is **not** a missing-capability problem and not a different-API problem: the Google Ads API
+already exposes strictly more than the three UI pages (search-terms report included). The developer
+token is on **Basic access = 15,000 operations/day**, and it keeps hitting the ceiling — the same
+429 blocked the 2026-08-03 session. The fix is a free upgrade to **Standard access**, applied for in
+the Ads API Center; it needs Noam to submit the form from the account.
+
 ## 2026-08-03 (evening, final) — ENGLISH FULLY BLOCKED (Noam's call), Hebrew-only intake
 
 **Noam's ruling, verbatim intent:** *"maybe just cancel every search in english. as minibus is inside
