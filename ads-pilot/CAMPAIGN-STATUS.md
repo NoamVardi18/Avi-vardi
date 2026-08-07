@@ -473,3 +473,27 @@ ignored the `decision` field entirely and emitted every entry, unlike `build-pay
 which filters correctly — so fixing the data alone would not have been enough. The generator
 now filters on `decision`, and the regenerated `negatives-import.csv` dropped 39 → 36 rows.
 `verify-changeset.cjs` re-run: PASS.
+
+## 2026-08-07 — bidding switched to Maximize Clicks (Noam approved: "clicks")
+
+**Before:** `MAXIMIZE_CONVERSIONS`, all time **₪370.17 spent · 51 clicks · 624 impressions · 0 conversions · 0 conversion value.**
+Smart bidding was optimising toward an event that never fires: the campaign counts phone calls and
+lead forms, but leads actually arrive as WhatsApp messages, which are untracked. With no signal,
+Maximize Conversions has nothing to steer by — it just spends the ₪30/day.
+
+**After (verified live via GAQL):** `biddingStrategyType: TARGET_SPEND` (Maximize Clicks), via
+portfolio strategy `12186451073` "Maximize Clicks - avi vardi 2026-08-07". Campaign still ENABLED,
+budget unchanged at ₪30/day. No ad groups or keywords touched; נתב״ג stays PAUSED as it was.
+
+**The trap that was avoided.** The obvious API route (`MUTATE_CAMPAIGNS` -> `manual_cpc`) would have
+been a disaster: every ad group carries `cpc_bid_micros: 10000` (**₪0.01**) — the placeholder Google
+keeps while smart bidding runs — against an actual clearing CPC of **₪5.63–9.07**. Manual CPC would
+have bid one agora into a ₪7 auction and stopped delivery entirely while the campaign still read
+ENABLED. Always read ad-group `cpc_bid_micros` against `average_cpc` before switching strategy.
+
+**Still open — the real fix.** Maximize Clicks buys traffic more honestly, but it does not fix
+attribution. Until the WhatsApp path is tracked as a conversion, nothing here can optimise toward
+actual leads. That is a website/tag job, not a bidding job.
+
+**Not done, deliberately:** no `cpc_bid_ceiling_micros` was set. A ceiling caps per-click cost but
+can throttle delivery, and picking that number is Noam's call, not an assumption.
