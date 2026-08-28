@@ -184,6 +184,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" /></noscript>
+    <!-- Google tag (gtag.js) — Google Ads conversion tracking, account 1128064207.
+         Added 2026-08-28: the account had 49 clicks / 0 conversions, which meant UNMEASURED,
+         not "nobody responded". Until this existed every bid decision was tuned against
+         clicks instead of leads. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18195393649"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18195393649');
+
+      // ponytail: ONE delegated listener instead of wiring all 8 tel: links and the WhatsApp
+      // CTA by hand — it also catches any link React renders after load, so new CTAs are
+      // tracked automatically. Capture phase, so a React handler calling stopPropagation
+      // can't swallow it. We never preventDefault: gtag ships conversions via sendBeacon,
+      // which survives the navigation the link is about to cause.
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest && e.target.closest('a[href^="tel:"], a[href*="wa.me"]');
+        if (!a) return;
+        gtag('event', 'conversion', {
+          send_to: a.href.indexOf('wa.me') !== -1
+            ? 'AW-18195393649/MprvCJ2By-kcEPHYnuRD'   // WhatsApp Click  (id 7737622685)
+            : 'AW-18195393649/gblNCKCBy-kcEPHYnuRD'   // Phone Click     (id 7737622688)
+        });
+      }, true);
+    </script>
   </head>
 
   <body class="rtl">
