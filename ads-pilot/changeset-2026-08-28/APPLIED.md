@@ -135,3 +135,28 @@ serving ad for a few hours):
 - `אוטובוס לטיול בית ספר` → `אוטובוס לטיולי גמלאים` (seniors are explicitly a wanted audience)
 - `אוטובוס לטיול - מחיר משתלם` → `אוטובוס לטיול ממודיעין` (mirrors the new geo keyword)
 - description 3 → `אוטובוס לטיול קבוצתי, יום גיבוש או טיול גמלאים. יוצאים מירושלים וממודיעין. התקשרו.`
+
+---
+
+## OPEN LOOP — one action, ~10 seconds, when Google finishes reviewing
+
+A corrected RSA was created in `טיולים ואירועים` (**ad `822576473695`**) with the school
+headline and both price claims removed. RSA headlines are **immutable** via `AdGroupAdService`
+(`IMMUTABLE_FIELD` — only `AdService` can edit them, which Composio does not expose), so the fix
+had to be a new ad rather than an edit.
+
+It was left **ENABLED alongside** the old ad `818296943680` rather than swapping immediately:
+at the time of writing the new ad was `REVIEW_IN_PROGRESS`, and pausing the old one would have
+left the group with no servable ad — recreating the exact blackout this changeset just fixed.
+With both live, Google rotates, so the violating copy drops from 100% of impressions to roughly
+half, with zero downtime.
+
+**When `822576473695` shows `APPROVED`, pause `818296943680`.** Until then the old ad can still
+show a school-trip headline, which is the one thing Avi does not want.
+
+Check and close:
+```
+SELECT ad_group_ad.ad.id, ad_group_ad.status, ad_group_ad.policy_summary.approval_status
+FROM ad_group_ad WHERE ad_group.id = 197000680966 AND ad_group_ad.status != 'REMOVED'
+```
+then set `customers/1128064207/adGroupAds/197000680966~818296943680` to `PAUSED`.
