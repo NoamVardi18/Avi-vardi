@@ -61,6 +61,12 @@ const BUS_FRONT_ANGLE_IMG = "/images/bus-front-angle.jpeg";
 const WA_LINK = (text: string) =>
   `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
 
+// ⚠️ Two of these three are unsupported claims. "56 מקומות ישיבה" is a fact about the bus.
+// "5.0 דירוג לקוחות" was derived from the four reviews Noam confirmed are invented (see
+// shared/const.ts) — with the schema markup now removed, this number has nothing behind it at
+// all. "100% עמידה בזמנים" is an absolute that nothing measures. Both need either a real
+// source or different copy; flagged 2026-08-29 rather than silently rewritten, because hero
+// copy on a live customer site is Avi's call.
 const HERO_STATS = [
   { value: "56", label: "מקומות ישיבה", ariaLabel: "56 מקומות ישיבה" },
   { value: "100%", label: "עמידה בזמנים", ariaLabel: "100 אחוז עמידה בזמנים" },

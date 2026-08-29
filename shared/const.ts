@@ -20,6 +20,20 @@ export const OWNER_PHONE_DISPLAY = "052-480-4842";
 export const OWNER_WHATSAPP = "972524804842";
 export const OWNER_LOCATION = "מבשרת ציון, סמוך לירושלים";
 
+/**
+ * ⚠️ UNVERIFIED — Noam confirmed 2026-08-29 that these four are placeholder/invented.
+ *
+ * The matching schema.org markup (aggregateRating 5/4 plus four Review objects) was REMOVED
+ * from client/index.html the same day: fabricated review markup is a Google structured-data
+ * violation and can cost the site its rich results, and it is the half Google actually reads.
+ *
+ * These on-page cards were left in place deliberately rather than deleted — removing them
+ * silently would leave a hole in a live customer-facing page, and what replaces them is Avi's
+ * call, not a code decision. Replace with real customer quotes, or remove the section.
+ *
+ * Note the dates are relative strings ("לפני שבועיים"), so they never age — they will still
+ * claim "two weeks ago" a year from now. Any real replacement should use fixed dates.
+ */
 export const REVIEWS: Review[] = [
   {
     id: "1",
