@@ -1,22 +1,14 @@
 SUPERVISION: STANDARD
 
-## M-verify-price-bands — Confirm the published price bands with Avi
-- Status: waiting-noam
+## M-google-business-profile — Link the Google Business Profile to the site
+- Status: open
 - Lane: [noam]
-- Agent: none (one question to Avi; then a one-line edit)
-- Verify: Avi states each band is right, or gives corrected numbers; then PRICE_BANDS in shared/seo-pages.mjs is updated and `pnpm build` regenerates all 8 pages + llms.txt from it.
-
-Why: the bands (חתונה מ-₪1,800 / רחוקה מ-₪2,500 / נתב"ג מ-₪900 / טיול מ-₪2,200) came from an earlier session's hand-written client/public/llms.txt. Nobody has confirmed them with Avi. They are now published on /mechiron/ and quoted in llms.txt, which is exactly the surface AI answer engines lift from — so a wrong number gets repeated by ChatGPT and Perplexity as if it were a quote. Noam 2026-09-02: Avi "doesn't like to להתחייב for a price", so they are framed as "טווח משוער, נסגר בשיחה" floors rather than quotes, but the numbers themselves are still unverified. Same class of claim as the invented reviews removed in 81ff3a5 — recorded rather than silently trusted.
-
-Canonical: this file (opened 2026-09-02 during the SEO/GEO build)
-
-## M-google-business-profile — Open or claim the Google Business Profile
-- Status: waiting-noam
-- Lane: [noam]
-- Agent: none (identity verification; only the business owner can pass it)
+- Agent: none (needs the profile URL from Noam, then a one-line schema edit)
 - Verify: searching "אבי ורדי הסעות" in Google Maps returns a verified card with the site linked, and the local pack shows it for "הסעות מבשרת ציון".
 
-Why: the local 3-pack on Maps takes most of the click volume for queries like "הסעות לחתונה ירושלים", and it is driven by a Business Profile, not by the website — no amount of on-site SEO can substitute. It is free. It is also the only place real reviews can accumulate, which matters more than usual here: the four reviews on site were invented and their markup was removed (81ff3a5), so the business currently has zero verifiable social proof anywhere. Hebrew walkthrough written for Noam 2026-09-02.
+Why: Noam confirmed 2026-09-02 that the profile EXISTS and he has updated it per the Hebrew walkthrough. What remains is the connection: the site's LocalBusiness schema has no `sameAs` pointing at the profile, so Google and the AI engines are resolving the website and the Maps listing as two separate things instead of one business. Adding the profile URL to BIZ in shared/seo-pages.mjs closes that, and the same link belongs in client/index.html's LocalBusiness block.
+
+Still the highest-value follow-on: the profile is the only place real reviews can accumulate, and the business has zero verifiable social proof anywhere since the invented ones were pulled (81ff3a5). Google's "ask for reviews" short link, sent to 5-10 past customers, is the single action worth most here.
 
 Canonical: this file (opened 2026-09-02 during the SEO/GEO build)
 

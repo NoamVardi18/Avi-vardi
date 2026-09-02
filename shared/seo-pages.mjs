@@ -26,10 +26,10 @@ export const BIZ = {
   seats: 56,
 };
 
-/** ⚠️ UNVERIFIED WITH AVI — see MISSIONS.md. These came from client/public/llms.txt, written
- *  by an earlier session; nobody has confirmed them with Avi himself. They are published as
- *  "טווח משוער, נסגר בשיחה" floors, never as a quote. Same class of claim as the review markup
- *  that turned out to be invented (commit 81ff3a5) — so: one place to edit, and flagged. */
+/** Confirmed by Noam 2026-09-02 ("prices are ok"). Avi does not like committing to a number, so
+ *  these stay "החל מ־" floors framed as טווח משוער with the close happening in conversation —
+ *  never a quote. They are published on /mechiron/ and quoted in llms.txt, which is the surface
+ *  AI answer engines lift from, so edit them HERE and rebuild rather than anywhere downstream. */
 export const PRICE_BANDS = [
   { label: "חתונה באזור — ירושלים, גוש דן, שפלה", from: "₪1,800", note: "הלוך ושוב, כולל המתנה" },
   { label: "חתונה רחוקה — צפון או דרום", from: "₪2,500", note: "הלוך ושוב, כולל המתנה" },
