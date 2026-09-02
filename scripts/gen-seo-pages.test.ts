@@ -76,6 +76,17 @@ describe("rendered pages", () => {
     }
   });
 
+  it("links the business entity to its Google Business Profile", () => {
+    // Without sameAs, Google and the AI engines treat the website and the Maps listing as two
+    // unrelated things, and the site inherits none of the trust from the profile's real reviews.
+    for (const { page, html } of rendered) {
+      const g = JSON.parse(
+        html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)![1].replace(/\\u003c/g, "<"),
+      );
+      expect(g["@graph"][0].sameAs, `${page.slug} sameAs`).toContain(BIZ.googleBusinessProfile);
+    }
+  });
+
   it("prefills every WhatsApp link", () => {
     for (const { page, html } of rendered) {
       const links = [...html.matchAll(/href="(https:\/\/wa\.me\/[^"]*)"/g)].map((m) => m[1]);

@@ -24,6 +24,13 @@ export const BIZ = {
   region: "ירושלים",
   origin: "https://www.avivardi.online",
   seats: 56,
+  // The Google Business Profile, found and confirmed live 2026-09-02: "אבי ורדי הסעות",
+  // category שירותי הסעות, 5.0 from 25 real reviews, website + phone already linked.
+  // sameAs is what tells Google and the AI engines that this website and that Maps listing are
+  // ONE business rather than two unrelated things — without it the site earns none of the trust
+  // those 25 reviews represent. The cid form is the stable canonical URL for a profile.
+  googleBusinessProfile: "https://www.google.com/maps?cid=10289429120438977164",
+  googlePlaceId: "ChIJ9eOS7yfXAhURjEJT8URly44",
 };
 
 /** Confirmed by Noam 2026-09-02 ("prices are ok"). Avi does not like committing to a number, so

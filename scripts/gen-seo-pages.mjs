@@ -262,6 +262,8 @@ const bizNode = () => ({
   url: BIZ.origin,
   telephone: BIZ.phone,
   image: `${BIZ.origin}/og-image.jpg`,
+  sameAs: [BIZ.googleBusinessProfile],
+  hasMap: BIZ.googleBusinessProfile,
   address: {
     "@type": "PostalAddress",
     addressLocality: BIZ.locality,
