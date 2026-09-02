@@ -123,3 +123,6 @@ BRIEF.md
 
 # local verification screenshots
 .local-verify-*.png
+
+# playwright-mcp scratch output from local verification runs
+.playwright-mcp/

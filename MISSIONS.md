@@ -1,5 +1,25 @@
 SUPERVISION: STANDARD
 
+## M-verify-price-bands — Confirm the published price bands with Avi
+- Status: waiting-noam
+- Lane: [noam]
+- Agent: none (one question to Avi; then a one-line edit)
+- Verify: Avi states each band is right, or gives corrected numbers; then PRICE_BANDS in shared/seo-pages.mjs is updated and `pnpm build` regenerates all 8 pages + llms.txt from it.
+
+Why: the bands (חתונה מ-₪1,800 / רחוקה מ-₪2,500 / נתב"ג מ-₪900 / טיול מ-₪2,200) came from an earlier session's hand-written client/public/llms.txt. Nobody has confirmed them with Avi. They are now published on /mechiron/ and quoted in llms.txt, which is exactly the surface AI answer engines lift from — so a wrong number gets repeated by ChatGPT and Perplexity as if it were a quote. Noam 2026-09-02: Avi "doesn't like to להתחייב for a price", so they are framed as "טווח משוער, נסגר בשיחה" floors rather than quotes, but the numbers themselves are still unverified. Same class of claim as the invented reviews removed in 81ff3a5 — recorded rather than silently trusted.
+
+Canonical: this file (opened 2026-09-02 during the SEO/GEO build)
+
+## M-google-business-profile — Open or claim the Google Business Profile
+- Status: waiting-noam
+- Lane: [noam]
+- Agent: none (identity verification; only the business owner can pass it)
+- Verify: searching "אבי ורדי הסעות" in Google Maps returns a verified card with the site linked, and the local pack shows it for "הסעות מבשרת ציון".
+
+Why: the local 3-pack on Maps takes most of the click volume for queries like "הסעות לחתונה ירושלים", and it is driven by a Business Profile, not by the website — no amount of on-site SEO can substitute. It is free. It is also the only place real reviews can accumulate, which matters more than usual here: the four reviews on site were invented and their markup was removed (81ff3a5), so the business currently has zero verifiable social proof anywhere. Hebrew walkthrough written for Noam 2026-09-02.
+
+Canonical: this file (opened 2026-09-02 during the SEO/GEO build)
+
 ## M-manus-runtime-fix — Apply the pending vite fix for dead Manus runtime
 - Status: waiting-noam
 - Lane: [noam]
