@@ -29,3 +29,7 @@ Updated 2026-09-04 (FABLE-51 doc-rot fix).
 - 2026-08-14: stale `.bak` files (>7d) archived out of the tracked tree (flawless-machine sweep).
 - 2026-08-29: removed fabricated JSON-LD review markup Noam confirmed was invented — don't reintroduce review schema without a real source.
 - 2026-09-02: SEO/GEO pass — real HTML served to crawlers across 8 pages, price bands sourced, site connected to the actual Google Business Profile (cid 10289429120438977164).
+- 2026-09-05 (money-lane, item C): doc-rot only, no code change — `sameAs` was ALREADY live in
+  both `client/index.html` and `shared/seo-pages.mjs`'s `BIZ.googleBusinessProfile` since
+  07a6a60 (2026-09-02); `MISSIONS.md`'s `M-google-business-profile` still said "open" describing
+  work already shipped. Closed it there. No build run (no source changed).

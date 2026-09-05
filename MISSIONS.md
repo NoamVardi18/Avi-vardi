@@ -1,12 +1,23 @@
 SUPERVISION: STANDARD
 
 ## M-google-business-profile — Link the Google Business Profile to the site
-- Status: open
+- Status: DONE (closed 2026-09-05, was already shipped 2026-09-02 in commit 07a6a60 — this
+  entry was just never marked closed)
 - Lane: [noam]
 - Agent: none (needs the profile URL from Noam, then a one-line schema edit)
-- Verify: searching "אבי ורדי הסעות" in Google Maps returns a verified card with the site linked, and the local pack shows it for "הסעות מבשרת ציון".
+- Verify: `grep -n sameAs client/index.html shared/seo-pages.mjs` shows
+  `https://www.google.com/maps?cid=10289429120438977164` in both the main site's LocalBusiness
+  JSON-LD (`client/index.html`, added 07a6a60) and `BIZ.googleBusinessProfile` (consumed by
+  `scripts/gen-seo-pages.mjs`'s generated SEO pages) — the code-side half of this mission is
+  done. What's still genuinely [noam]-only: searching "אבי ורדי הסעות" in Google Maps returns a
+  verified card with the site linked, and the local pack shows it for "הסעות מבשרת ציון" (that's
+  Google's own indexing timeline, not something a rebuild changes), and the reviews follow-on
+  below.
 
-Why: Noam confirmed 2026-09-02 that the profile EXISTS and he has updated it per the Hebrew walkthrough. What remains is the connection: the site's LocalBusiness schema has no `sameAs` pointing at the profile, so Google and the AI engines are resolving the website and the Maps listing as two separate things instead of one business. Adding the profile URL to BIZ in shared/seo-pages.mjs closes that, and the same link belongs in client/index.html's LocalBusiness block.
+Why (historical): Noam confirmed 2026-09-02 that the profile EXISTS and he has updated it per
+the Hebrew walkthrough. The site's LocalBusiness schema had no `sameAs` pointing at the profile,
+so Google and the AI engines were resolving the website and the Maps listing as two separate
+things instead of one business. That connection is now made on both surfaces.
 
 Still the highest-value follow-on: the profile is the only place real reviews can accumulate, and the business has zero verifiable social proof anywhere since the invented ones were pulled (81ff3a5). Google's "ask for reviews" short link, sent to 5-10 past customers, is the single action worth most here.
 
