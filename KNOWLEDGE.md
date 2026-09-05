@@ -33,3 +33,13 @@ Updated 2026-09-04 (FABLE-51 doc-rot fix).
   both `client/index.html` and `shared/seo-pages.mjs`'s `BIZ.googleBusinessProfile` since
   07a6a60 (2026-09-02); `MISSIONS.md`'s `M-google-business-profile` still said "open" describing
   work already shipped. Closed it there. No build run (no source changed).
+- 2026-09-05 (ADS-READINESS night lane, `feature/conversion-tracking` branch, `CONVERSIONS-SETUP.md`):
+  verified against live GAQL that conversion tracking (2272f36) and the ₪6.00 CPC ceiling
+  (on portfolio strategy `12186451073`, not the campaign field) are BOTH already live —
+  the artifact-mined "decided weeks ago, never executed" premise for both was stale. The one
+  real gap confirmed live tonight: ad groups `198995179115` (השכרת אוטובוס — כללי) and
+  `201158533351` (חתונות) still have 0 ENABLED ads (18+ days dark) — both replacement ads
+  already exist and are Google-approved, just PAUSED; enabling them is the only tap prepared.
+  No mutation made. Also flagged: `set_bid_ceiling.py` in `Architect/invoice-engine/ads-ops/`
+  mutates the wrong resource for this account (campaign field, not the portfolio bidding
+  strategy) and would need a fix before ever being run here.
