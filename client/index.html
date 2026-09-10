@@ -213,10 +213,19 @@
   <body class="rtl">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Umami, self-hosted on Noam's own VPS.
+         REPLACES a third-party endpoint, and that is the point of this change: the two
+         %VITE_ANALYTICS_*% placeholders that stood here came from the template this site was
+         scaffolded from, and the values Vercel substituted into them pointed at
+         manus-analytics.com — every visitor to avivardi.online was being counted by the template
+         vendor, on their server, under a website id from their account. Nobody chose that.
+         Hardcoded rather than re-pointed through the same env vars, so a stale value in the
+         Vercel project cannot quietly send this traffic somewhere else again.
+         website id 01a6293f-592a-4b3c-afaf-97052e0e0b47 = avivardi.online. -->
     <script
       defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+      src="https://racknerd-1efcaa7.taild4489b.ts.net:8443/script.js"
+      data-website-id="01a6293f-592a-4b3c-afaf-97052e0e0b47"></script>
   </body>
 
 </html>
