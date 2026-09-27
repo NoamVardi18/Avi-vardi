@@ -160,3 +160,18 @@ SELECT ad_group_ad.ad.id, ad_group_ad.status, ad_group_ad.policy_summary.approva
 FROM ad_group_ad WHERE ad_group.id = 197000680966 AND ad_group_ad.status != 'REMOVED'
 ```
 then set `customers/1128064207/adGroupAds/197000680966~818296943680` to `PAUSED`.
+
+---
+
+## CLOSED — 2026-09-04, mac-deploy-sweep
+
+Both ads queried APPROVED/REVIEWED before acting: `818296943680` ENABLED, `822576473695`
+ENABLED. Mutated `customers/1128064207/adGroupAds/197000680966~818296943680` to `PAUSED` via
+`GOOGLEADS_MUTATE_AD_GROUP_ADS`. Independent re-query confirms end state:
+
+| ad | status | approval |
+|---|---|---|
+| `818296943680` (school-trip/price headline) | **PAUSED** | APPROVED |
+| `822576473695` (law-compliant) | **ENABLED** | APPROVED |
+
+Group now serves only the compliant ad. DONE-WHEN met.

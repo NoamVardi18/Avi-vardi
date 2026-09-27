@@ -430,11 +430,17 @@ This list is the *starter* — the search-terms report is where the real negativ
 ---
 
 ## Campaign-name → lead-log handshake (do NOT skip)
-Every campaign/ad-group name you create in Google Ads must be **dictated verbatim** to the lead log
-(`/lead` → `leads.js`). Attribution is **exact-match** — a name that doesn't match `ads_daily`
-mis-attributes the money in the ROAS view. When dad gets a call, he logs source+campaign; that call
-is how "which search worked" becomes shekels. Suggested canonical names:
-- `avivardi-search-natbag` (נתב"ג)
-- `avivardi-search-weddings` (חתונות ואירועים)
-- `avivardi-search-tours` (טיולים והשכרה)
-- `avivardi-search-company` (חברת הסעות — NEW, v2)
+**Corrected 2026-09-25 (R-align-lead-log-attributi):** the `avivardi-search-*` slugs suggested below
+were never wired into the account or the code — the live account uses ONE Hebrew campaign name and
+Hebrew ad-group names (see `CAMPAIGN-STATUS.md` for current live names), and `ads-ingest.js`/`leads.js`
+read/store the REAL live names verbatim — no slug or name-map needed or expected. **Do NOT rename ad
+groups to match this file; do NOT invent an English slug at capture time.** The one real gap this item
+found: `biz_leads` never had an `ad_group` column, so a call could only be attributed to the whole
+campaign, not to which ad group (נתב״ג vs חתונות vs טיולים vs company) actually produced it — fixed in
+`invoice-engine/schema.sql` (new `ad_group` column + `biz_roas` view join) and `leads.js` (`--ad-group`
+flag on `add`, new `ad-groups` command mirroring `campaigns`). Dictate the ad group's **real Hebrew
+name** at capture time — echo it via `node leads.js ad-groups` (or `campaigns` for the campaign),
+never a slug:
+- ~~`avivardi-search-natbag`~~ / ~~`avivardi-search-weddings`~~ / ~~`avivardi-search-tours`~~ /
+  ~~`avivardi-search-company`~~ — none of these ever existed in Google Ads or in `ads_daily`; kept
+  here struck through only so nobody re-invents them.

@@ -1,6 +1,6 @@
 // server/_core/vercel.ts
 import "dotenv/config";
-import express2 from "express";
+import express from "express";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 
 // shared/const.ts
@@ -12,28 +12,30 @@ var NOT_ADMIN_ERR_MSG = "You do not have required permission (10002)";
 
 // server/db.ts
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 // drizzle/schema.ts
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
-var users = mysqlTable("users", {
+import { pgEnum, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+var roleEnum = pgEnum("role", ["user", "admin"]);
+var users = pgTable("users", {
   /**
    * Surrogate primary key. Auto-incremented numeric value managed by the database.
    * Use this for relations between tables.
    */
-  id: int("id").autoincrement().primaryKey(),
+  id: serial("id").primaryKey(),
   /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: roleEnum("role").default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull()
 });
-var bookings = mysqlTable("bookings", {
-  id: int("id").autoincrement().primaryKey(),
+var bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
   /** Customer full name */
   name: varchar("name", { length: 255 }).notNull(),
   /** Customer phone number */
@@ -63,7 +65,8 @@ var _db = null;
 async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      const client = postgres(process.env.DATABASE_URL, { ssl: "require" });
+      _db = drizzle(client);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -111,7 +114,8 @@ async function upsertUser(user) {
     if (Object.keys(updateSet).length === 0) {
       updateSet.lastSignedIn = /* @__PURE__ */ new Date();
     }
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.openId,
       set: updateSet
     });
   } catch (error) {
@@ -127,19 +131,6 @@ async function getUserByOpenId(openId) {
   }
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
   return result.length > 0 ? result[0] : void 0;
-}
-async function createBooking(data) {
-  const db = await getDb();
-  if (!db) {
-    throw new Error("Database not available - cannot save booking");
-  }
-  const result = await db.insert(bookings).values(data);
-  return result;
-}
-async function getAllBookings() {
-  const db = await getDb();
-  if (!db) return [];
-  return db.select().from(bookings).orderBy(bookings.createdAt);
 }
 
 // server/_core/cookies.ts
@@ -496,6 +487,9 @@ function registerStorageProxy(app2) {
 // server/routers.ts
 import { z as z2 } from "zod";
 
+// server/_core/systemRouter.ts
+import { z } from "zod";
+
 // server/_core/notification.ts
 import { TRPCError } from "@trpc/server";
 var TITLE_MAX_LENGTH = 1200;
@@ -578,9 +572,6 @@ async function notifyOwner(payload) {
   }
 }
 
-// server/_core/systemRouter.ts
-import { z } from "zod";
-
 // server/_core/trpc.ts
 import { initTRPC, TRPCError as TRPCError2 } from "@trpc/server";
 import superjson from "superjson";
@@ -648,6 +639,7 @@ async function saveLeadToSupabase(data) {
   const { error } = await supabase.from("leads").insert({
     name: data.name,
     phone: data.phone,
+    email: data.email ?? null,
     date: data.date ?? null,
     notes: data.notes ?? null
   });
@@ -671,51 +663,22 @@ var appRouter = router({
     })
   }),
   bookings: router({
-    /**
-     * Public procedure: any visitor can submit a booking lead.
-     * Saves to DB, notifies owner via Manus notification system,
-     * and returns a WhatsApp link as an additional notification channel.
-     */
     create: publicProcedure.input(
       z2.object({
         name: z2.string().min(2, "\u05E9\u05DD \u05D7\u05D5\u05D1\u05D4"),
         phone: z2.string().min(9, "\u05DE\u05E1\u05E4\u05E8 \u05D8\u05DC\u05E4\u05D5\u05DF \u05D7\u05D5\u05D1\u05D4"),
+        email: z2.string().email().optional(),
         tripDate: z2.string().optional(),
         notes: z2.string().optional()
       })
     ).mutation(async ({ input }) => {
-      try {
-        await saveLeadToSupabase({
-          name: input.name,
-          phone: input.phone,
-          date: input.tripDate ?? null,
-          notes: input.notes ?? null
-        });
-      } catch (err) {
-        console.error("[Bookings] Failed to save to Supabase:", err);
-      }
-      try {
-        await createBooking({
-          name: input.name,
-          phone: input.phone,
-          tripDate: input.tripDate ?? null,
-          notes: input.notes ?? null
-        });
-      } catch (err) {
-        console.warn("[Bookings] Local DB save failed (non-critical):", err);
-      }
-      let notifContent = `\u05E9\u05DD: ${input.name}
-\u05D8\u05DC\u05E4\u05D5\u05DF: ${input.phone}`;
-      if (input.tripDate) notifContent += `
-\u05EA\u05D0\u05E8\u05D9\u05DA: ${input.tripDate}`;
-      if (input.notes) notifContent += `
-\u05E4\u05E8\u05D8\u05D9\u05DD: ${input.notes}`;
-      await notifyOwner({
-        title: `\u{1F68C} \u05E4\u05E0\u05D9\u05D9\u05D4 \u05D7\u05D3\u05E9\u05D4 \u05DE\u05D4\u05D0\u05EA\u05E8 - ${input.name}`,
-        content: notifContent
-      }).catch(
-        (err) => console.warn("[Bookings] Owner notification failed:", err)
-      );
+      await saveLeadToSupabase({
+        name: input.name,
+        phone: input.phone,
+        email: input.email ?? null,
+        date: input.tripDate ?? null,
+        notes: input.notes ?? null
+      });
       let msg = `\u{1F68C} *\u05E4\u05E0\u05D9\u05D9\u05D4 \u05D7\u05D3\u05E9\u05D4 \u05DE\u05D4\u05D0\u05EA\u05E8 - \u05D0\u05D1\u05D9 \u05D5\u05E8\u05D3\u05D9 \u05D4\u05E1\u05E2\u05D5\u05EA*
 
 `;
@@ -731,12 +694,6 @@ var appRouter = router({
 \u05E0\u05E9\u05DC\u05D7 \u05DE\u05D4\u05D0\u05EA\u05E8 \u05D0\u05D5\u05D8\u05D5\u05DE\u05D8\u05D9\u05EA`;
       const whatsappUrl = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(msg)}`;
       return { success: true, whatsappUrl };
-    }),
-    /**
-     * List all bookings - for owner use only.
-     */
-    list: publicProcedure.query(async () => {
-      return getAllBookings();
     })
   })
 });
@@ -756,181 +713,10 @@ async function createContext(opts) {
   };
 }
 
-// server/_core/vite.ts
-import express from "express";
-import fs2 from "fs";
-import { nanoid } from "nanoid";
-import path2 from "path";
-import { createServer as createViteServer } from "vite";
-
-// vite.config.ts
-import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
-import fs from "node:fs";
-import path from "node:path";
-import { defineConfig } from "vite";
-import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
-var PROJECT_ROOT = import.meta.dirname;
-var LOG_DIR = path.join(PROJECT_ROOT, ".manus-logs");
-var MAX_LOG_SIZE_BYTES = 1 * 1024 * 1024;
-var TRIM_TARGET_BYTES = Math.floor(MAX_LOG_SIZE_BYTES * 0.6);
-function ensureLogDir() {
-  if (!fs.existsSync(LOG_DIR)) {
-    fs.mkdirSync(LOG_DIR, { recursive: true });
-  }
-}
-function trimLogFile(logPath, maxSize) {
-  try {
-    if (!fs.existsSync(logPath) || fs.statSync(logPath).size <= maxSize) {
-      return;
-    }
-    const lines = fs.readFileSync(logPath, "utf-8").split("\n");
-    const keptLines = [];
-    let keptBytes = 0;
-    const targetSize = TRIM_TARGET_BYTES;
-    for (let i = lines.length - 1; i >= 0; i--) {
-      const lineBytes = Buffer.byteLength(`${lines[i]}
-`, "utf-8");
-      if (keptBytes + lineBytes > targetSize) break;
-      keptLines.unshift(lines[i]);
-      keptBytes += lineBytes;
-    }
-    fs.writeFileSync(logPath, keptLines.join("\n"), "utf-8");
-  } catch {
-  }
-}
-function writeToLogFile(source, entries) {
-  if (entries.length === 0) return;
-  ensureLogDir();
-  const logPath = path.join(LOG_DIR, `${source}.log`);
-  const lines = entries.map((entry) => {
-    const ts = (/* @__PURE__ */ new Date()).toISOString();
-    return `[${ts}] ${JSON.stringify(entry)}`;
-  });
-  fs.appendFileSync(logPath, `${lines.join("\n")}
-`, "utf-8");
-  trimLogFile(logPath, MAX_LOG_SIZE_BYTES);
-}
-function vitePluginManusDebugCollector() {
-  return {
-    name: "manus-debug-collector",
-    transformIndexHtml(html) {
-      if (process.env.NODE_ENV === "production") {
-        return html;
-      }
-      return {
-        html,
-        tags: [
-          {
-            tag: "script",
-            attrs: {
-              src: "/__manus__/debug-collector.js",
-              defer: true
-            },
-            injectTo: "head"
-          }
-        ]
-      };
-    },
-    configureServer(server) {
-      server.middlewares.use("/__manus__/logs", (req, res, next) => {
-        if (req.method !== "POST") {
-          return next();
-        }
-        const handlePayload = (payload) => {
-          if (payload.consoleLogs?.length > 0) {
-            writeToLogFile("browserConsole", payload.consoleLogs);
-          }
-          if (payload.networkRequests?.length > 0) {
-            writeToLogFile("networkRequests", payload.networkRequests);
-          }
-          if (payload.sessionEvents?.length > 0) {
-            writeToLogFile("sessionReplay", payload.sessionEvents);
-          }
-          res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ success: true }));
-        };
-        const reqBody = req.body;
-        if (reqBody && typeof reqBody === "object") {
-          try {
-            handlePayload(reqBody);
-          } catch (e) {
-            res.writeHead(400, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: String(e) }));
-          }
-          return;
-        }
-        let body = "";
-        req.on("data", (chunk) => {
-          body += chunk.toString();
-        });
-        req.on("end", () => {
-          try {
-            const payload = JSON.parse(body);
-            handlePayload(payload);
-          } catch (e) {
-            res.writeHead(400, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: String(e) }));
-          }
-        });
-      });
-    }
-  };
-}
-var plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
-var vite_config_default = defineConfig({
-  plugins,
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets")
-    }
-  },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
-  publicDir: path.resolve(import.meta.dirname, "client", "public"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true
-  },
-  server: {
-    host: true,
-    allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1"
-    ],
-    fs: {
-      strict: true,
-      deny: ["**/.*"]
-    }
-  }
-});
-
-// server/_core/vite.ts
-function serveStatic(app2) {
-  const distPath = process.env.STATIC_DIR ? path2.resolve(process.env.STATIC_DIR) : process.env.NODE_ENV === "development" ? path2.resolve(import.meta.dirname, "../..", "dist", "public") : path2.resolve(import.meta.dirname, "public");
-  if (!fs2.existsSync(distPath)) {
-    console.error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
-  }
-  app2.use(express.static(distPath));
-  app2.use("*", (_req, res) => {
-    res.sendFile(path2.resolve(distPath, "index.html"));
-  });
-}
-
 // server/_core/vercel.ts
-var app = express2();
-app.use(express2.json({ limit: "50mb" }));
-app.use(express2.urlencoded({ limit: "50mb", extended: true }));
+var app = express();
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 registerStorageProxy(app);
 registerOAuthRoutes(app);
 app.use(
@@ -940,7 +726,6 @@ app.use(
     createContext
   })
 );
-serveStatic(app);
 var vercel_default = app;
 export {
   vercel_default as default
