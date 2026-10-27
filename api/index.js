@@ -647,7 +647,7 @@ async function saveLeadToSupabase(data) {
     console.error("[Supabase] Failed to save lead:", error.message);
     throw new Error(`Supabase insert failed: ${error.message}`);
   }
-  console.log("[Supabase] Lead saved successfully:", data.name);
+  console.log("[Supabase] Lead saved successfully");
 }
 
 // server/routers.ts

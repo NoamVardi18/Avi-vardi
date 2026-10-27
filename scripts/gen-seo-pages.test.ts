@@ -11,6 +11,8 @@
  */
 
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { PAGES, BIZ } from "../shared/seo-pages.mjs";
 import { renderPage, sitemap, llmsTxt, assertNapMatchesSource } from "./gen-seo-pages.mjs";
 
@@ -128,6 +130,40 @@ describe("llms.txt", () => {
     const txt = llmsTxt();
     for (const p of PAGES) expect(txt, `${p.slug} missing`).toContain(`${BIZ.origin}/${p.slug}/`);
     expect(txt).toContain(BIZ.phoneDisplay);
+  });
+});
+
+describe("consent and accessibility chrome", () => {
+  const indexHtml = readFileSync(join(import.meta.dirname, "..", "client", "index.html"), "utf8");
+  const consentJs = readFileSync(join(import.meta.dirname, "..", "client", "public", "consent.js"), "utf8");
+
+  // gtag.js may only be requested by consent.js, after the visitor presses "מאשר". A direct
+  // <script src=googletagmanager> anywhere would send data to Google before consent.
+  it.each(rendered.map((r) => [r.page.slug, r.html]))("%s loads Google only through consent.js", (_slug, html) => {
+    expect(html).not.toContain("googletagmanager.com");
+    expect(html).toContain('<script defer src="/consent.js"></script>');
+  });
+
+  it("homepage loads Google only through consent.js, and Umami is gone", () => {
+    expect(indexHtml).not.toContain("googletagmanager.com");
+    expect(indexHtml).toContain('src="/consent.js"');
+    expect(indexHtml.toLowerCase()).not.toContain("umami");
+    expect(indexHtml).not.toContain("VITE_ANALYTICS");
+  });
+
+  it("consent.js defaults every Consent Mode v2 type to denied before anything else", () => {
+    const def = consentJs.indexOf('gtag("consent", "default", consent("denied"))');
+    expect(def).toBeGreaterThan(-1);
+    for (const t of ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage"]) expect(consentJs).toContain(`"${t}"`);
+    expect(consentJs.indexOf("googletagmanager.com/gtag/js")).toBeGreaterThan(def);
+  });
+
+  it.each(rendered.map((r) => [r.page.slug, r.html]))("%s has a skip link and the legal links", (_slug, html) => {
+    expect(html).toContain('<a class="skip" href="#main">');
+    expect(html).toContain('id="main"');
+    expect(html).toContain('href="/#privacy"');
+    expect(html).toContain('href="/#accessibility"');
+    expect(html).toContain("data-cookie-settings");
   });
 });
 
