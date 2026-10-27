@@ -371,6 +371,41 @@ ${footer()}
 </body>
 </html>`;
 
+/* ------------------------------------------------------------ 404 page */
+
+// Served by Vercel automatically for any request that matches neither a static file nor a
+// rewrite (see vercel.json — the blanket SPA catch-all was removed so unknown paths actually
+// 404 instead of always returning 200). This gives that response a real, on-brand page instead
+// of Vercel's bare default error screen, using the exact same chrome as the SEO pages.
+export const renderNotFound = () => `<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הדף לא נמצא | ${esc(BIZ.name)}</title>
+<meta name="robots" content="noindex, follow">
+<style>${STYLE}</style>
+</head>
+<body>
+${header()}
+<main class="wrap">
+  <div class="kicker">שגיאה 404</div>
+  <h1>הדף שחיפשתם לא נמצא</h1>
+  <p class="lead">כדאי לבדוק שהכתובת נכונה, או לחזור לדף הבית ולמצוא את מה שאתם מחפשים משם.</p>
+  <div class="cta">
+    <h2>לתיאום ולקבלת מחיר</h2>
+    <p>הכי מהיר זה וואטסאפ או שיחה ישירה לאבי.</p>
+    <div class="row">
+      <a class="btn btn-wa" href="${waLink("שלום אבי, הגעתי לדף שלא נמצא ואשמח לפרטים.")}" target="_blank" rel="noreferrer">וואטסאפ לאבי</a>
+      <a class="btn btn-out" href="tel:${BIZ.phone}"><span dir="ltr">${BIZ.phoneDisplay}</span></a>
+      <a class="btn btn-ink" href="/">חזרה לדף הבית</a>
+    </div>
+  </div>
+</main>
+${footer()}
+</body>
+</html>`;
+
 /* ---------------------------------------------------------------- sitemap */
 
 export const sitemap = () => `<?xml version="1.0" encoding="UTF-8"?>
@@ -493,6 +528,7 @@ export function main() {
 
   writeFileSync(join(OUT, "sitemap.xml"), sitemap(), "utf8");
   writeFileSync(join(OUT, "llms.txt"), llmsTxt(), "utf8");
+  writeFileSync(join(OUT, "404.html"), renderNotFound(), "utf8");
 
   const indexPath = join(OUT, "index.html");
   let html = readFileSync(indexPath, "utf8");
@@ -501,7 +537,7 @@ export function main() {
     writeFileSync(indexPath, html, "utf8");
   }
 
-  console.log(`gen-seo-pages: ${PAGES.length} pages, sitemap (${PAGES.length + 1} urls), llms.txt, homepage noscript`);
+  console.log(`gen-seo-pages: ${PAGES.length} pages, sitemap (${PAGES.length + 1} urls), llms.txt, homepage noscript, 404.html`);
 }
 
 // Only write files when run as a script (`node scripts/gen-seo-pages.mjs`). Importing this

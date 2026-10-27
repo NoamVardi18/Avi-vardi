@@ -12,7 +12,7 @@
 
 import { describe, expect, it } from "vitest";
 import { PAGES, BIZ } from "../shared/seo-pages.mjs";
-import { renderPage, sitemap, llmsTxt, assertNapMatchesSource } from "./gen-seo-pages.mjs";
+import { renderPage, renderNotFound, sitemap, llmsTxt, assertNapMatchesSource } from "./gen-seo-pages.mjs";
 
 const rendered = PAGES.map((p) => ({ page: p, html: renderPage(p) }));
 
@@ -128,6 +128,35 @@ describe("llms.txt", () => {
     const txt = llmsTxt();
     for (const p of PAGES) expect(txt, `${p.slug} missing`).toContain(`${BIZ.origin}/${p.slug}/`);
     expect(txt).toContain(BIZ.phoneDisplay);
+  });
+});
+
+describe("404 page", () => {
+  const html = renderNotFound();
+
+  it("renders real text without needing JavaScript", () => {
+    const text = html
+      .replace(/<script[\s\S]*?<\/script>/g, "")
+      .replace(/<style[\s\S]*?<\/style>/g, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    expect(text.length).toBeGreaterThan(50);
+  });
+
+  it("tells crawlers not to index it but still follow links", () => {
+    expect(html).toContain('<meta name="robots" content="noindex, follow">');
+  });
+
+  it("links back home and prefills a WhatsApp message", () => {
+    expect(html).toContain('href="/"');
+    const links = [...html.matchAll(/href="(https:\/\/wa\.me\/[^"]*)"/g)].map((m) => m[1]);
+    expect(links.length).toBeGreaterThan(0);
+    for (const l of links) expect(l).toContain("?text=");
+  });
+
+  it("publishes the phone number from shared/const.ts", () => {
+    expect(html).toContain(`href="tel:${BIZ.phone}"`);
   });
 });
 
