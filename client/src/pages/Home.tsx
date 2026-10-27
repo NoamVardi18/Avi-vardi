@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Phone,
   PhoneCall,
@@ -30,6 +30,7 @@ import {
 } from "@shared/const";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { PrivacyPolicyDialog, AccessibilityStatementDialog } from "@/components/LegalDialogs";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -142,14 +143,22 @@ export default function Home() {
   const [bookingPassengers, setBookingPassengers] = useState("");
   const [bookingTripType, setBookingTripType] = useState("");
   const [bookingNotes, setBookingNotes] = useState("");
+  const [bookingErrors, setBookingErrors] = useState<Partial<Record<"name" | "phone" | "email", string>>>({});
+  // Read out by screen readers: a summary when validation fails, then the send result.
+  const [bookingStatus, setBookingStatus] = useState("");
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const createBooking = trpc.bookings.create.useMutation({
     onSuccess: () => {
       toast.success("פרטיך התקבלו! אבי יחזור אליך בהקדם.");
+      setBookingStatus("הפרטים נשלחו. אבי יחזור אליכם בהקדם.");
       resetForm();
     },
     onError: () => {
       toast.error("אירעה שגיאה. נסו שוב או התקשרו ישירות.");
+      setBookingStatus("אירעה שגיאה בשליחה. נסו שוב או התקשרו ישירות.");
     },
   });
 
@@ -163,18 +172,23 @@ export default function Home() {
     setBookingPassengers("");
     setBookingTripType("");
     setBookingNotes("");
+    setBookingErrors({});
   };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (bookingName.trim().length < 2) {
-      toast.error("אנא הזינו שם מלא");
+    const errors: typeof bookingErrors = {};
+    if (bookingName.trim().length < 2) errors.name = "אנא הזינו שם מלא";
+    if (bookingPhone.replace(/\D/g, "").length < 9) errors.phone = "אנא הזינו מספר טלפון תקין";
+    if (bookingEmail.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(bookingEmail.trim())) errors.email = "כתובת המייל לא תקינה";
+    setBookingErrors(errors);
+    const invalid = (["name", "phone", "email"] as const).filter((k) => errors[k]);
+    if (invalid.length) {
+      setBookingStatus(`לא ניתן לשלוח: ${invalid.map((k) => errors[k]).join(". ")}.`);
+      ({ name: nameRef, phone: phoneRef, email: emailRef })[invalid[0]].current?.focus();
       return;
     }
-    if (!bookingPhone.trim() || bookingPhone.trim().length < 9) {
-      toast.error("אנא הזינו מספר טלפון תקין");
-      return;
-    }
+    setBookingStatus("שולח…");
     const composedNotes = [
       bookingTripType && `סוג נסיעה: ${bookingTripType}`,
       bookingOrigin.trim() && `מוצא: ${bookingOrigin.trim()}`,
@@ -195,17 +209,23 @@ export default function Home() {
   const renderIcon = useCallback((iconName: string) =>
     ICON_MAP[iconName] ?? ICON_MAP.Compass, []);
 
+  // /#privacy and /#accessibility open the dialogs, so the static SEO pages and the cookie
+  // banner can link to them.
   useEffect(() => {
-    if (!showAccessibilityModal && !showPrivacyModal) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setShowAccessibilityModal(false);
-        setShowPrivacyModal(false);
-      }
+    const fromHash = () => {
+      if (location.hash === "#privacy") setShowPrivacyModal(true);
+      if (location.hash === "#accessibility") setShowAccessibilityModal(true);
     };
-    document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
-  }, [showAccessibilityModal, showPrivacyModal]);
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, []);
+  const closeDialog = (set: (v: boolean) => void) => (open: boolean) => {
+    set(open);
+    if (!open && (location.hash === "#privacy" || location.hash === "#accessibility")) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-cream text-ink" dir="rtl">
@@ -218,86 +238,8 @@ export default function Home() {
         דלג לתוכן הראשי
       </a>
 
-      {/* Accessibility Modal */}
-      {showAccessibilityModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-ink-deep/70 backdrop-blur-sm"
-            onClick={() => setShowAccessibilityModal(false)}
-            aria-hidden="true"
-          />
-          <div
-            className="relative z-10 w-full max-w-lg bg-cream rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="accessibility-modal-title"
-          >
-            <button
-              onClick={() => setShowAccessibilityModal(false)}
-              className="absolute top-4 left-4 text-stone-400 hover:text-ink transition-colors cursor-pointer rounded"
-              aria-label="סגור הצהרת נגישות"
-            >
-              <X className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <h2 id="accessibility-modal-title" className="font-display text-xl font-bold text-ink mb-4">הצהרת נגישות</h2>
-            <div className="text-stone-600 text-sm leading-relaxed space-y-3">
-              <p>אתר זה שואף לעמוד בדרישות תקן הנגישות הישראלי (WCAG 2.1 רמה AA) ולהנגיש את התכנים לכלל המשתמשים, לרבות אלו שעושים שימוש בטכנולוגיות עזר לנגישות.</p>
-              <p>האתר מתוחזק בשפה העברית (כיוון ימין לשמאל), ניתן לנווט באמצעות מקלדת, כל התמונות כוללות תיאור חלופי (alt), וכל הטפסים מסומנים כראוי.</p>
-              <p>
-                אם נתקלתם בבעיית נגישות, נא צרו קשר בטלפון{" "}
-                <a href={`tel:${OWNER_PHONE}`} className="text-gold-deep underline font-bold">{OWNER_PHONE_DISPLAY}</a>
-                {" "}או בוואצאפ ונשתדל לסייע בהקדם האפשרי.
-              </p>
-            </div>
-            <button
-              onClick={() => setShowAccessibilityModal(false)}
-              className="mt-6 w-full bg-ink hover:bg-ink-deep text-cream font-bold py-2.5 rounded-lg transition-colors cursor-pointer"
-            >
-              סגור
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Privacy Modal */}
-      {showPrivacyModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-ink-deep/70 backdrop-blur-sm"
-            onClick={() => setShowPrivacyModal(false)}
-            aria-hidden="true"
-          />
-          <div
-            className="relative z-10 w-full max-w-lg bg-cream rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 text-right"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="privacy-modal-title"
-          >
-            <button
-              onClick={() => setShowPrivacyModal(false)}
-              className="absolute top-4 left-4 text-stone-400 hover:text-ink transition-colors cursor-pointer rounded"
-              aria-label="סגור מדיניות פרטיות"
-            >
-              <X className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <h2 id="privacy-modal-title" className="font-display text-xl font-bold text-ink mb-4">מדיניות פרטיות</h2>
-            <div className="text-stone-600 text-sm leading-relaxed space-y-3">
-              <p>טופס ההזמנה באתר זה אוסף שם מלא, מספר טלפון, כתובת מייל (אופציונלי) ופרטי הנסיעה המבוקשת (תאריך, מוצא, יעד, מספר נוסעים).</p>
-              <p>הפרטים משמשים אך ורק כדי לחזור אליכם בנוגע לפנייה, ואינם משותפים עם צד שלישי כלשהו.</p>
-              <p>
-                לעיון בפרטים שנשמרו או להסרתם, ניתן לפנות בטלפון{" "}
-                <a href={`tel:${OWNER_PHONE}`} className="text-gold-deep underline font-bold">{OWNER_PHONE_DISPLAY}</a>.
-              </p>
-            </div>
-            <button
-              onClick={() => setShowPrivacyModal(false)}
-              className="mt-6 w-full bg-ink hover:bg-ink-deep text-cream font-bold py-2.5 rounded-lg transition-colors cursor-pointer"
-            >
-              סגור
-            </button>
-          </div>
-        </div>
-      )}
+      <AccessibilityStatementDialog open={showAccessibilityModal} onOpenChange={closeDialog(setShowAccessibilityModal)} />
+      <PrivacyPolicyDialog open={showPrivacyModal} onOpenChange={closeDialog(setShowPrivacyModal)} />
 
       {/* Top utility strip */}
       <div className="bg-ink-deep text-cream/80 text-xs">
@@ -390,7 +332,7 @@ export default function Home() {
         )}
       </header>
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1} className="outline-none">
 
         {/* Hero */}
         <section aria-label="ראשי - שירות הסעות אבי ורדי" className="relative overflow-hidden bg-cream">
@@ -440,7 +382,6 @@ export default function Home() {
                   href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="שלחו וואצאפ לאבי ורדי"
                   className="inline-flex justify-center items-center gap-2 bg-transparent hover:bg-ink hover:text-cream text-ink font-bold text-base px-8 py-4 rounded-lg border-2 border-ink transition-all hover:-translate-y-0.5"
                 >
                   <WhatsAppIcon className="h-5 w-5" />
@@ -452,7 +393,7 @@ export default function Home() {
                 {HERO_STATS.map(({ value, label, ariaLabel }) => (
                   <div key={label} className="flex flex-col" role="listitem">
                     <span className="font-display text-3xl font-black text-ink" aria-label={ariaLabel}>{value}</span>
-                    <span className="text-xs text-stone-500 font-medium mt-1">{label}</span>
+                    <span className="text-xs text-stone-600 font-medium mt-1">{label}</span>
                   </div>
                 ))}
               </div>
@@ -591,7 +532,7 @@ export default function Home() {
               {SERVICES.map((service, i) => (
                 <li key={service.id} className="border-b border-ink/10">
                   <div className="group grid grid-cols-[auto_auto_1fr] lg:grid-cols-[80px_56px_1fr_auto] items-start lg:items-center gap-x-5 gap-y-3 py-7 px-2 sm:px-4 hover:bg-white/70 rounded-lg transition-colors">
-                    <span className="font-display text-2xl lg:text-3xl font-black text-gold/80 leading-none pt-1 lg:pt-0" aria-hidden="true">
+                    <span className="font-display text-2xl lg:text-3xl font-black text-gold-deep leading-none pt-1 lg:pt-0" aria-hidden="true">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="bg-ink text-gold rounded-xl w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center shrink-0">
@@ -604,7 +545,7 @@ export default function Home() {
                     <a
                       href="#booking"
                       className="col-span-3 lg:col-span-1 justify-self-start lg:justify-self-end inline-flex items-center gap-1.5 text-sm font-bold text-gold-deep hover:text-ink transition-colors rounded"
-                      aria-label={`הזמנה — ${service.title}`}
+                      aria-label={`לפרטים והזמנה — ${service.title}`}
                     >
                       <span>לפרטים והזמנה</span>
                       <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" aria-hidden="true" />
@@ -777,7 +718,7 @@ export default function Home() {
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-5 w-5 text-gold fill-gold" aria-hidden="true" />
                 ))}
-                <span className="text-sm font-bold text-stone-500 mr-2">5.0 ממוצע ביקורות</span>
+                <span className="text-sm font-bold text-stone-600 mr-2">5.0 ממוצע ביקורות</span>
               </div>
             </div>
 
@@ -798,7 +739,7 @@ export default function Home() {
                       </span>
                       <div>
                         <span className="block font-bold text-ink text-sm">{review.name}</span>
-                        <span className="block text-[11px] text-stone-400 mt-0.5">{review.date}</span>
+                        <span className="block text-[11px] text-stone-500 mt-0.5">{review.date}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-0.5" aria-label={`דירוג ${review.rating} מתוך 5 כוכבים`} role="img">
@@ -840,7 +781,7 @@ export default function Home() {
             <div className="bg-cream rounded-2xl shadow-2xl grid grid-cols-1 lg:grid-cols-[1fr_300px] overflow-hidden relative">
 
               {/* Main form */}
-              <form onSubmit={handleBookingSubmit} className="p-7 sm:p-10 text-right">
+              <form onSubmit={handleBookingSubmit} noValidate aria-labelledby="booking-heading" className="p-7 sm:p-10 text-right">
                 <div className="flex items-center justify-between mb-8">
                   <div>
                     <span className="block font-display text-2xl font-black text-ink">כרטיס הזמנה</span>
@@ -851,8 +792,12 @@ export default function Home() {
                   </div>
                 </div>
 
+                <p className="text-xs text-stone-600 mb-4">
+                  שדות המסומנים ב-<span aria-hidden="true">*</span><span className="sr-only">כוכבית</span> הם שדות חובה.
+                </p>
+
                 <fieldset className="mb-6">
-                  <legend className="text-xs font-bold text-stone-500 mb-2.5">סוג הנסיעה</legend>
+                  <legend className="text-xs font-bold text-stone-600 mb-2.5">סוג הנסיעה</legend>
                   <div className="flex flex-wrap gap-2">
                     {TRIP_TYPES.map((type) => (
                       <button
@@ -875,30 +820,45 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-x-5 gap-y-4">
                   <div className="space-y-1.5">
                     <Label htmlFor="b-name" className="text-stone-600 text-xs font-bold">
-                      שם מלא <span className="text-destructive">*</span>
+                      שם מלא <span className="text-destructive" aria-hidden="true">*</span><span className="sr-only">(חובה)</span>
                     </Label>
                     <Input
                       id="b-name"
+                      ref={nameRef}
+                      name="name"
+                      autoComplete="name"
                       placeholder="ישראל ישראלי"
                       value={bookingName}
                       onChange={(e) => setBookingName(e.target.value)}
                       className="bg-white border-stone-300"
                       required
+                      aria-required="true"
+                      aria-invalid={!!bookingErrors.name}
+                      aria-describedby={bookingErrors.name ? "b-name-error" : undefined}
                     />
+                    {bookingErrors.name && <p id="b-name-error" className="text-xs font-bold text-red-700">{bookingErrors.name}</p>}
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="b-phone" className="text-stone-600 text-xs font-bold">
-                      טלפון <span className="text-destructive">*</span>
+                      טלפון <span className="text-destructive" aria-hidden="true">*</span><span className="sr-only">(חובה)</span>
                     </Label>
                     <Input
                       id="b-phone"
+                      ref={phoneRef}
+                      name="tel"
                       type="tel"
+                      autoComplete="tel"
+                      inputMode="tel"
                       placeholder="050-0000000"
                       value={bookingPhone}
                       onChange={(e) => setBookingPhone(e.target.value)}
                       className="bg-white border-stone-300"
                       required
+                      aria-required="true"
+                      aria-invalid={!!bookingErrors.phone}
+                      aria-describedby={bookingErrors.phone ? "b-phone-error" : undefined}
                     />
+                    {bookingErrors.phone && <p id="b-phone-error" className="text-xs font-bold text-red-700">{bookingErrors.phone}</p>}
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="b-origin" className="text-stone-600 text-xs font-bold">נקודת יציאה</Label>
@@ -945,20 +905,26 @@ export default function Home() {
                   </div>
                   <div className="space-y-1.5 sm:col-span-2">
                     <Label htmlFor="b-email" className="text-stone-600 text-xs font-bold">
-                      מייל <span className="text-stone-400 font-normal">(אופציונלי)</span>
+                      מייל <span className="text-stone-600 font-normal">(אופציונלי)</span>
                     </Label>
                     <Input
                       id="b-email"
+                      ref={emailRef}
+                      name="email"
                       type="email"
+                      autoComplete="email"
                       placeholder="your@email.com"
                       value={bookingEmail}
                       onChange={(e) => setBookingEmail(e.target.value)}
                       className="bg-white border-stone-300"
+                      aria-invalid={!!bookingErrors.email}
+                      aria-describedby={bookingErrors.email ? "b-email-error" : undefined}
                     />
+                    {bookingErrors.email && <p id="b-email-error" className="text-xs font-bold text-red-700">{bookingErrors.email}</p>}
                   </div>
                   <div className="space-y-1.5 sm:col-span-2">
                     <Label htmlFor="b-notes" className="text-stone-600 text-xs font-bold">
-                      פרטים נוספים <span className="text-stone-400 font-normal">(אופציונלי)</span>
+                      פרטים נוספים <span className="text-stone-600 font-normal">(אופציונלי)</span>
                     </Label>
                     <Input
                       id="b-notes"
@@ -977,9 +943,23 @@ export default function Home() {
                 >
                   {createBooking.isPending ? "שולח..." : "שלחו את הכרטיס לאבי"}
                 </button>
-                <p className="text-[11px] text-stone-400 text-center mt-3">
+                <p className="text-[11px] text-stone-600 text-center mt-3">
                   לאחר השליחה אבי יחזור אליכם אישית בהקדם האפשרי
                 </p>
+                {/* Notice at the point of collection (Privacy Protection Law §11): purpose, and that
+                    giving the details is voluntary. */}
+                <p className="text-[11px] text-stone-600 text-center mt-2 leading-relaxed">
+                  הפרטים ישמשו רק כדי לחזור אליכם בנוגע לנסיעה, ואין חובה חוקית למסור אותם. פרטים נוספים ב
+                  <button
+                    type="button"
+                    onClick={() => setShowPrivacyModal(true)}
+                    className="underline font-bold text-ink hover:text-gold-deep cursor-pointer rounded"
+                  >
+                    מדיניות הפרטיות
+                  </button>
+                  .
+                </p>
+                <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{bookingStatus}</p>
               </form>
 
               {/* Stub — perforated side */}
@@ -990,16 +970,16 @@ export default function Home() {
                 <div className="hidden lg:block absolute -bottom-3 right-0 translate-x-1/2 w-6 h-6 rounded-full bg-ink" aria-hidden="true"></div>
 
                 <div>
-                  <span className="block text-xs font-bold text-stone-500 tracking-widest mb-1">מעדיפים לדבר?</span>
+                  <span className="block text-xs font-bold text-stone-600 tracking-widest mb-1">מעדיפים לדבר?</span>
                   <span className="block font-display text-xl font-black text-ink">דברו ישירות עם אבי</span>
                 </div>
 
-                <a href={`tel:${OWNER_PHONE}`} className="flex items-center gap-3 group" aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`}>
+                <a href={`tel:${OWNER_PHONE}`} className="flex items-center gap-3 group">
                   <span className="bg-ink text-gold rounded-xl w-11 h-11 flex items-center justify-center shrink-0">
                     <Phone className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span>
-                    <span className="block text-xs text-stone-500">חיוג ישיר</span>
+                    <span className="block text-xs text-stone-600">חיוג ישיר</span>
                     <span className="block font-black text-ink group-hover:text-gold-deep transition-colors" dir="ltr">{OWNER_PHONE_DISPLAY}</span>
                   </span>
                 </a>
@@ -1008,14 +988,13 @@ export default function Home() {
                   href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-white font-bold text-sm py-3 rounded-lg shadow-md transition-colors"
-                  aria-label="שלחו וואצאפ לאבי ורדי"
+                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-ink-deep font-bold text-sm py-3 rounded-lg shadow-md transition-colors"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
                   <span>שלחו וואצאפ</span>
                 </a>
 
-                <div className="pt-5 border-t border-stone-300/70 space-y-2 text-xs text-stone-500">
+                <div className="pt-5 border-t border-stone-300/70 space-y-2 text-xs text-stone-600">
                   <p className="flex items-center gap-2">
                     <Clock className="h-3.5 w-3.5 text-gold-deep shrink-0" aria-hidden="true" />
                     <span>זמינות לתיאום 24/6 (לא פעיל בשבת)</span>
@@ -1034,7 +1013,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer id="contact" role="contentinfo" className="bg-ink-deep text-cream pt-16 pb-10">
+      <footer id="contact" role="contentinfo" className="bg-ink-deep text-cream pt-16 pb-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-14 text-right">
 
           <div className="lg:col-span-5">
@@ -1057,7 +1036,7 @@ export default function Home() {
                 <span dir="ltr">{OWNER_PHONE_DISPLAY}</span>
                 <span>(אבי)</span>
               </a>
-              <a href="https://maps.google.com/?q=מבשרת+ציון" target="_blank" rel="noreferrer" aria-label="פתח במפות גוגל" className="flex items-center gap-3 text-stone-300 hover:text-gold transition-colors">
+              <a href="https://maps.google.com/?q=מבשרת+ציון" target="_blank" rel="noreferrer" aria-label={`${OWNER_LOCATION} — פתיחה במפות גוגל`} className="flex items-center gap-3 text-stone-300 hover:text-gold transition-colors">
                 <MapPin className="h-4 w-4 text-gold" aria-hidden="true" />
                 <span>{OWNER_LOCATION}</span>
               </a>
@@ -1066,7 +1045,7 @@ export default function Home() {
 
           <div className="lg:col-span-3">
             <nav aria-label="ניווט מהיר">
-              <h4 className="text-gold font-bold text-sm tracking-widest mb-6">ניווט מהיר</h4>
+              <h2 className="text-gold font-bold text-sm tracking-widest mb-6">ניווט מהיר</h2>
               <ul className="space-y-3 text-sm text-stone-400">
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
@@ -1079,16 +1058,16 @@ export default function Home() {
           </div>
 
           <div className="lg:col-span-4">
-            <h4 className="text-gold font-bold text-sm tracking-widest mb-6">שעות פעילות והזמנות</h4>
+            <h2 className="text-gold font-bold text-sm tracking-widest mb-6">שעות פעילות והזמנות</h2>
             <p className="text-stone-400 text-sm leading-relaxed mb-7">
               זמינות מלאה לתיאום נסיעות מראש 24/6 (לא פעיל בשבת).
               מומלץ לשריין תאריכים מראש, במיוחד בעונת האירועים והקיץ.
             </p>
             <div className="flex gap-4">
-              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו לאבי ורדי ${OWNER_PHONE_DISPLAY}`} className="bg-cream text-ink-deep hover:bg-gold font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors">
+              <a href={`tel:${OWNER_PHONE}`} aria-label={`חייגו עכשיו לאבי ורדי, ${OWNER_PHONE_DISPLAY}`} className="bg-cream text-ink-deep hover:bg-gold font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors">
                 חייגו עכשיו
               </a>
-              <a href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")} target="_blank" rel="noreferrer" aria-label="שלחו וואצאפ לאבי ורדי" className="bg-[#25D366] hover:bg-[#1fbd5a] text-white font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors flex items-center gap-2">
+              <a href={WA_LINK("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")} target="_blank" rel="noreferrer" aria-label="ווטסאפ — שלחו הודעה לאבי ורדי" className="bg-[#25D366] hover:bg-[#1fbd5a] text-ink-deep font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-colors flex items-center gap-2">
                 <WhatsAppIcon className="h-4 w-4" />
                 <span>ווטסאפ</span>
               </a>
@@ -1097,7 +1076,7 @@ export default function Home() {
 
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-400">
           <p>© {CURRENT_YEAR} אבי ורדי הסעות. כל הזכויות שמורות.</p>
           <div className="flex items-center gap-4">
             <button
@@ -1111,6 +1090,14 @@ export default function Home() {
               className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
             >
               הצהרת נגישות
+            </button>
+            {/* client/public/consent.js owns the banner; this only re-opens it. */}
+            <button
+              type="button"
+              data-cookie-settings
+              className="underline hover:text-stone-300 transition-colors cursor-pointer rounded"
+            >
+              הגדרות עוגיות
             </button>
           </div>
         </div>
@@ -1127,7 +1114,7 @@ export default function Home() {
           target="_blank"
           rel="noreferrer"
           aria-label="שלח וואצאפ לאבי ורדי"
-          className="group flex items-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-white rounded-full shadow-lg shadow-[#25D366]/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl active:scale-95 float-pulse p-3.5"
+          className="group flex items-center gap-2 bg-[#25D366] hover:bg-[#1fbd5a] text-ink-deep rounded-full shadow-lg shadow-[#25D366]/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl active:scale-95 float-pulse p-3.5"
         >
           <WhatsAppIcon className="h-6 w-6 shrink-0" />
           <span className="max-w-0 overflow-hidden group-hover:max-w-[6rem] transition-all duration-300 text-sm font-bold whitespace-nowrap">וואצאפ</span>

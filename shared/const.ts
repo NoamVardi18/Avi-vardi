@@ -21,6 +21,21 @@ export const OWNER_WHATSAPP = "972524804842";
 export const OWNER_LOCATION = "מבשרת ציון, סמוך לירושלים";
 
 /**
+ * Privacy policy + accessibility statement facts (client/src/components/LegalDialogs.tsx).
+ * An empty string renders as a visible "להשלמה" marker, so a missing fact cannot ship looking
+ * finished — these are Avi's to supply (CLAUDE.md rule 6), not something to guess.
+ * Email, retention, coordinator and the 30-day response were confirmed via Noam on 2026-10-28.
+ */
+export const OWNER_EMAIL = "vardi197@gmail.com";
+// The policy promises deletion after this period: public.leads, the Google Sheet and the lead
+// emails all need to honour it (no automatic cleanup exists yet).
+export const LEAD_RETENTION = "12 חודשים";
+export const ACCESSIBILITY_COORDINATOR = "אבי ורדי";
+export const PRIVACY_POLICY_UPDATED = "28 באוקטובר 2026";
+export const ACCESSIBILITY_AUDITED = "28 באוקטובר 2026";
+export const ACCESSIBILITY_STATEMENT_UPDATED = "28 באוקטובר 2026";
+
+/**
  * ⚠️ UNVERIFIED — Noam confirmed 2026-08-29 that these four are placeholder/invented.
  *
  * The matching schema.org markup (aggregateRating 5/4 plus four Review objects) was REMOVED

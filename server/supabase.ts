@@ -33,5 +33,6 @@ export async function saveLeadToSupabase(data: {
     throw new Error(`Supabase insert failed: ${error.message}`);
   }
 
-  console.log("[Supabase] Lead saved successfully:", data.name);
+  // No customer name here: Vercel keeps function logs, and they are not part of the leads store.
+  console.log("[Supabase] Lead saved successfully");
 }

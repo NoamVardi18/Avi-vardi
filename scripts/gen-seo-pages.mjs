@@ -28,13 +28,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "dist", "public");
 const TODAY = new Date().toISOString().slice(0, 10);
 
-// Google Ads conversion ids, kept identical to client/index.html so a call or WhatsApp tap that
-// starts on a landing page is counted the same as one from the homepage. Without this the new
-// pages would generate leads that the Ads account reports as zero — the exact blindness the
-// 2026-08-28 conversion-tracking commit was written to end.
-const GTAG_ID = "AW-18195393649";
-const CONV_WHATSAPP = "AW-18195393649/MprvCJ2By-kcEPHYnuRD";
-const CONV_PHONE = "AW-18195393649/gblNCKCBy-kcEPHYnuRD";
+// The Google Ads tag id and conversion labels live in client/public/consent.js, which every page
+// (these and the React homepage) loads. That keeps a call or WhatsApp tap from a landing page
+// counted the same as one from the homepage — and keeps both behind the same cookie consent.
 
 /* ---------------------------------------------------------------- guards */
 
@@ -74,13 +70,18 @@ const jsonld = (obj) =>
 
 const STYLE = `
 :root{--ink:#1c1917;--ink-deep:#0c0a09;--cream:#faf7f1;--cream-dark:#f3eee4;
---gold:#d4a226;--gold-soft:#e8c468;--gold-deep:#8a6a1f;--stone:#57534e;--line:rgba(28,25,23,.1)}
+--gold:#d4a226;--gold-soft:#e8c468;--gold-deep:#785b19;--stone:#57534e;--line:rgba(28,25,23,.1)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--ink);
 font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-bottom:4.5rem}
+font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.display{font-family:"Frank Ruhl Libre","Heebo",Georgia,serif;font-weight:900;line-height:1.15}
 a{color:inherit}
+:focus-visible{outline:3px solid var(--gold-deep);outline-offset:2px;border-radius:4px}
+footer :focus-visible,.cta :focus-visible,.strip :focus-visible{outline-color:var(--gold)}
+.skip{position:absolute;inset-inline-start:.75rem;top:-4rem;z-index:30;background:var(--gold);color:var(--ink-deep);font-weight:700;padding:.55rem 1rem;border-radius:.5rem;text-decoration:none}
+.skip:focus{top:.75rem}
+main:focus{outline:none}
 .wrap{max-width:56rem;margin:0 auto;padding:0 1.25rem}
 .strip{background:var(--ink-deep);color:rgba(250,247,241,.8);font-size:.78rem}
 .strip .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:2.25rem}
@@ -95,10 +96,10 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 padding:.7rem 1.35rem;border-radius:.6rem;text-decoration:none;border:0;transition:opacity .15s}
 .btn:hover{opacity:.88}
 .btn-ink{background:var(--ink);color:var(--cream)}
-.btn-wa{background:#25D366;color:#fff}
+.btn-wa{background:#25D366;color:var(--ink-deep)}
 .btn-out{border:1px solid var(--line);background:transparent;color:var(--ink)}
 nav.crumbs{font-size:.8rem;color:var(--stone);padding:1.1rem 0 0}
-nav.crumbs a{color:var(--gold-deep);text-decoration:none}
+nav.crumbs a{color:var(--gold-deep);text-decoration:underline}
 .kicker{display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:700;
 letter-spacing:.18em;color:var(--gold-deep);margin:1.5rem 0 .6rem}
 .kicker::before{content:"";height:1px;width:2.2rem;background:var(--gold-deep)}
@@ -132,17 +133,19 @@ border-radius:.7rem;text-decoration:none;font-weight:700}
 .rel a:hover{border-color:var(--gold)}
 .rel a span{display:block;font-weight:400;font-size:.85rem;color:var(--stone);margin-top:.2rem}
 footer{background:var(--ink-deep);color:rgba(250,247,241,.65);margin-top:3rem;
-padding:2.5rem 0 2rem;font-size:.9rem}
+/* bottom padding clears the floating WhatsApp/phone buttons so they never cover the legal links */
+padding:2.5rem 0 8.5rem;font-size:.9rem}
 footer a{color:var(--gold-soft);text-decoration:none}
 footer .cols{display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
 padding-bottom:1.6rem;border-bottom:1px solid rgba(250,247,241,.1)}
 footer h3{font-size:.8rem;letter-spacing:.16em;color:var(--gold);margin:0 0 .7rem}
 footer ul{list-style:none;padding:0;margin:0}
-footer .fine{padding-top:1.2rem;font-size:.78rem;color:#78716c}
+footer .fine{padding-top:1.2rem;font-size:.78rem;color:#a8a29e;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem}
+footer .fine a,footer .fine button{color:#a8a29e;text-decoration:underline;font:inherit;background:none;border:0;padding:0;cursor:pointer}
 .fab{position:fixed;bottom:1.2rem;inset-inline-start:1.2rem;display:flex;flex-direction:column;gap:.6rem;z-index:20}
 .fab a{width:3.2rem;height:3.2rem;border-radius:50%;display:grid;place-items:center;
 box-shadow:0 8px 20px rgba(0,0,0,.22);text-decoration:none;font-size:1.3rem}
-.fab .wa{background:#25D366;color:#fff}
+.fab .wa{background:#25D366;color:var(--ink-deep)}
 .fab .tel{background:var(--ink);color:var(--gold)}
 /* The price table is the one place the floating buttons can sit on top of content that
    matters, so on narrow screens it gets its own scroll box and the buttons shrink. */
@@ -191,18 +194,8 @@ const head = (page) => {
 <style>${STYLE}</style>`.trim();
 };
 
-const gtag = () =>
-  `
-<script async src="https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}"></script>
-<script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());gtag('config','${GTAG_ID}');
-document.addEventListener('click',function(e){
-  var a=e.target&&e.target.closest&&e.target.closest('a[href^="tel:"], a[href*="wa.me"]');
-  if(!a)return;
-  gtag('event','conversion',{send_to:a.href.indexOf('wa.me')!==-1?'${CONV_WHATSAPP}':'${CONV_PHONE}'});
-},true);
-</script>`.trim();
+// Never inline gtag.js here: consent.js only requests it after the visitor agrees.
+const consentScript = () => `<script defer src="/consent.js"></script>`;
 
 // Same WhatsApp mark as the React app (client/src/pages/Home.tsx WA_SVG_PATH) so the floating
 // buttons are identical across the site rather than dingbat stand-ins.
@@ -211,6 +204,7 @@ const WA_ICON = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentCo
 const TEL_ICON = `<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
 
 const header = () => `
+<a class="skip" href="#main">דלג לתוכן הראשי</a>
 <div class="strip"><div class="wrap">
   <span class="hide">${esc(BIZ.locality)} · זמינות לתיאום 24/6</span>
   <a href="tel:${BIZ.phone}" aria-label="חייגו לאבי ורדי ${BIZ.phoneDisplay}"><span dir="ltr">${BIZ.phoneDisplay}</span></a>
@@ -241,7 +235,10 @@ const footer = () => `
       <p><a href="/">חזרה לעמוד הבית</a></p>
     </div>
   </div>
-  <p class="fine">© ${new Date().getFullYear()} ${esc(BIZ.name)}. כל הזכויות שמורות.</p>
+  <p class="fine"><span>© ${new Date().getFullYear()} ${esc(BIZ.name)}. כל הזכויות שמורות.</span>
+    <a href="/#privacy">מדיניות פרטיות</a>
+    <a href="/#accessibility">הצהרת נגישות</a>
+    <button type="button" data-cookie-settings>הגדרות עוגיות</button></p>
 </div></footer>
 <div class="fab">
   <a class="wa" href="${waLink("שלום אבי, אשמח לקבל פרטים לגבי הסעה.")}" target="_blank" rel="noreferrer" aria-label="שלחו וואטסאפ לאבי ורדי">${WA_ICON}</a>
@@ -338,11 +335,11 @@ export const renderPage = (page) => `<!doctype html>
 <head>
 ${head(page)}
 ${pageSchema(page)}
-${gtag()}
+${consentScript()}
 </head>
 <body>
 ${header()}
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <nav class="crumbs" aria-label="מסלול ניווט"><a href="/">דף הבית</a> ← ${esc(page.h1)}</nav>
   <div class="kicker">${esc(page.kicker)}</div>
   <h1>${esc(page.h1)}</h1>
@@ -385,10 +382,11 @@ export const renderNotFound = () => `<!doctype html>
 <title>הדף לא נמצא | ${esc(BIZ.name)}</title>
 <meta name="robots" content="noindex, follow">
 <style>${STYLE}</style>
+${consentScript()}
 </head>
 <body>
 ${header()}
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <div class="kicker">שגיאה 404</div>
   <h1>הדף שחיפשתם לא נמצא</h1>
   <p class="lead">כדאי לבדוק שהכתובת נכונה, או לחזור לדף הבית ולמצוא את מה שאתם מחפשים משם.</p>

@@ -48,7 +48,7 @@
   --color-cream-dark: #f3eee4;
   --color-gold: #d4a226;
   --color-gold-soft: #e8c468;
-  --color-gold-deep: #8a6a1f;
+  --color-gold-deep: #785b19; /* was #8a6a1f: 4.36:1 on cream-dark, under AA. #785b19 is 5.49:1, and still 4.78:1 on the header seen through an open dialog */
 
   --font-display: "Frank Ruhl Libre", "Heebo", serif;
 }
@@ -115,6 +115,9 @@
   .marquee-track {
     animation: marquee-rtl 36s linear infinite;
   }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
 }
 
 /* Floating button pulse */
@@ -162,10 +165,16 @@ button:active, a:active {
 /* ============================================================
    WCAG 2.1 AA - Global keyboard focus-visible policy
    ============================================================ */
+/* gold-deep, not gold: #d4a226 is only ~2.2:1 against the cream page, under the 3:1 a focus
+   ring needs. gold-deep clears 3:1 on both the cream sections and the near-black ones. */
 :focus-visible {
-  outline: 3px solid #d4a226;
+  outline: 3px solid var(--color-gold-deep);
   outline-offset: 2px;
   border-radius: 4px;
+}
+.bg-ink :focus-visible,
+.bg-ink-deep :focus-visible {
+  outline-color: var(--color-gold);
 }
 :focus:not(:focus-visible) {
   outline: none;
