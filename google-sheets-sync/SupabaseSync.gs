@@ -1,7 +1,7 @@
 /**
  * אבי ורדי הסעות — סנכרון נתונים מ-Supabase ל-Google Sheets
  * ============================================================
- * גרסה: 1.0
+ * גרסה: 2.0 (28.10.2026) — קריאה דרך פונקציה מאובטחת עם טוקן, כי הטבלה נעולה לקריאה ציבורית
  *
  * הגדרות:
  *   1. פתחו Google Sheets חדש
@@ -10,16 +10,22 @@
  *   4. שמרו (Ctrl+S)
  *   5. הריצו את setupTrigger() פעם אחת בלבד כדי להגדיר את ה-Trigger היומי
  *   6. אשרו הרשאות כשהדפדפן יבקש
+ *   7. Project Settings (גלגל השיניים) → Script properties → הוסיפו מאפיין
+ *      SHEET_SYNC_TOKEN עם הטוקן (מקבלים מנועם; ב-Supabase נשמר רק ה-hash שלו)
+ *
+ * למה טוקן: מאז 3.8.2026 המפתח הציבורי (anon) יכול רק להוסיף פניות, לא לקרוא אותן.
+ * הקריאה עוברת דרך public.avi_leads_for_sheet, שמחזירה את הפניות רק למי שמחזיק בטוקן
+ * (supabase/migrations/20261028_sheet_sync_rpc.sql).
  */
 
 // ─── הגדרות ────────────────────────────────────────────────────────────────
 const SUPABASE_URL  = "https://nlwkksivgubcgfzqivcs.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sd2trc2l2Z3ViY2dmenFpdmNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NjI1NTUsImV4cCI6MjA5NTUzODU1NX0.Z0rNzhIAxUVG33c4hnj4bNWPwDGbqV-WnWPkixnUzUI";
 const SHEET_NAME    = "פניות לקוחות";
-const TABLE_NAME    = "leads";
+const TOKEN_PROPERTY = "SHEET_SYNC_TOKEN";
 
 // כותרות העמודות בגיליון (חייבות להתאים לסדר ב-buildRow)
-const HEADERS = ["#", "שם", "טלפון", "תאריך נסיעה", "הערות", "נוצר ב"];
+const HEADERS = ["#", "שם", "טלפון", "מייל", "תאריך נסיעה", "הערות", "נוצר ב"];
 
 // ─── פונקציה ראשית ─────────────────────────────────────────────────────────
 /**
@@ -36,15 +42,22 @@ function syncLeads() {
     sheet = ss.insertSheet(SHEET_NAME);
   }
 
+  const token = PropertiesService.getScriptProperties().getProperty(TOKEN_PROPERTY);
+  if (!token) {
+    Logger.log("חסר הטוקן: הוסיפו את " + TOKEN_PROPERTY + " ב-Project Settings → Script properties");
+    return;
+  }
+
   // שלוף נתונים מ-Supabase (ממוין לפי תאריך יצירה, החדש ביותר ראשון)
-  const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*&order=created_at.desc`;
+  const endpoint = `${SUPABASE_URL}/rest/v1/rpc/avi_leads_for_sheet`;
   const response = UrlFetchApp.fetch(endpoint, {
-    method: "GET",
+    method: "POST",
     headers: {
       "apikey":        SUPABASE_ANON,
       "Authorization": `Bearer ${SUPABASE_ANON}`,
       "Content-Type":  "application/json"
     },
+    payload: JSON.stringify({ p_token: token }),
     muteHttpExceptions: true
   });
 
@@ -75,9 +88,10 @@ function syncLeads() {
   sheet.setColumnWidth(1, 40);   // #
   sheet.setColumnWidth(2, 160);  // שם
   sheet.setColumnWidth(3, 130);  // טלפון
-  sheet.setColumnWidth(4, 120);  // תאריך נסיעה
-  sheet.setColumnWidth(5, 260);  // הערות
-  sheet.setColumnWidth(6, 190);  // נוצר ב
+  sheet.setColumnWidth(4, 200);  // מייל
+  sheet.setColumnWidth(5, 120);  // תאריך נסיעה
+  sheet.setColumnWidth(6, 260);  // הערות
+  sheet.setColumnWidth(7, 190);  // נוצר ב
 
   // הקפאת שורת הכותרות
   sheet.setFrozenRows(1);
@@ -105,7 +119,8 @@ function buildRow(lead, rowNum) {
   return [
     rowNum,
     lead.name   || "",
-    lead.phone  || "",
+    lead.phone  ? "'" + lead.phone : "", // גרש בהתחלה = טקסט, אחרת Sheets מוחק את ה-0 שבתחילת המספר
+    lead.email  || "",
     lead.date   || "",
     lead.notes  || "",
     createdAt

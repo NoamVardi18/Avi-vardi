@@ -103,10 +103,10 @@ type DialogProps = { open: boolean; onOpenChange: (open: boolean) => void };
 // What this says about where data goes was checked against the code and the live backend on
 // 2026-10-27, not assumed: server/routers.ts → server/supabase.ts inserts into public.leads in
 // Supabase project avi-vardi-bus (eu-central-1); its on_lead_inserted trigger calls the
-// notify-owner edge function, which emails the lead to Avi through Resend. A daily Apps Script
-// (google-sheets-sync/SupabaseSync.gs) copies leads into a Google Sheet; as of 2026-10-28 it gets
-// a 401 since the anon read lockdown, so the sheet holds the pre-August leads only — disclosed
-// either way, because the copy exists. Change the flow, change this text.
+// notify-owner edge function, which emails the lead to Avi through Resend (customer confirmations
+// once a Resend domain is verified). A daily Apps Script (google-sheets-sync/SupabaseSync.gs, bound
+// to the sheet "אבי ורדי הסעות — ניהול פניות" in Noam's Google account) copies every lead into
+// that sheet through the token-gated RPC avi_leads_for_sheet. Change the flow, change this text.
 export function PrivacyPolicyDialog(props: DialogProps) {
   return (
     <LegalDialog {...props} title="מדיניות פרטיות" closeLabel="סגור מדיניות פרטיות">
@@ -141,7 +141,7 @@ export function PrivacyPolicyDialog(props: DialogProps) {
             <li>הפרטים עוברים בחיבור מוצפן (HTTPS) לשרת של האתר, שמאוחסן אצל <strong>Vercel</strong>.</li>
             <li>הם נשמרים במסד נתונים של <strong>Supabase</strong>, בשרתים באיחוד האירופי (פרנקפורט, גרמניה). רק בעל העסק ומי שמתחזק עבורו את האתר יכולים לקרוא אותם.</li>
             <li>מייל עם פרטי הפנייה נשלח לתיבת הדואר של אבי (Gmail של Google) דרך שירות שליחת המיילים <strong>Resend</strong>.</li>
-            <li>עותק של פרטי הפניות נשמר גם בגיליון <strong>Google Sheets</strong> בחשבון Google של אבי, לצורך מעקב אחרי הפניות.</li>
+            <li>עותק של פרטי הפניות נשמר גם בגיליון <strong>Google Sheets</strong> פרטי שמשמש את העסק למעקב אחרי הפניות.</li>
           </ul>
           <p>
             החברות האלה הן ספקי שירות טכניים שמעבדים את המידע בשבילנו בלבד. חלקן מאחסנות מידע מחוץ לישראל
