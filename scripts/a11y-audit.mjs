@@ -192,6 +192,34 @@ async function formChecks(browser) {
   return out;
 }
 
+// WCAG 2.2.2: the destinations strip moves indefinitely, so it needs a pause control that works
+// from the keyboard and that the page remembers.
+async function marqueeChecks(browser) {
+  const out = [];
+  const { ctx, page } = await newPage(browser, "desktop");
+  await page.goto(base + "/", { waitUntil: "networkidle" });
+  const btn = page.getByRole("button", { name: "עצירת פס היעדים הנע" });
+  const state = () => page.locator(".marquee-track").evaluate((el) => getComputedStyle(el).animationPlayState);
+  out.push({ step: "toggle exists, not pressed, strip running", pass: (await btn.count()) === 1 && (await btn.getAttribute("aria-pressed")) === "false" && (await state()) === "running" });
+  let reached = false;
+  for (let i = 0; i < 40 && !reached; i++) {
+    await page.keyboard.press("Tab");
+    reached = await btn.evaluate((el) => el === document.activeElement);
+  }
+  out.push({ step: "reachable with Tab", pass: reached });
+  await page.keyboard.press("Space");
+  await page.waitForTimeout(100);
+  out.push({ step: "Space pauses: aria-pressed=true, animation paused", pass: (await btn.getAttribute("aria-pressed")) === "true" && (await state()) === "paused" });
+  await page.reload({ waitUntil: "networkidle" });
+  out.push({ step: "choice survives a reload", pass: (await btn.getAttribute("aria-pressed")) === "true" && (await state()) === "paused" });
+  await btn.focus();
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(100);
+  out.push({ step: "Enter resumes", pass: (await btn.getAttribute("aria-pressed")) === "false" && (await state()) === "running" });
+  await ctx.close();
+  return out;
+}
+
 let base;
 const server = await serve();
 base = `http://127.0.0.1:${server.address().port}`;
@@ -221,6 +249,7 @@ for (const vp of Object.keys(VIEWPORTS)) {
 results.consent = await consentChecks(browser).catch((e) => [{ step: `consent checks crashed: ${String(e.message).split("\n")[0]}`, pass: false }]);
 
 results.form = await formChecks(browser).catch((e) => [{ step: `form checks crashed: ${String(e.message).split("\n")[0]}`, pass: false }]);
+results.marquee = await marqueeChecks(browser).catch((e) => [{ step: `marquee checks crashed: ${String(e.message).split("\n")[0]}`, pass: false }]);
 await browser.close();
 server.close();
 
@@ -233,4 +262,5 @@ for (const s of results.scans) {
 for (const [vp, rows] of Object.entries(results.keyboard)) for (const k of rows) console.log(`kbd ${vp} ${JSON.stringify(k)}`);
 for (const c of results.consent) console.log(`consent ${c.pass ? "PASS" : "FAIL"}  ${c.step}`);
 for (const c of results.form) console.log(`form    ${c.pass ? "PASS" : "FAIL"}  ${c.step}`);
+for (const c of results.marquee) console.log(`marquee ${c.pass ? "PASS" : "FAIL"}  ${c.step}`);
 if (OUT) writeFileSync(OUT, JSON.stringify(results, null, 2));

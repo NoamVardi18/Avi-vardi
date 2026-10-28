@@ -16,6 +16,8 @@ import {
   Plane,
   Crown,
   Users,
+  Pause,
+  Play,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -128,10 +130,30 @@ function SectionKicker({ children, dark = false }: { children: React.ReactNode; 
   );
 }
 
+const MARQUEE_PAUSED_KEY = "avv-marquee-paused";
+
 export default function Home() {
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  // WCAG 2.2.2: anything that moves for more than 5s needs a pause control. The choice is kept per
+  // browser; storage can be unavailable (private mode), so every access is guarded.
+  const [marqueePaused, setMarqueePaused] = useState(() => {
+    try {
+      return localStorage.getItem(MARQUEE_PAUSED_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const toggleMarquee = () => {
+    setMarqueePaused((paused) => {
+      try {
+        localStorage.setItem(MARQUEE_PAUSED_KEY, paused ? "0" : "1");
+      } catch {}
+      return !paused;
+    });
+  };
 
   // Booking form
   const [bookingName, setBookingName] = useState("");
@@ -427,7 +449,8 @@ export default function Home() {
         </section>
 
         {/* Destinations marquee */}
-        <div className="bg-ink text-cream border-y border-gold/20 py-3.5 overflow-hidden" aria-hidden="true">
+        <div className={`relative bg-ink text-cream border-y border-gold/20 overflow-hidden${marqueePaused ? " marquee-paused" : ""}`}>
+          <div className="py-3.5" aria-hidden="true">
           <div className="marquee-track flex w-max gap-0">
             {[0, 1].map((copy) => (
               <div key={copy} className="flex items-center shrink-0">
@@ -440,7 +463,19 @@ export default function Home() {
               </div>
             ))}
           </div>
+          </div>
           <span className="sr-only">יעדים נפוצים: {MARQUEE_DESTINATIONS.join(", ")}</span>
+          {/* Hidden under reduced motion: the strip doesn't move then, so there is nothing to pause. */}
+          <button
+            type="button"
+            onClick={toggleMarquee}
+            aria-label="עצירת פס היעדים הנע"
+            aria-pressed={marqueePaused}
+            title={marqueePaused ? "הפעלת הפס" : "עצירת הפס"}
+            className="motion-reduce:hidden absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-ink border border-gold/60 text-gold hover:bg-ink-deep shadow-[0_0_0_6px_var(--color-ink)]"
+          >
+            {marqueePaused ? <Play className="w-3.5 h-3.5" aria-hidden="true" /> : <Pause className="w-3.5 h-3.5" aria-hidden="true" />}
+          </button>
         </div>
 
         {/* About */}
